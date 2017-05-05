@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>登录页面</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <link rel="stylesheet" type="text/css" href="./css/userLogin.css">
+	<!-- <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script> -->
+	<script type="text/javascript">
+		var loginErrorInputIsnull = "请输入用户名和密码";
+		var loginErrorUsernameIsnull = "请输入用户名";
+		var loginErrorPsdIsnull = "请输入密码";
+		var loginErrorLoginfail = "你输入的密码和账户名不匹配，是否忘记密码或忘记会员名";
+		function init()
+		{
+			var pic = document.getElementById("del_img");
+			pic.style.display = "none";
+		}
+		function changeUserBorder(obj)
+		{
+			var input = obj.parentNode;
+			input.style.borderColor = "#4BB3F9";
+			if( inputFlag == 0 )
+			{
+				obj.style.color = "black";
+				obj.value = "";
+			}
+		}
+		function backUserBorder(obj)
+		{
+			var input = obj.parentNode;
+			input.style.borderColor = "#D5D5D5";
+		}
+		function showInputTip(obj)
+		{
+			var pic = document.getElementById("del_img");
+			if( event.keyCode == 8 )
+			{
+				if( obj.value == "" )
+				{
+					pic.style.display = "none";
+				}
+			}
+		}
+		function clearTip(obj)
+		{
+			var pic = document.getElementById("del_img");
+			if( event.keyCode != 8 )
+			{
+				pic.style.display = "block";
+			}
+		}
+		function changeBorder(obj)
+		{
+			var input = obj.parentNode;
+			input.style.borderColor = "#4BB3F9";
+		}
+		function changback(obj)
+		{
+			var input = obj.parentNode;
+			input.style.borderColor = "#D5D5D5";
+		}
+		function changebtn(obj)
+		{
+			obj.style.borderColor = "#EE5F00";
+			obj.style.backgroundColor = "#EE5F00";
+		}
+		function changebackbtn(obj)
+		{
+			obj.style.borderColor = "#FF7011";
+			obj.style.backgroundColor = "#FF7011";
+		}
+		function showtip()
+		{
+			var obj = document.getElementById("tip");
+			obj.style.display = "block";
+		}
+		function hiddentip()
+		{
+			var obj = document.getElementById("tip");
+			obj.style.display = "none";
+		}
+		function clearInput()
+		{
+			var obj = document.getElementById("username");
+			var input = obj.parentNode;
+			var pic = document.getElementById("del_img");
+			obj.value = "";
+			pic.style.display = "none";
+			obj.focus();
+			input.style.borderColor = "#4BB3F9";
+		}
+		function clickLogin()
+		{
+			var username = document.getElementById("username");
+			var psd = document.getElementById("psd");
+			var tip = document.getElementById("tiptext");
+			tip.innerText = "";
+			if( username.value == "" && psd.value == "" )
+			{
+				tip.innerText = loginErrorInputIsnull;
+				showtip();
+			}
+			else if( username.value == "" )
+			{
+				tip.innerText = loginErrorUsernameIsnull;
+				showtip();
+			}
+			else if( psd.value == "" )
+			{
+				tip.innerText = loginErrorPsdIsnull;
+				showtip();
+			}else
+			{
+				
+			}
+		}
+	</script>
+  </head>
+  
+  <body onload="init()">
+    <div id="head">
+    	<img alt="淘宝主页" id="headpic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
+    </div>
+    <div id="content">
+    	<div id="loginWin">
+    		<label id="loginTitle">用户登录</label>
+    		<div id="tip">
+    			<img id="tippic" alt="减号" src="./pics/minus_alt.png">
+    			<label id="tiptext"></label>
+    		</div>
+    		<form id="userInfo" method="post" action=""> 
+    		<div id="un_input">
+    			<img id="ui_img" alt="会员名" src="./pics/usernamepic.png" >
+    			<input type="text" id="username" name="username" maxlength="16" placeholder="会员名/手机号" onkeydown="clearTip(this)" onkeyup="showInputTip(this)" onfocus="changeUserBorder(this)" onblur="backUserBorder(this)"/>
+    			<img id="del_img" alt="delete" src="./pics/close_window.png" onclick="clearInput()">
+    		</div>
+    		<div id="psd_input">
+    			<img id="psd_img" alt="登录密码" src="./pics/passwordpic.png">
+    			<input type="password" id="psd" name="psd" maxlength="16" onfocus="changeBorder(this)" onblur="changback(this)"/>
+    		</div>
+ 			<div id="loginBtn" onclick="clickLogin()" onmouseover="changebtn(this)" onmouseout="changebackbtn(this)">登&nbsp录</div>
+ 			</form>
+    		<a href="" id="forget">忘记密码</a>
+    		<a href="" id="toRegister">免费注册</a>
+    		
+    		
+    	</div>
+    </div>
+    <div id="foot">
+    	<label>© 2017 Taobao.com 版权所有</label>
+    </div>
+  </body>
+</html>
