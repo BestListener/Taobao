@@ -7,17 +7,52 @@
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <link rel="stylesheet" type="text/css" href="./css/userRegister.css">
     <link href="./plug/dragCheck/css/drag.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript">
 		var isChecked = 0;		//  是否认证
 		var isLegal = 0;		//  是否合法
+		var isUsernameLegal = 0;  //  用户名是否通过
+		var isPsdLegal = 0; 	  //  登录密码是否通过
+		var isCheckPsdLegal = 0; 	  //  确认密码是否通过
+		var isCheckCodeLegal = 0;     //  验证码是否正确
 		var phoneIsExist = "你的手机号码已经注册";
 		var phoneErrorIllegal = "手机号码格式不正确，请重新输入";
 		var phoneIsNull = "请输入你的手机号码";
+		var usernameIsNull = "请输入会员名";
+		var usernameIsExist = "该会员名已存在";
+		var usernameIllegal = "该会员名不合法，请重新输入";
+		var usernameIsNotLong = "会员名不够长";
+		var psdIsNull = "请输入登录密码";
+		var psdIllegal = "密码格式不正确，请重新输入";
+		var psdIsNotLong = "密码必须为6-16位之间";
+		var checkPsdIsNull = "请确认密码";
+		var checkPsdIsError = "两次密码输入不一致，请检查";
+		var checkCodeIsNull = "请输入验证码";
+		var checkCodeIsError = "验证码错误，请重新输入";
+		//  验证手机
 		var Expression = /^1[34578]\d{9}$/;
 		var TelExp = new RegExp(Expression);
+		//  验证会员名
+		var ExpressionName = /^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/; 
+		var userNameExp = new RegExp(ExpressionName);
+		// 验证密码
+		//弱  
+	    var Expressionweek = /^([a-zA-Z]){6,16}$|^(\d){6,16}$|^((?=[\x21-\x7e]+)[^A-Za-z0-9]){6,16}$|^(?!\2+$)(?!\1+$)[\2\1]{6,7}$|^(?!\3+$)(?!\1+$)[\3\1]{6,7}$|^(?!\3+$)(?!\2+$)[\2\3]{6,7}$|^(?=.*\3)(?=.*\1)(?=.*\2)[a-zA-Z\x21-\x7e\d]{6,7}$/;  
+	    //中：字母+数字  
+	    var Expressionmiddle1 = /^(?!\d+$)(?![a-zA-Z]+$)[\dA-Za-z]{8,16}$/;  
+	    //中：字母+字符  
+	    var Expressionmiddle2 = /^(?!((?=[\x21-\x7e]+)[^A-Za-z0-9])+$)(?![a-zA-Z]+$)[^\u4e00-\u9fa5\d]{8,16}$/;  
+	    //中：数字+字符  
+	    var Expressionmiddle3 = /^(?!((?=[\x21-\x7e]+)[^A-Za-z0-9])+$)(?!\d+$)[^\u4e00-\u9fa5a-zA-Z]{8,16}$/;  
+	    //强  
+	    var Expressionstrong = /^(?=.*((?=[\x21-\x7e]+)[^A-Za-z0-9]))(?=.*[a-zA-Z])(?=.*[0-9])[^\u4e00-\u9fa5]{8,16}$/;
+	    var psdWeek = new RegExp(Expressionweek);
+	    var psdMid1 = new RegExp(Expressionmiddle1);
+	    var psdMid2 = new RegExp(Expressionmiddle2);
+	    var psdMid3 = new RegExp(Expressionmiddle3);
+	    var psdStrong = new RegExp(Expressionstrong);
 		function btnselect(obj)
 		{
 			if( isChecked == 1 )
@@ -28,356 +63,285 @@
 			if( isChecked == 1 )
 				obj.style.backgroundColor = "#FF7011";
 		}
+		//  校验手机号
 		function checkPhone(obj)
 		{
 			if( obj.value == "" )	//  为空
 			{
+				(function($){
 				$('#phoneTip_ok').css({'display':'none'});
 				$('#phoneTip').css({'display':'block'});
 				$('#phoneTip_Text').text(phoneIsNull);
 				$('#phonenum').css({'borderColor':'#FF3300'});
+				})(jQuery);
 			}
 			else if( TelExp.test( obj.value ) == false )	//  不合法
 			{
+				(function($){
 				$('#phoneTip_ok').css({'display':'none'});
 				$('#phoneTip').css({'display':'block'});
 				$('#phoneTip_Text').text(phoneErrorIllegal);
 				$('#phonenum').css({'borderColor':'#FF3300'});
+				})(jQuery);
 			}
 			else
 			{
+				(function($){
 				//  未做异步检查手机号码是否注册
 				$('#phoneTip_error').css({'display':'none'});
 				$('#phoneTip_ok').css({'display':'block'});
 				$('#phoneTip').css({'display':'block'});
 				$('#phoneTip_Text').text('');
 				isLegal = 1;
+				})(jQuery);
 			}
 		}
 		function changBorder(obj)
 		{
+			(function($){
 			$('#phonenum').css({'border':''});
+			})(jQuery);
+		}
+		function goNext()
+		{
+			//  手机填入成功，进入下一步
+			(function($){
+			$('#step1_title').css({'borderBottomColor':'#D5D5D5'});
+			$('#step2_title').css({'borderBottomColor':'#FF4111'});
+			$('#step1_text').css({'color':'#adb0b3'});
+			$('#step2_text').css({'color':'black'});
+			$('#one').css({'backgroundColor':'#adb0b3'});
+			$('#two').css({'backgroundColor':'#FF4111'});
+			// 隐藏第一步
+			$('#step1_input').css({'display':'none'});
+			// 显示第二步
+			$('#step2_input').css({'display':'block'});
+			})(jQuery);
+		}
+		//  刷新验证码
+		function reloadcode()
+		{
+			(function($){
+			$('#checkCode_pic').attr("src","./jsp/makeCheckCodeImg.jsp?"+Math.random()); 
+			})(jQuery);
+		}
+		//  校验用户名
+		function checkUsername(obj)
+		{
+			//  初始化
+			(function($){
+			$('#usernameTip_error').css({'display':'none'});
+			$('#usernameTip_ok').css({'display':'none'});
+			$('#usernameTip_text').text('');
+			})(jQuery);
+			isUsernameLegal = 0;
+			//  用户名为空
+			if( obj.value == "" )
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#usernameTip_error').css({'display':'block'});
+				$('#usernameTip_text').text(usernameIsNull);
+				})(jQuery);
+			}
+			else if( obj.value.length < 5 )	//  用户名不够长
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#usernameTip_error').css({'display':'block'});
+				$('#usernameTip_text').text(usernameIsNotLong);
+				})(jQuery);
+			}
+			else if( !userNameExp.test(obj.value) )	// 用户名不合法
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#usernameTip_error').css({'display':'block'});
+				$('#usernameTip_text').text(usernameIllegal);
+				})(jQuery);
+			}
+			else
+			{
+				// 查询用户名是否已经存在
+				
+				// 用户名通过
+				obj.style.borderColor = "gray";
+				$('#usernameTip_text').text('');
+				$('#usernameTip_error').css({'display':'none'});
+				$('#usernameTip_ok').css({'display':'block'});
+				isUsernameLegal = 1;
+			}
+		}
+		//  判断密码是否合法
+		function tojudgePsd(string)
+		{
+			if( psdWeek.test(string) || psdMid1.test(string) || psdMid2.test(string) || psdMid3.test(string) || psdStrong.test(string) )
+			{
+				return true;
+			}
+			return false;
+		}
+		//  校验密码
+		function tocheckPsd(obj)
+		{
+			//  初始化
+			(function($){
+			$('#psdTip_error').css({'display':'none'});
+			$('#psdTip_ok').css({'display':'none'});
+			$('#psdTip_text').text('');
+			})(jQuery);
+			isPsdLegal = 0;
+			//  密码为空
+			if( obj.value == "" )
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#psdTip_error').css({'display':'block'});
+				$('#psdTip_text').text(psdIsNull);
+				})(jQuery);
+			}
+			else if( obj.value.length < 6 )	//  密码不够长
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#psdTip_error').css({'display':'block'});
+				$('#psdTip_text').text(psdIsNotLong);
+				})(jQuery);
+			}
+			else if( !tojudgePsd(obj.value) )	// 密码不合法
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#psdTip_error').css({'display':'block'});
+				$('#psdTip_text').text(psdIllegal);
+				})(jQuery);
+			}
+			else
+			{
+				// 密码通过
+				obj.style.borderColor = "gray";
+				$('#psdTip_text').text('');
+				$('#psdTip_error').css({'display':'none'});
+				$('#psdTip_ok').css({'display':'block'});
+				isPsdLegal = 1;
+			}
+		}
+		// 判断密码等级
+		function tojudgeLevel(obj)
+		{
+			//  初始化
+			$('#low').css({'backgroundColor':'#FFCCAA'});
+			$('#mid').css({'backgroundColor':'#FFCCAA'});
+			$('#high').css({'backgroundColor':'#FFCCAA'});
+			if( psdWeek.test(obj.value) )  //  弱
+			{
+				$('#low').css({'backgroundColor':'#FF6600'});
+			}
+			//中
+			else if( psdMid1.test(obj.value) || psdMid2.test(obj.value) || psdMid3.test(obj.value) )
+			{
+				$('#low').css({'backgroundColor':'#FF6600'});
+				$('#mid').css({'backgroundColor':'#FF6600'});
+			}
+			//强
+			else if( psdStrong.test(obj.value) )
+			{
+				$('#low').css({'backgroundColor':'#FF6600'});
+				$('#mid').css({'backgroundColor':'#FF6600'});
+				$('#high').css({'backgroundColor':'#FF6600'});
+			}
+		}
+		// 判断两次输入的密码是否一致
+		function tocheckPsdSame(obj)
+		{
+			//  初始化
+			(function($){
+			$('#checkPsdTip_error').css({'display':'none'});
+			$('#checkPsdTip_ok').css({'display':'none'});
+			$('#checkPsdTip_text').text('');
+			})(jQuery);
+			var psd = document.getElementById("psd");
+			isCheckPsdLegal = 0;
+			if( obj.value == "" )	// 为空
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#checkPsdTip_error').css({'display':'block'});
+				$('#checkPsdTip_text').text(checkPsdIsNull);
+				})(jQuery);
+			}
+			else if( obj.value != psd.value ) // 两次输入不一致
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#checkPsdTip_error').css({'display':'block'});
+				$('#checkPsdTip_text').text(checkPsdIsError);
+				})(jQuery);
+			}
+			else
+			{
+				// 两次输入一致
+				obj.style.borderColor = "gray";
+				$('#checkPsdTip_text').text('');
+				$('#checkPsdTip_error').css({'display':'none'});
+				$('#checkPsdTip_ok').css({'display':'block'});
+				isCheckPsdLegal = 1;
+			}
+		}
+		// 校验验证码
+		function tocheckCode(obj)
+		{
+			//  初始化
+			(function($){
+			$('#checkCode_error').css({'display':'none'});
+			$('#checkCode_ok').css({'display':'none'});
+			$('#checkCodeTip_text').text('');
+			})(jQuery);
+			isCheckCodeLegal = 0;
+			if( obj.value == "" ) //  验证码为空
+			{
+				obj.style.borderColor = "#FF3300";
+				(function($){
+				$('#checkCode_error').css({'display':'block'});
+				$('#checkCodeTip_text').text(checkCodeIsNull);
+				})(jQuery);
+			}
+			else if( false )
+			{
+				
+			}
+			else
+			{
+				// 验证码正确
+				obj.style.borderColor = "gray";
+				$('#checkCodeTip_text').text('');
+				$('#checkCode_error').css({'display':'none'});
+				$('#checkCode_ok').css({'display':'block'});
+				isCheckCodeLegal = 1;
+			}
+			
+		}
+		//  确定注册
+		function toRegister()
+		{
+			//  信息填入成功，进入下一步
+			(function($){
+			$('#step2_title').css({'borderBottomColor':'#D5D5D5'});
+			$('#step3_title').css({'borderBottomColor':'#FF4111'});
+			$('#step2_text').css({'color':'#adb0b3'});
+			$('#step3_text').css({'color':'black'});
+			$('#two').css({'backgroundColor':'#adb0b3'});
+			$('#three').attr({'src':'./pics/check_alt(1).png'});
+			// 隐藏第二步
+			$('#step2_input').css({'display':'none'});
+			// 显示第三步
+			$('#step3_input').css({'display':'block'});
+			})(jQuery);
 		}
 	</script>
 	<script src="./plug/dragCheck/js/drag.js" type="text/javascript"></script>
 	<style type="text/css">
-	#head
-	{
-		position:absolute;
-		top:0px;
-		left:0px;
-		width:100%;
-		min-width:1024px;
-		height:90px;
-		background-color:white;
-	}
-	#headpic
-	{
-		position:absolute;
-		left:10%;
-		top:20px;
-		width:9%;
-		cursor:pointer;
-	}
-	#title
-	{
-		position:absolute;
-		left:20%;
-		top:30px;
-		border-weight:border;
-		font-size:1.6vw;
-		font-family:Microsoft YaHei;
-	}
-	#content
-	{
-		position:absolute;
-		top:90px;
-		left:0px;
-		width:100%;
-		height:480px;
-		min-width:1024px;
-	}
-	#step1_title
-	{
-		position:absolute;
-		top:10px;
-		left:28%;
-		width:15%;
-		height:50px;
-		border-bottom:#FF4111 solid 2px;
-	}
-	#step2_title
-	{
-		position:absolute;
-		top:10px;
-		left:43%;
-		width:15%;
-		height:50px;
-		border-bottom:#D5D5D5 solid 2px;
-	}
-	#step3_title
-	{
-		position:absolute;
-		top:10px;
-		left:58%;
-		width:15%;
-		height:50px;
-		border-bottom:#D5D5D5 solid 2px;
-	}
-	#one
-	{
-		position:absolute;
-		top:10px;
-		left:20%;
-		width: 26px;
-   		height: 26px;
-   		background-color: #FF4111;
-    	-moz-border-radius: 13px;
-    	-webkit-border-radius: 13px;
-    	border-radius: 13px;
-	}
-	#two
-	{
-		position:absolute;
-		top:10px;
-		left:20%;
-		width: 26px;
-   		height: 26px;
-   		background-color:#adb0b3;
-    	-moz-border-radius: 13px;
-    	-webkit-border-radius: 13px;
-    	border-radius: 13px;
-	}
-	#three
-	{
-		position:absolute;
-		top:10px;
-		left:20%;
-		width: 26px;
-   		height: 26px;
-	}
-	#one label,#two label
-	{
-		position:absolute;
-		top:1px;
-		left:7px;
-		color:white;
-		font-weight:bolder;
-		font-family:Microsoft YaHei;
-	}
-	#step1_text
-	{
-		position:absolute;
-		left:38%;
-		top:12px;
-		color:black;
-		font-size:1.2vw;
-		font-weight:bolder;
-		font-family:Microsoft YaHei;
-	}
-	#step2_text,#step3_text
-	{
-		position:absolute;
-		left:38%;
-		top:12px;
-		color:#adb0b3;
-		font-size:1.2vw;
-		font-weight:bolder;
-		font-family:Microsoft YaHei;
-	}
-	#user_win
-	{
-		position:absolute;
-		top:60px;
-		left:7%;
-		width:86%;
-		height:415px;
-		border-top:#D5D5D5 solid 2px;
-		border-bottom:#D5D5D5 solid 1px;
-	}
-	#step1_input
-	{
-		position:absolute;
-		top:60px;
-		left:20%;
-		width:60%;
-		height:300px;
-		display:none;
-	}
-	#step1_firstdiv
-	{
-		position:absolute;
-		top:0px;
-		left:10%;
-		width:90%;
-		height:45px;
-	}
-	#step1_firstdiv label
-	{
-		position:absolute;
-		top:12px;
-		font-size:1.1vw;
-		font-family:Microsoft YaHei;
-	}
-	#step1_firstdiv select
-	{
-		position:absolute;
-		top:5px;
-		left:10%;
-		height:35px;
-		width:21%;
-		font-size:1.1vw;
-		font-weight:bolder;
-		font-family:Microsoft YaHei;
-	}
-	#phonenum
-	{
-		position:absolute;
-		top:5px;
-		left:32%;
-		width:25%;
-		height:31px;
-		border:gray solid 1px;
-		text-indent:8px;
-		font-size:1.1vw;
-		font-family:Microsoft YaHei;
-	}
-	#phoneTip
-	{
-		position:absolute;
-		top:2px;
-		left:59%;
-		width:40%;
-		height:41px;
-		padding-left:6px;
-		display:none;
-	}
-	.phoneTip_pic
-	{
-		position:absolute;
-		top:7px;
-		left:3%;
-		width:20px;
-		height:20px;
-	}
-	#phoneTip label
-	{
-		position:absolute;
-		top:7px;
-		left:13%;
-		color:#FF3300;
-		font-size:1vw;
-		font-family:Microsoft YaHei;
-	}
-	#step1_seconddiv
-	{
-		position:absolute;
-		top:75px;
-		left:10%;
-		width:80%;
-		height:45px;
-	}
-	#step1_seconddiv label
-	{
-		position:absolute;
-		left:2%;
-		top:12px;
-		font-size:1.1vw;
-		font-family:Microsoft YaHei;
-	}
-	#nextbtn
-	{
-		position:absolute;
-		top:150px;
-		left:30%;
-		width:25%;
-		height:35px;
-		background-color:#D5D5D5;
-		text-align:center;
-		padding-top:5px;
-		color:gray;
-		font-size:1.3vw;
-		font-family:Microsoft YaHei;
-		-moz-border-radius: 2px;
-    	-webkit-border-radius: 2px;
-    	border-radius: 2px;
-	}
-	#step2_input
-	{
-		position:absolute;
-		top:30px;
-		left:20%;
-		width:60%;
-		height:360px;
-		background-color:green;
-	}
-	#step2_firstdiv
-	{
-		position:absolute;
-		top:0px;
-		left:10%;
-		width:90%;
-		height:45px;
-		background-color:red;
-	}
-	#step2_seconddiv
-	{
-		position:absolute;
-		top:75px;
-		left:10%;
-		width:80%;
-		height:45px;
-		background-color:blue;
-	}
-	#step2_thirddiv
-	{
-		position:absolute;
-		top:150px;
-		left:10%;
-		width:80%;
-		height:45px;
-		background-color:yellow;
-	}
-	#step2_fourthdiv
-	{
-		position:absolute;
-		top:225px;
-		left:10%;
-		width:80%;
-		height:45px;
-		background-color:yellow;
-	}
-	#agreeRegister
-	{
-		position:absolute;
-		top:300px;
-		left:30%;
-		width:25%;
-		height:35px;
-		background-color:#D5D5D5;
-		text-align:center;
-		padding-top:5px;
-		color:gray;
-		font-size:1.3vw;
-		font-family:Microsoft YaHei;
-		-moz-border-radius: 2px;
-    	-webkit-border-radius: 2px;
-    	border-radius: 2px;
-	}
-	#foot
-	{
-		position:absolute;
-		top:570px;
-		left:0px;
-		width:100%;
-		height:30px;
-		min-width:1024px;
-		font-size:14px;
-		text-align:center;
-		color:gray;
-		padding-top:20px;
-		font-family:Microsoft YaHei;
-	}
+	
 	</style>
   </head>
   
@@ -409,35 +373,54 @@
 						$('#drag').drag();
 					</script>
     			</div>
-    			<div id="nextbtn" onmouseover="btnselect(this)" onmouseout="btnNotselect(this)" >下一步</div>
+    			<div id="nextbtn" onclick="goNext()" onmouseover="btnselect(this)" onmouseout="btnNotselect(this)" >下一步</div>
     		</div>
     		<div id="step2_input">
     			<div id="step2_firstdiv">
-    				<label>会员名</label>
-    				<input type="text" id="username" name="username" placeholder="请输入用户名" maxlength="10"/>
-    				<div id="usernameTip">
-    					
+    				<label class="fftext">会员名:</label>
+    				<input type="text" id="username" name="username" onblur="checkUsername(this)" class="step2_input" placeholder="请输入用户名" maxlength="10"/>
+    				<div id="usernameTip" class="TipDiv">
+    					<img id="usernameTip_error" class="Tip_pic" alt="错误" src="./pics/sign-error-icon.png">
+    					<img id="usernameTip_ok" class="Tip_pic" alt="通过" src="./pics/check_alt(1).png">
+    					<label id="usernameTip_text" class="Tip_text"></label>
     				</div>
     			</div>
+    			<label id="InputTip">5-10个字符,以字母开头、可带数字、“_”的字符串</label>
     			<div id="step2_seconddiv">
-    				<label>密码:</label>
-    				<input type="password" id="psd" name="psd" maxlength="16"/>
-    				<div id="psdTip">
-    					
+    				<label class="FFtext">登录密码:</label>
+    				<input type="password" id="psd" name="psd" onkeyup="tojudgeLevel(this)" onblur="tocheckPsd(this)" class="step2_input" maxlength="16"/>
+    				<div id="psdTip" class="TipDiv">
+    					<img id="psdTip_error" class="Tip_pic" alt="错误" src="./pics/sign-error-icon.png">
+    					<img id="psdTip_ok" class="Tip_pic" alt="通过" src="./pics/check_alt(1).png">
+    					<label id="psdTip_text" class="Tip_text"></label>
     				</div>
+    			</div>
+    			<div id="psd_level">
+    				<div id="low">弱</div>
+    				<div id="mid">中</div>
+    				<div id="high">强</div>
     			</div>
     			<div id="step2_thirddiv">
-    				<label>确认密码:</label>
-    				<input type="password" id="checkPsd" name="checkPsd" maxlength="16"/>
-    				<div id="checkPsdTip">
-    					
+    				<label class="FFtext">确认密码:</label>
+    				<input type="password" id="checkPsd" name="checkPsd" onblur="tocheckPsdSame(this)" class="step2_input" maxlength="16"/>
+    				<div id="checkPsdTip" class="TipDiv">
+    					<img id="checkPsdTip_error" class="Tip_pic" alt="错误" src="./pics/sign-error-icon.png">
+    					<img id="checkPsdTip_ok" class="Tip_pic" alt="通过" src="./pics/check_alt(1).png">
+    					<label id="checkPsdTip_text" class="Tip_text"></label>
     				</div>
     			</div>
     			<div id="step2_fourthdiv">
-    				<label>验证码：</label>
-    				<input type="text" id="checkCode" maxlength="4"/>
+    				<label class="fftext">验证码:</label>
+    				<input type="text" id="checkCode" onblur="tocheckCode(this)" maxlength="4"/>
+    				<img id="checkCode_ok" alt="通过" src="./pics/check_alt(1).png">
+    				<img id="checkCode_pic" onclick="reloadcode()" alt="验证码" src="./jsp/makeCheckCodeImg.jsp"/>
+    				<img id="reload_pic" onclick="reloadcode()" alt="刷新验证码" src="./pics/counterclockwise-arrow.png">
     			</div>
-    			<div id="agreeRegister">同意协议并注册</div>
+    			<div id="checkCodeTip">
+    				<img id="checkCode_error" alt="错误" src="./pics/sign-error-icon.png">
+    				<label id="checkCodeTip_text"></label>
+    			</div>
+    			<div id="agreeRegister" onclick="toRegister()">同意协议并注册</div>
     		</div>
     		<div id="step3_input">
     			
@@ -453,7 +436,7 @@
     		<label id="step2_text">填写帐号信息</label>
     	</div>
     	<div id="step3_title">
-    		<img id="three" alt="注册成功" src="./pics/check_alt.png"></img>
+    		<img id="three" alt="注册成功" src="./pics/check_alt.png">
     		<label id="step3_text">注册成功</label>
     	</div>
     </div>
