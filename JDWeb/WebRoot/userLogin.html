@@ -93,29 +93,31 @@
 			obj.focus();
 			input.style.borderColor = "#4BB3F9";
 		}
+		//  点击登录
 		function clickLogin()
 		{
 			var username = document.getElementById("username");
 			var psd = document.getElementById("psd");
 			var tip = document.getElementById("tiptext");
 			tip.innerText = "";
+			//  如果用户名和密码为空
 			if( username.value == "" && psd.value == "" )
 			{
 				tip.innerText = loginErrorInputIsnull;
 				showtip();
 			}
-			else if( username.value == "" )
+			else if( username.value == "" )// 如果用户名为空
 			{
 				tip.innerText = loginErrorUsernameIsnull;
 				showtip();
 			}
-			else if( psd.value == "" )
+			else if( psd.value == "" ) //  如果密码为空
 			{
 				tip.innerText = loginErrorPsdIsnull;
 				showtip();
 			}else
 			{
-				
+				//  检查用户名和密码
 			}
 		}
 	</script>

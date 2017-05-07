@@ -17,6 +17,7 @@
 		var isPsdLegal = 0; 	  //  登录密码是否通过
 		var isCheckPsdLegal = 0; 	  //  确认密码是否通过
 		var isCheckCodeLegal = 0;     //  验证码是否正确
+		var successRegister = 0;	  //  是否注册成功
 		var phoneIsExist = "你的手机号码已经注册";
 		var phoneErrorIllegal = "手机号码格式不正确，请重新输入";
 		var phoneIsNull = "请输入你的手机号码";
@@ -31,6 +32,8 @@
 		var checkPsdIsError = "两次密码输入不一致，请检查";
 		var checkCodeIsNull = "请输入验证码";
 		var checkCodeIsError = "验证码错误，请重新输入";
+		var successRegisterText = "注册成功！立即去商城逛逛吧。";
+		var failedRegisterText = "非常抱歉，注册失败！请稍后重试。";
 		//  验证手机
 		var Expression = /^1[34578]\d{9}$/;
 		var TelExp = new RegExp(Expression);
@@ -62,6 +65,14 @@
 		{
 			if( isChecked == 1 )
 				obj.style.backgroundColor = "#FF7011";
+		}
+		function step23BtnSelect(obj)
+		{
+			obj.style.backgroundColor = "#EE5F00";
+		}
+		function step23BtnNotselect(obj)
+		{
+			obj.style.backgroundColor = "#FF7011";
 		}
 		//  校验手机号
 		function checkPhone(obj)
@@ -336,13 +347,29 @@
 			$('#step2_input').css({'display':'none'});
 			// 显示第三步
 			$('#step3_input').css({'display':'block'});
+			//  如果注册失败
+			if( successRegister == 0 )
+			{
+				//  显示按键、图片及提示
+				$('#Register_failed').css({'display':'block'});
+				$('#step3_refreshBtn').css({'display':'block'});
+				$('#result_text').text(failedRegisterText);
+			}
+			else	//  注册成功
+			{
+				$('#Register_suc').css({'display':'block'});
+				$('#step3_goToBtn').css({'display':'block'});
+				$('#result_text').text(successRegisterText);
+			}
 			})(jQuery);
+		}
+		//  重新注册,刷新本页
+		function reRegister()
+		{
+			location.replace("http://localhost:8080/JDWeb/userRegister.html");
 		}
 	</script>
 	<script src="./plug/dragCheck/js/drag.js" type="text/javascript"></script>
-	<style type="text/css">
-	
-	</style>
   </head>
   
   <body>
@@ -420,10 +447,16 @@
     				<img id="checkCode_error" alt="错误" src="./pics/sign-error-icon.png">
     				<label id="checkCodeTip_text"></label>
     			</div>
-    			<div id="agreeRegister" onclick="toRegister()">同意协议并注册</div>
+    			<div id="agreeRegister" onclick="toRegister()" onmouseover="step23BtnSelect(this)" onmouseout="step23BtnNotselect(this)">同意协议并注册</div>
     		</div>
     		<div id="step3_input">
-    			
+    			<div id="step3_result">
+    				<img id="Register_suc" class="step3_pic" alt="注册成功" src="./pics/check_alt(1).png">
+    				<img id="Register_failed" class="step3_pic" alt="注册失败" src="./pics/sign-error-icon.png">
+    				<label id="result_text"></label>
+    			</div>
+    			<div id="step3_goToBtn" class="step3_btn" onclick="" onmouseover="step23BtnSelect(this)" onmouseout="step23BtnNotselect(this)">立即去逛逛</div>
+    			<div id="step3_refreshBtn" class="step3_btn" onclick="reRegister()" onmouseover="step23BtnSelect(this)" onmouseout="step23BtnNotselect(this)">重新注册</div>
     		</div>
     		</form>
     	</div>
@@ -437,7 +470,7 @@
     	</div>
     	<div id="step3_title">
     		<img id="three" alt="注册成功" src="./pics/check_alt.png">
-    		<label id="step3_text">注册成功</label>
+    		<label id="step3_text">注册结果</label>
     	</div>
     </div>
     <div id="foot">
