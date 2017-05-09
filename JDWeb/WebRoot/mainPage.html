@@ -7,9 +7,10 @@
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <link rel="stylesheet" type="text/css" href="./css/mainPage.css">
+    <link rel="stylesheet" type="text/css" href="./plugs/SudoSlider/css/SudoSlider.css">
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="./js/jquery.sudoSlider.min.js"></script>
+	<script type="text/javascript" src="./plugs/SudoSlider/js/jquery.sudoSlider.min.js"></script>
 	<script type="text/javascript">
 		//  初始化图片轮放
 		$(document).ready(function(){
@@ -20,6 +21,16 @@
 				auto:true
 			});
 		});
+		//  阻止事件冒泡
+		function stopBubble(e) { 
+			//非IE浏览器 
+			if(e && e.stopPropagation) {
+			    e.stopPropagation(); 
+			} 
+			else {//IE浏览器 
+				e.cancelBubble = true; 
+			} 
+		}
 		//  前往登录
 		function toLogin()
 		{
@@ -41,20 +52,68 @@
 			obj.style.color = "#5E5E5E";
 		}
 		//  显示我的淘宝子菜单
-		function showaccout(obj)
+		function showaccout()
 		{
-			obj.style.backgroundColor = "white";
-			obj.style.borderLeft = "#E6E6E6 solid 1px";
-			obj.style.borderRight = "#E6E6E6 solid 1px";
+			$('#myaccount').css({'backgroundColor':'white'});
+			$('#myaccount').css({'borderLeft':'#E6E6E6 solid 1px'});
+			$('#myaccount').css({'borderRight':'#E6E6E6 solid 1px'});
 			$('#myaccount_sub').css({'display':'block'});
 		}
 		//  隐藏我的淘宝子菜单
-		function hiddenaccout(obj)
+		function hiddenaccout()
 		{
-			obj.style.backgroundColor = "#EEEEEE";
-			obj.style.borderLeft = "none";
-			obj.style.borderRight = "none";
+			$('#myaccount').css({'backgroundColor':'#EEEEEE'});
+			$('#myaccount').css({'borderLeft':'none'});
+			$('#myaccount').css({'borderRight':'none'});
 			$('#myaccount_sub').css({'display':'none'});
+		}
+		//  显示购物车子菜单
+		function showSpc()
+		{
+			$('#shoppingCart').css({'backgroundColor':'white'});
+			$('#shoppingCart').css({'borderLeft':'#E6E6E6 solid 1px'});
+			$('#shoppingCart').css({'borderRight':'#E6E6E6 solid 1px'});
+			$('#shoppingCart_sub').css({'display':'block'});
+		}
+		//  隐藏购物车子菜单
+		function hiddenSpc()
+		{
+			$('#shoppingCart').css({'backgroundColor':'#EEEEEE'});
+			$('#shoppingCart').css({'borderLeft':'none'});
+			$('#shoppingCart').css({'borderRight':'none'});
+			$('#shoppingCart_sub').css({'display':'none'});
+		}
+		//  显示收藏夹子菜单
+		function showFav()
+		{
+			$('#favorite').css({'backgroundColor':'white'});
+			$('#favorite').css({'borderLeft':'#E6E6E6 solid 1px'});
+			$('#favorite').css({'borderRight':'#E6E6E6 solid 1px'});
+			$('#favorite_sub').css({'display':'block'});
+		}
+		//  隐藏收藏夹子菜单
+		function hiddenFav()
+		{
+			$('#favorite').css({'backgroundColor':'#EEEEEE'});
+			$('#favorite').css({'borderLeft':'none'});
+			$('#favorite').css({'borderRight':'none'});
+			$('#favorite_sub').css({'display':'none'});
+		}
+		//  显示卖家中心子菜单
+		function showSc()
+		{
+			$('#sellerCenter').css({'backgroundColor':'white'});
+			$('#sellerCenter').css({'borderLeft':'#E6E6E6 solid 1px'});
+			$('#sellerCenter').css({'borderRight':'#E6E6E6 solid 1px'});
+			$('#sellerCenter_sub').css({'display':'block'});
+		}
+		//  隐藏卖家中心子菜单
+		function hiddenSc()
+		{
+			$('#sellerCenter').css({'backgroundColor':'#EEEEEE'});
+			$('#sellerCenter').css({'borderLeft':'none'});
+			$('#sellerCenter').css({'borderRight':'none'});
+			$('#sellerCenter_sub').css({'display':'none'});
 		}
 		//  选中选项
 		function select(obj)
@@ -66,293 +125,391 @@
 		{
 			obj.style.backgroundColor = "white";
 		}
+		//  显示书子菜单
+		function showbook()
+		{
+			$('#book').css({'backgroundColor':'#ff3a05'});
+			$('#bk_unsel').css({'display':'none'});
+			$('#bk_sel').css({'display':'block'});
+			$('#book_sub').css({'display':'block'});
+		}
+		//  隐藏书子菜单
+		function hiddenbook()
+		{
+			$('#book').css({'backgroundColor':'#ff6905'});
+			$('#bk_unsel').css({'display':'block'});
+			$('#bk_sel').css({'display':'none'});
+			$('#book_sub').css({'display':'none'});
+		}
+		//  显示美妆子菜单
+		function showCos()
+		{
+			$('#cosmetics').css({'backgroundColor':'#ff3a05'});
+			$('#cos_unsel').css({'display':'none'});
+			$('#cos_sel').css({'display':'block'});
+			$('#cosmetics_sub').css({'display':'block'});
+		}
+		//  隐藏美妆子菜单
+		function hiddenCos()
+		{
+			$('#cosmetics').css({'backgroundColor':'#ff6905'});
+			$('#cos_unsel').css({'display':'block'});
+			$('#cos_sel').css({'display':'none'});
+			$('#cosmetics_sub').css({'display':'none'});
+		}
+		//  显示手表子菜单
+		function showWatch()
+		{
+			$('#watch').css({'backgroundColor':'#ff3a05'});
+			$('#wt_unsel').css({'display':'none'});
+			$('#wt_sel').css({'display':'block'});
+			$('#watch_sub').css({'display':'block'});
+		}
+		//  隐藏手表子菜单
+		function hiddenWatch()
+		{
+			$('#watch').css({'backgroundColor':'#ff6905'});
+			$('#wt_unsel').css({'display':'block'});
+			$('#wt_sel').css({'display':'none'});
+			$('#watch_sub').css({'display':'none'});
+		}
+		//  显示下划线
+		function showline(obj)
+		{
+			obj.style.textDecoration = "underline";
+		}
+		//  隐藏下划线
+		function hiddenline(obj)
+		{
+			obj.style.textDecoration = "none";
+		}
+		//  选中按钮
+		function selectBtn(obj)
+		{
+			obj.style.backgroundColor = "#EE5F00";
+		}
+		//  未选中按钮
+		function  unselectBtn(obj)
+		{
+			obj.style.backgroundColor = "#FF6600";
+		}
 	</script>
 	<style type="text/css">
-	/* General Layout in my demos */
-/* // Sudo Slider */
-#slider {width: 696px;display:none;} /* It can be a good idea to set a width of the slider, mostly so Old-IE can figure out how to render */
-
-/* Numeric Navigation */
-ol.numericControls {display:none;position:absolute;top:450px;left:350px;margin:1em 0;padding:0;height:28px;	}
-ol.numericControls li{margin:0 10px 0 0; padding:0;float:left;list-style:none;height:28px;line-height:28px;}
-ol.numericControls li a{float:left;height:28px;line-height:28px;border:1px solid #ccc;background:#DAF3F8;color:#555;padding:0 10px;text-decoration:none;}
-ol.numericControls li.current a{background:#5DC9E1;color:#fff;}
-ol.numericControls li a:focus, .prevBtn a:focus, .nextBtn a:focus{outline:none;}
-
-.graphic, .prevBtn, .nextBtn{margin:0;padding:0;display:block;overflow:hidden;text-indent:-8000px;}
-
-.prevBtn,.nextBtn {position:absolute;display:none;width:30px;height:70px;left:800px;top:71px;z-index:1000;background:url(./pics/f0d91.png) no-repeat 0 0;cursor:pointer;}	
-.nextBtn{left:900px;}														
-.nextBtn {background:url(./pics/f0d92.png) no-repeat 0 0;}
-	#foot
+	#themeList
 	{
 		position:absolute;
-		top:866px;
+		left:8%;
+		top:-30px;
+		width:200px;
+		height:315px;
+		color:white;
+		background-color:#ff6905;
+	}
+	#ListHead
+	{
+		position:absolute;
 		left:0px;
+		top:0px;
 		width:100%;
 		height:30px;
-		min-width:1280px;
-		font-size:14px;
-		text-align:center;
-		color:gray;
-		padding-top:20px;
+		background-color:#ff6905;
+	}
+	#ListHead label
+	{
+		position:absolute;
+		left:40px;
+		top:5px;
+		font-size:15px;
 		font-family:Microsoft YaHei;
 	}
-	#header
+	#ListHead img
 	{
 		position:absolute;
+		right:5px;
 		top:0px;
-		left:0px;
-		width:100%;
-		height:35px;
-		min-width:1280px;
-		background-color:#EEEEEE;
-		border-bottom:#E6E6E6 solid 1px;
 	}
-	#title
+	#book,#cosmetics,#watch
 	{
 		position:absolute;
-		top:36px;
 		left:0px;
-		width:100%;
-		height:130px;
-		min-width:1280px;
-	}
-	#login,#register,#account
-	{
-		position:absolute;
-		top:0px;
-		height:36px;
+		width:160px;
+		list-style-type:none;
 		cursor:pointer;
 	}
-	#login
-	{
-		left:8%;
-		width:6%;
-	}
-	#register
-	{
-		left:14%;
-		width:5%;
-	}
-	#account
-	{
-		left:8%;
-		width:8%;
-		display:none;
-	}
-	#login label,#register label
+	#book_sub,#cosmetics_sub,#watch_sub
 	{
 		position:absolute;
-		left:5px;
-		top:6px;
+		left:200px;
+		width:140px;
 		color:#5E5E5E;
-		font-size:1vw;
-		font-family:Microsoft YaHei;
-		cursor:pointer;
-	}
-	#login label
-	{
-		color:#EE5F00;
-	}
-	#myaccount,#shoppingCart,#favorite,#sellerCenter
-	{
-		position:absolute;
-		top:0px;
-		height:36px;
-		cursor:pointer;
-	}
-	#myaccount
-	{
-		left:63%;
-		width:7%;
-	}
-	#myaccount_sub,#shoppingCart_sub,#favorite_sub,#sellerCenter_sub
-	{
-		position:absolute;
-		border-left:#E6E6E6 solid 1px;
-		border-right:#E6E6E6 solid 1px;
-		border-bottom:#E6E6E6 solid 1px;
+		border-top:#ff3a05 solid 2px;
+		border-right:#ff3a05 solid 2px;
+		border-bottom:#ff3a05 solid 2px;
+		list-style-type:none;
 		background-color:white;
 	}
-	#myaccount_sub
+	#book_sub
 	{
-		top:37px;
-		left:63%;
-		width:7%;
-		height:30px;
+		top:-2px;
+		height:273px;
 		display:none;
 	}
-	#shoppingCart_sub
+	#cosmetics_sub
 	{
-		top:37px;
-		left:70%;
-		width:8%;
-		height:30px;
+		top:-42px;
+		height:273px;
 		display:none;
 	}
-	#favorite_sub
+	#watch_sub
 	{
-		top:37px;
-		left:78%;
-		width:7%;
-		height:30px;
+		top:-82px;
+		height:273px;
 		display:none;
 	}
-	#sellerCenter_sub
+	.themeli
 	{
-		top:37px;
-		left:85%;
-		width:7%;
-		height:76px;
-		display:none;
+		position:relative;
+		top:5px;
+		left:0px;
+		height:27px;
+		width:100px;
+		padding-top:5px;
+		text-align:center;
 	}
-	#purchased,#favorite_good,#openShop,#sold,#selling,#myshoppingCart
+	#book
+	{
+		top:25px;
+		height:40px;
+	}
+	#cosmetics
+	{
+		top:65px;
+		height:40px;
+	}
+	#watch
+	{
+		top:105px;
+		height:40px;
+	}
+	.listLabel
 	{
 		position:absolute;
+		top:10px;
+		left:55px;
+		cursor:pointer;
+	}
+	.listPic
+	{
+		position:absolute;
+		top:10px;
+		right:10px;
+		width:6px;
+		height:18px;
+	}
+	.listTipPic
+	{
+		position:absolute;
+		top:10px;
+		left:30px;
+		width:20px;
+		height:20px;
+	}
+	#bk_sel,#cos_sel,#wt_sel
+	{
+		display:none;
+	}
+	#userWin
+	{
+		position:absolute;
+		top:15px;
+		left:985px;
+		width:300px;
+		height:170px;
+		background:url(./Images/userBg1.jpg) no-repeat 0px 0px;
+	}
+	#userWin img
+	{
+		position:absolute;
+		top:20px;
+		left:120px;
+		width:60px;
+		height:60px;
+	}
+	#userWin label
+	{
+		position:absolute;
+		top:85px;
+		left:110px;
+		width:80px;
+		text-align:center;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	.userBox
+	{
+		position:absolute;
+		top:115px;
 		left:0px;
 		width:100%;
-		text-align:center;
-		color:#5E5E5E;
-		font-size:1vw;
-		font-family:Microsoft YaHei;
-		cursor:pointer;
+		height:40px;
 	}
-	#purchased,#favorite_good,#openShop,#myshoppingCart
+	#LoginBox
 	{
+		display:none;
+	}
+	#loginBtn,#registerBtn,#openShopBtn
+	{
+		position:absolute;
+		left:22px;
 		top:5px;
-	}
-	#sold
-	{
-		top:27px;
-	}
-	#selling
-	{
-		top:49px;
-	}
-	#shoppingCart
-	{
-		left:70%;
-		width:8%;
-	}
-	#favorite
-	{
-		left:78%;
-		width:7%;
-	}
-	#sellerCenter
-	{
-		left:85%;
-		width:7%;
-	}
-	#myaccount label,#sellerCenter label
-	{
-		position:absolute;
-		left:7px;
-		top:6px;
-		color:#5E5E5E;
-		font-size:1vw;
-		font-family:Microsoft YaHei;
-		cursor:pointer;
-	}
-	#favorite label
-	{
-		position:absolute;
-		left:24%;
-		top:6px;
-		color:#5E5E5E;
-		font-size:1vw;
-		font-family:Microsoft YaHei;
-		cursor:pointer;
-	}
-	#scLabel
-	{
-		position:absolute;
-		left:22%;
-		top:6px;
-		color:#5E5E5E;
-		font-size:1vw;
-		font-family:Microsoft YaHei;
-		cursor:pointer;
-	}
-	#shoppingNum
-	{
-		position:absolute;
-		left:64%;
-		top:8px;
-		color:#EE5F00;
-		font-weight:bolder;
-		font-size:1vw;
-		font-family:Microsoft YaHei;
-		cursor:pointer;
-	}
-	#shoppingCartPic
-	{
-		position:absolute;
-		top:10px;
-		left:5%;
-		height:13px;
-		width:13px;
-	}
-	#favoritePic
-	{
-		position:absolute;
-		top:10px;
-		left:7%;
-		height:13px;
-		width:13px;
-	}
-	.pullDown
-	{
-		position:absolute;
-		top:14px;
-		right:5%;
-		height:5px;
-		width:10px;
-	}
-	#title img
-	{
-		position:absolute;
-		left:7%;
-		top:30px;
-	}
-	#title input
-	{
-		position:absolute;
-		left:35%;
-		top:40px;
-		height:30px;
-		width:20%;
-		border:#FF6600 solid 3px;
-		text-indent:10px;
-		font-size:1.1vw;
-		font-family:Microsoft YaHei;
-		outline:medium;
-	}
-	#searchBtn
-	{
-		position:absolute;
-		left:55.4%;
-		top:40px;
-		height:32px;
-		width:8%;
-		text-align:center;
-		background-color:#FF6600;
-		padding-top:6px;
+		height:22px;
+		width:70px;
 		color:white;
-		font-size:1.3vw;
+		background-color:#FF6600;
+		text-align:center;
+		font-size:15px;
 		font-family:Microsoft YaHei;
+		padding-top:3px;
 		cursor:pointer;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
 	}
-	#view
+	#registerBtn
+	{
+		left:114px;
+	}
+	#openShopBtn
+	{
+		left:206px;
+	}
+	#myInfo,#openMyShopBtn,#exit
 	{
 		position:absolute;
+		left:22px;
+		top:5px;
+		height:22px;
+		width:70px;
+		color:white;
+		background-color:#FF6600;
+		text-align:center;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+		padding-top:3px;
+		cursor:pointer;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	#myInfo
+	{
+		width:80px;
+	}
+	#openMyShopBtn
+	{
+		left:119px;
+	}
+	#exit
+	{
+		left:211px;
+	}
+	#newWin
+	{
+		position:absolute;
+		top:200px;
+		left:985px;
+		width:300px;
+		height:84px;
+		background-color:white;
+	}
+	#newTitle
+	{
+		position:absolute;
+		top:5px;
 		left:0px;
-		top:166px;
+		height:30px;
+		width:100%;
+		color:#5E5E5E;
+		border-bottom:#D5D5D5 solid 1px;
+	}
+	#newTitle table td
+	{
+		width:60px;
+		text-align:center;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	#newBox
+	{
+		position:absolute;
+		top:35px;
+		left:0px;
+		width:100%;
+		color:#5E5E5E;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	#new1,#new2
+	{
+		position:absolute;
+		top:5px;
+		left:20px;
+	}
+	#new2
+	{
+		position:absolute;
+		top:26px;
+		left:20px;
+	}
+	#goodsTitle
+	{
+		position:absolute;
+		top:295px;
+		left:8%;
+		height:27px;
+		width:100px;
+		background-color:white;
+		border-top:#ff6905 solid 2px;
+		border-left:#ff6905 solid 2px;
+		border-right:#ff6905 solid 2px;
+		-moz-border-radius: 4px;
+    	-webkit-border-radius: 4px;
+    	border-radius: 4px;
+	}
+	#goodsTitle img
+	{
+		position:absolute;
+		top:0px;
+		left:5px;
+		height:25px;
+		width:25px;
+	}
+	#goodsTitle label
+	{
+		position:absolute;
+		top:2px;
+		left:30px;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	#goodsBox
+	{
+		position:absolute;
+		top:322px;
+		left:8%;
+		width:87%;
+		height:700px;
+		background-color:white;
+		border:#ff6905 solid 2px;
+	}
+	#goodsData
+	{
+		position:absolute;
+		top:0px;
+		left:0px;
 		width:100%;
 		height:700px;
-		min-width:1280px;
-		background-color:#EEEEEE;
+		border:none;
 	}
 	</style>
   </head>
@@ -360,67 +517,164 @@ ol.numericControls li a:focus, .prevBtn a:focus, .nextBtn a:focus{outline:none;}
   <body>
   	<div id="title">
   		<img alt="淘宝主页" id="titlepic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
-  		<input type="text" id="searchInput" name="searchInput" placeholder="请输入宝贝名" maxlength="20"/>
+  		<input type="text" id="searchInput" name="searchInput" placeholder="请输入宝贝名/种类" maxlength="20"/>
   		<div id="searchBtn">搜索</div>
   	</div>
   	<div id="header">
   		<div id="login" onclick="toLogin()"><label onclick="toLogin()">亲，请登录</label></div>
   		<div id="register" onclick="toRegister()"><label onclick="toRegister()">免费注册</label></div>
   		<div id="account"><label id="username"></label></div>
-  		<div id="myaccount" onmouseover="showaccout(this)" onmouseout="hiddenaccout(this)">
-  			<label onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">我的淘宝</label>
-  			<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
-  		</div>
-  		<div id="myaccount_sub">
-  			<div id="purchased" onmouseover="select(this)" onmouseout="unselect(this)">已买到的宝贝</div>
-  		</div>
-  		<div id="shoppingCart">
-  			<img id="shoppingCartPic" alt="购物车" src="./pics/supermarket1.png">
-  			<label id="scLabel" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">购物车</label>
-  			<label id="shoppingNum">11</label>
-  			<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
-  		</div>
-  		<div id="shoppingCart_sub">
-  			<div id="myshoppingCart" onmouseover="select(this)" onmouseout="unselect(this)">查看我的购物车</div>
-  		</div>
-  		<div id="favorite">
-  			<img id="favoritePic" alt="收藏夹" src="./pics/star-icon.png">
-  			<label onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">收藏夹</label>
-  			<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
-  		</div>
-  		<div id="favorite_sub">
-  			<div id="favorite_good" onmouseover="select(this)" onmouseout="unselect(this)">收藏的宝贝</div>
-  		</div>
-  		<div id="sellerCenter">
-  			<label onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">卖家中心</label>
-  			<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
-  		</div>
-  		<div id="sellerCenter_sub">
-  			<div id="openShop" onmouseover="select(this)" onmouseout="unselect(this)">免费开店</div>
-  			<div id="sold" onmouseover="select(this)" onmouseout="unselect(this)">已卖出的宝贝</div>
-  			<div id="selling" onmouseover="select(this)" onmouseout="unselect(this)">出售中的宝贝</div>
-  		</div>
+		<ul id="myaccount" onmouseover="showaccout()" onmouseout="hiddenaccout()">
+			<li>
+				<label id="myaccountText" class="myaccount_sellerCenter_label" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">我的淘宝</label>
+				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
+			</li>
+			<ul id="myaccount_sub">
+				<li id="purchased" onmouseover="select(this)" onmouseout="unselect(this)">已买到的宝贝</li>
+			</ul>
+		</ul>
+  		<ul id="shoppingCart" onmouseover="showSpc()" onmouseout="hiddenSpc()">
+  			<li>
+  				<img id="shoppingCartPic" alt="购物车" src="./pics/supermarket1.png">
+  				<label id="scLabel" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">购物车</label>
+  				<label id="shoppingNum">11</label>
+  				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
+  			</li>
+  			<ul id="shoppingCart_sub">
+  				<li id="myshoppingCart" onmouseover="select(this)" onmouseout="unselect(this)">查看我的购物车</li>
+  			</ul>
+  		</ul>
+  		<ul id="favorite" onmouseover="showFav()" onmouseout="hiddenFav()">
+  			<li>
+  				<img id="favoritePic" alt="收藏夹" src="./pics/star-icon.png">
+  				<label onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">收藏夹</label>
+  				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
+  			</li>
+  			<ul id="favorite_sub">
+  				<li id="favorite_good" onmouseover="select(this)" onmouseout="unselect(this)">收藏的宝贝</li>
+  			</ul>
+  		</ul>
+  		<ul id="sellerCenter" onmouseover="showSc()" onmouseout="hiddenSc()">
+  			<li>
+  				<label class="myaccount_sellerCenter_label" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">卖家中心</label>
+  				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
+  			</li>
+  			<ul id="sellerCenter_sub">
+  				<li id="openShop" onmouseover="select(this)" onmouseout="unselect(this)">免费开店</li>
+  				<li id="sold" onmouseover="select(this)" onmouseout="unselect(this)">已卖出的宝贝</li>
+  				<li id="selling" onmouseover="select(this)" onmouseout="unselect(this)">出售中的宝贝</li>
+  			</ul>
+  		</ul>
   	</div>
   	<div id="view">
-  		<div id="">
-  		
+  		<div id="slider">
+				<ul>
+				<li data-effect="boxRainGrow" data-speed="1000">
+					<img src="./Images/TB1NE8NQFXXXXbkXXXXSutbFXXX.jpg" alt="image description"/>
+				</li>
+				<li data-effect="boxRainGrow" data-speed="1000">
+					<img src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg" alt="image description"/>
+				</li>
+				<li data-effect="boxRainGrow" data-speed="1000">
+					<img src="./Images/TB2KSERjDcCL1FjSZFPXXXZgpXa_!!3020313106.jpg" alt="image description"/>
+				</li>
+				<li data-effect="boxRainGrow" data-speed="1000">
+					<img src="./Images/TB2LKuZpHxmpuFjSZJiXXXauVXa_!!845001562.jpg" alt="image description"/>
+				</li>
+				<li data-effect="boxRainGrow" data-speed="1000">
+					<img src="./Images/TB2X66hp0RopuFjSZFtXXcanpXa_!!1800997126.jpg" alt="image description"/>
+				</li>
+				</ul>
+		</div>
+  		<div id="themeList">
+  			<div id="ListHead">
+  				<label>主题市场</label>
+  				<img alt="list" src="./pics/list.png">
+  			</div>
+  			<ul id="book" onmouseover="showbook()" onmouseout="hiddenbook()">
+  				<li>
+  					<img id="bk_unsel" class="listTipPic" alt="bookPic" src="./pics/book115.png">
+  					<img id="bk_sel" class="listTipPic" alt="bookPic" src="./pics/book1151.png">
+  					<label id="bkLab" class="listLabel" onmouseover="showline(this)" onmouseout="hiddenline(this)">书</label>
+  					<img class="listPic" alt="show" src="./pics/f0d92.png">
+  				</li>
+  				<ul id="book_sub">
+  					<li id="child" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">儿童文学</li>
+  					<li id="novel" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">小说</li>
+  					<li id="literature" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">文学</li>
+  					<li id="hotBook" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">畅销书</li>
+  				</ul>
+  			</ul>
+  			<ul id="cosmetics" onmouseover="showCos()" onmouseout="hiddenCos()">
+  				<li>
+  					<img id="cos_unsel" class="listTipPic" alt="bookPic" src="./pics/font-104.png">
+  					<img id="cos_sel" class="listTipPic" alt="bookPic" src="./pics/font-1041.png">
+  					<label id="cosLab" class="listLabel" onmouseover="showline(this)" onmouseout="hiddenline(this)">美妆</label>
+  					<img class="listPic" alt="show" src="./pics/f0d92.png">
+  				</li>
+  				<ul id="cosmetics_sub">
+  					<li id="washFace" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">洁面</li>
+  					<li id="milk" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">乳液</li>
+  					<li id="mask" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">面膜</li>
+  				</ul>
+  			</ul>
+  			<ul id="watch" onmouseover="showWatch()" onmouseout="hiddenWatch()">
+  				<li>
+  					<img id="wt_unsel" class="listTipPic" alt="bookPic" src="./pics/wristwatch7.png">
+  					<img id="wt_sel" class="listTipPic" alt="bookPic" src="./pics/wristwatch71.png">
+  					<label id="wtLab" class="listLabel" onmouseover="showline(this)" onmouseout="hiddenline(this)">手表</label>
+  					<img class="listPic" alt="show" src="./pics/f0d92.png">
+  				</li>
+  				<ul id="watch_sub">
+  					<li id="eleWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">电子表</li>
+  					<li id="conWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">机械表</li>
+  					<li id="solarWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">太阳能表</li>
+  					<li id="freeWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">休闲表</li>
+  					<li id="sportWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">运动表</li>
+  				</ul>
+  			</ul>
   		</div>
-  		<div id="">
-  			
+  		<div id="userWin">
+  			<img id="userPic" alt="userPic" src="./Images/profle.png">
+  			<label id="username">Hi!你好</label>
+  			<div id="unLoginBox" class="userBox">
+  				<div id="loginBtn" onclick="toLogin()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">登录</div>
+  				<div id="registerBtn" onclick="toRegister()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">注册</div>
+  				<div id="openShopBtn" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">开店</div>
+  			</div>
+  			<div id="LoginBox" class="userBox">
+  				<div id="myInfo" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">个人信息</div>
+  				<div id="openMyShopBtn" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">开店</div>
+  				<div id="exit" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">退出</div>
+  			</div>
+  		</div>
+  		<div id="newWin">
+  			<div id="newTitle">
+  				<table>
+  					<tr>
+  						<td>公告</td>
+  						<td>规则</td>
+  						<td>论坛</td>
+  						<td>安全</td>
+  						<td>公益</td>
+  					</tr>
+  				</table>
+  			</div>
+  			<div id="newBox">
+  				<label id="new1">特惠！今天全场书价七折！</label>
+  				<label id="new2">新款时尚手表上架！</label>
+  			</div>
+  		</div>
+  		<div id="goodsTitle">
+  			<img alt="goodsPic" src="./pics/[PRH3KD7~UD81YLSH)4`(4A.png">
+  			<label>全网热卖</label>
+  		</div>
+  		<div id="goodsBox">
+  			<iframe id="goodsData" src="./jsp/hotSellingGoods.jsp"></iframe>
   		</div>
   	</div>
   	<div id="foot">
   		<label>© 2017 Taobao.com 版权所有</label>
   	</div>
-    <div id="slider">
-		<ul>
-		<li data-effect="boxRainGrow" data-speed="1000">
-			<img src="./Images/TB1NE8NQFXXXXbkXXXXSutbFXXX.jpg" alt="image description"/>
-		</li>
-		<li data-effect="boxRainGrow" data-speed="1000">
-			<img src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg" alt="image description"/>
-		</li>
-		</ul>
-	</div>
   </body>
 </html>

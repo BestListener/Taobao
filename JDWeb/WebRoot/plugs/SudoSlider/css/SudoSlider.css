@@ -1,0 +1,16 @@
+﻿/* General Layout in my demos */
+/* // Sudo Slider */
+#slider {width: 646px;top:15px;left:24%;height:270px;} /* It can be a good idea to set a width of the slider, mostly so Old-IE can figure out how to render */
+#slider ul li img{width: 646px;top:0px;left:0px;height:270px;}
+/* Numeric Navigation */
+ol.numericControls {position:absolute;top:220px;left:40%;margin:1em 0;padding:0;height:28px;	}
+ol.numericControls li{margin:0 10px 0 0; padding:0;float:left;list-style:none;height:28px;line-height:28px;}
+ol.numericControls li a{float:left;height:28px;line-height:28px;border:1px solid #ccc;background:#DAF3F8;color:#555;padding:0 10px;text-decoration:none;}
+ol.numericControls li.current a{background:#5DC9E1;color:#fff;}
+ol.numericControls li a:focus, .prevBtn a:focus, .nextBtn a:focus{outline:none;}
+
+.graphic, .prevBtn, .nextBtn{margin:0;padding:0;display:block;overflow:hidden;text-indent:-8000px;}
+
+.prevBtn,.nextBtn {position:absolute;width:30px;height:70px;left:25%;top:100px;background:url(../pics/f0d91.png) no-repeat 0 0;cursor:pointer;}	
+.nextBtn{left:68%;}														
+.nextBtn {background:url(../pics/f0d92.png) no-repeat 0 0;}
