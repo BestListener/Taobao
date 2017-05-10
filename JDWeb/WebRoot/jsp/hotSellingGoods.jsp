@@ -29,8 +29,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			position:absolute;
 			top:5px;
 			left:5px;
-			width:99%;
-			height:500px;
 			border-collapse:separate; 
 			border-spacing:15px 10px;
 			list-style-type:none;
@@ -38,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		#goodsData tr td
 		{
 			position:relative;
-			width:250px;
+			width:264px;
 			height:330px;
 			background-color:white;
 			border:white solid 2px;
