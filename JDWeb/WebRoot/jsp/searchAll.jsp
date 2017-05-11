@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>图书-淘宝搜索</title>
+    <title>所有物品-淘宝搜索</title>
     
 	<link rel="stylesheet" type="text/css" href="./css/headerCss.css">
 	<link rel="stylesheet" type="text/css" href="./css/searchClass.css">
@@ -17,16 +17,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="./js/headerJs.js"></script>
 	<script type="text/javascript" src="./js/searchClass.js"></script>
 	<script type="text/javascript">
-
+  		
   </script>
   <style type="text/css">
-
+  	
 	</style>
   </head>
+  
   <body onload="init()">
-  	<div id="title">
+    <div id="title">
   		<img onclick="toMainPage()" alt="淘宝主页" id="titlepic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
-  		<label class="viewTitle">图书</label>
+  		<label class="viewTitle">全网搜索</label>
   		<input type="text" id="searchInput" name="searchInput" placeholder="请输入宝贝名/种类" maxlength="25"/>
   		<div id="searchBtn">搜索</div>
   	</div>
@@ -79,14 +80,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	</div>
   	<div id="view">
   		<div id="classFilter">
-  			<label class="filterTitle">图书类型:</label>
+  			<label class="filterTitle">物品类型:</label>
   			<table class="filterTable">
   				<tr>
   					<td id="allClass" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">全部</td>
-  					<td id="childBooks" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">儿童文学</td>
-  					<td id="novel" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">小说</td>
-  					<td id="literature" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">文学</td>
-  					<td id="hotBooks" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">畅销书</td>
+  					<td id="books" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">图书</td>
+  					<td id="cosmetics" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">美妆品</td>
+  					<td id="watches" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">手表</td>
   				</tr>
   			</table>
   		</div>

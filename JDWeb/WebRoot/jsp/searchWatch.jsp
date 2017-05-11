@@ -9,24 +9,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>图书-淘宝搜索</title>
+    <title>手表-淘宝搜索</title>
     
 	<link rel="stylesheet" type="text/css" href="./css/headerCss.css">
-	<link rel="stylesheet" type="text/css" href="./css/searchClass.css">
+	<link rel="stylesheet" type="text/css" href="./css/searchBrankClass.css">
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="./js/headerJs.js"></script>
-	<script type="text/javascript" src="./js/searchClass.js"></script>
+	<script type="text/javascript" src="./js/searchBrankClass.js"></script>
 	<script type="text/javascript">
 
-  </script>
-  <style type="text/css">
+	</script>
+	<style type="text/css">
 
 	</style>
   </head>
+  
   <body onload="init()">
-  	<div id="title">
+    <div id="title">
   		<img onclick="toMainPage()" alt="淘宝主页" id="titlepic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
-  		<label class="viewTitle">图书</label>
+  		<label class="viewTitle">手表</label>
   		<input type="text" id="searchInput" name="searchInput" placeholder="请输入宝贝名/种类" maxlength="25"/>
   		<div id="searchBtn">搜索</div>
   	</div>
@@ -78,15 +79,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		</ul>
   	</div>
   	<div id="view">
+  		<div id="brankFilter">
+  			<label class="filterTitle">手表品牌:</label>
+  			<table class="filterTable">
+  				<tr>
+  					<td id="allBranks" class="filterTableTd" onclick="branksOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">全部</td>
+  					<td id="IK" class="filterTableTd" onclick="branksOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">IK colouring/阿帕琦</td>
+  					<td id="binger" class="filterTableTd" onclick="branksOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">BINGER/宾格</td>
+  					<td id="beston" class="filterTableTd" onclick="branksOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">Bestdon/邦顿</td>
+  					<td id="caston" class="filterTableTd" onclick="branksOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">卡诗顿</td>
+  				</tr>
+  			</table>
+  		</div>
   		<div id="classFilter">
-  			<label class="filterTitle">图书类型:</label>
+  			<label class="filterTitle">手表类型:</label>
   			<table class="filterTable">
   				<tr>
   					<td id="allClass" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">全部</td>
-  					<td id="childBooks" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">儿童文学</td>
-  					<td id="novel" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">小说</td>
-  					<td id="literature" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">文学</td>
-  					<td id="hotBooks" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">畅销书</td>
+  					<td id="eleWatch" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">电子表</td>
+  					<td id="machineWatch" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">机械表</td>
+  					<td id="solarWatch" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">太阳能表</td>
+  					<td id="freeWatch" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">休闲表</td>
+  					<td id="sportWatch" class="filterTableTd" onclick="classOnClick(this)" onmouseover="selectClass(this)" onmouseout="unselectClass(this)">运动表</td>
   				</tr>
   			</table>
   		</div>
@@ -96,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			<div id="priceUp" class="priceUpSty" onclick="sortOnClick(this)" onmouseover="selectSort(this)" onmouseout="unselectSort(this)">价格升序</div>
   			<div id="priceDown" class="priceDownSty" onclick="sortOnClick(this)" onmouseover="selectSort(this)" onmouseout="unselectSort(this)">价格降序</div>
   		</div>
-  		<iframe id="goodsView" src="./jsp/booksDataView.jsp">
+  		<iframe id="cosmeticsView" src="./jsp/booksDataView.jsp">
   			
   		</iframe>
   	</div>
