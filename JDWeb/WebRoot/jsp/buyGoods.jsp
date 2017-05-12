@@ -12,12 +12,151 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title></title>
     <link rel="stylesheet" type="text/css" href="./css/headerCss.css">
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="./plugs/picZoom/js/jquery.zoom.js"></script>
 	<script type="text/javascript" src="./js/headerJs.js"></script>
 	<script type="text/javascript">
+		var curSelectBtn;//  当前选中的按钮
+		var curSelectPic;//  当前选中的图片
+		var goodsSaveNum;//  物品库存
+		var goodsBuyNum;//  当前购物数量
 		//  页面初始化函数
   		function init()
   		{
+  			curSelectBtn = "goodsDetail";
+  			curSelectPic = "img1";
+  			goodsSaveNum = 2;
+  			goodsBuyNum = 1; //  默认购买数为1
   			document.title = "-淘宝网";
+  			//  图片放大镜
+			$(document).ready(function(){
+				$('#bigPicZoom').zoom();
+			});
+			document.getElementById(curSelectPic).style.borderColor = "#EE5F00";
+  		}
+  		//  鼠标选中图像
+  		function selectImage(obj)
+  		{
+  			var bigPic = document.getElementById("bigPic");
+  			var curPic = document.getElementById(curSelectPic);
+  			curPic.style.borderColor = "white";
+  			curSelectPic = obj.id;
+  			obj.style.borderColor = "#EE5F00";
+  			bigPic.src = obj.src;
+  			//  图片放大镜
+			$(document).ready(function(){
+				$('#bigPicZoom').zoom();
+			});
+  		}
+  		//  鼠标移入立即购买按键
+  		function inBuyBtn(obj)
+  		{
+  			obj.style.backgroundColor = "#FFBBFF";
+  		}
+  		//  鼠标移出立即购买按键
+  		function outBuyBtn(obj)
+  		{
+  			obj.style.backgroundColor = "#FFEEFF";
+  		}
+  		//  鼠标移入加入购物车按键
+  		function inAddBtn(obj)
+  		{
+  			obj.style.backgroundColor = "#DD2C00";
+  		}
+  		//  鼠标移出加入购物车按键
+  		function outAddBtn(obj)
+  		{
+  			obj.style.backgroundColor = "#FF3300";
+  		}
+  		//  选中商品信息
+  		function onClickBtn(obj)
+  		{
+  			if( obj.id != curSelectBtn )
+  			{
+  				var curSelect = document.getElementById(curSelectBtn);
+  				curSelect.style.borderTop = "none";
+  				curSelect.style.borderBottom = "none";
+  				curSelect.style.color = "black";
+  				curSelect.style.backgroundColor = "#EEEEEE";
+  				obj.style.borderTop = "#FF4111 solid 2px";
+  				obj.style.borderBottom = "white solid 1px";
+  				obj.style.color = "#FF4111";
+  				obj.style.backgroundColor = "white";
+  				curSelectBtn = obj.id;
+  			}
+  		}
+  		//  点击加1
+  		function addGoodsNum(obj)
+  		{
+  			if( goodsBuyNum < goodsSaveNum )
+  			{
+  				goodsBuyNum = goodsBuyNum + 1;
+  				$('#goodsNum').val(goodsBuyNum);
+  				if( goodsBuyNum >= goodsSaveNum )
+  				{
+  					$('#addOne').css({'cursor':'default'});
+  					$('#addOne').css({'color':'#CCCCCC'});
+  				}
+  			}
+  			if( goodsBuyNum > 1 )
+  			{
+  				$('#subOne').css({'cursor':'pointer'});
+  				$('#subOne').css({'color':'black'});
+  			}
+  		}
+  		//  点击减1
+  		function subGoodsNum(obj)
+  		{
+  			if( goodsBuyNum > 1 )
+  			{
+  				goodsBuyNum = goodsBuyNum - 1;
+  				$('#goodsNum').val(goodsBuyNum);
+  				if( goodsBuyNum <= 1 )
+  				{
+  					$('#subOne').css({'cursor':'default'});
+  					$('#subOne').css({'color':'#CCCCCC'});
+  				}
+  			}			
+  			if( goodsBuyNum < goodsSaveNum )
+  			{
+  				$('#addOne').css({'cursor':'pointer'});
+  				$('#addOne').css({'color':'black'});
+  			}
+  		}
+  		//  检查用户输入的数额
+  		function checkInput(obj)
+  		{
+  			//  如果输入的不是数字
+  			if( event.keyCode < 48 || event.keyCode > 57 )
+  			{
+  				obj.value = "1";
+  				goodsBuyNum = obj.value;
+  			}
+  			//  如果输入的是数字
+  			if( obj.value > goodsSaveNum )
+  			{
+  				obj.value = goodsSaveNum;
+  				goodsBuyNum = obj.value;
+  			}
+  			if( obj.value == goodsSaveNum )
+  			{
+  				$('#addOne').css({'cursor':'default'});
+  				$('#addOne').css({'color':'#CCCCCC'});
+  			}
+  			if( obj.value == 1 )
+  			{
+  				$('#subOne').css({'cursor':'default'});
+  				$('#subOne').css({'color':'#CCCCCC'});
+  			}
+  			if( obj.value > 1 )
+  			{
+  				$('#subOne').css({'cursor':'pointer'});
+  				$('#subOne').css({'color':'black'});
+  			}
+  			if( obj.value < goodsSaveNum )
+			{
+  				$('#addOne').css({'cursor':'pointer'});
+  				$('#addOne').css({'color':'black'});
+  			}
   		}
   </script>
   <style type="text/css">
@@ -82,22 +221,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	.bigPic
 	{
 		position:absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		height:400px;
+	}
+	.zoom
+	{
+		position:absolute;
 		top:5px;
 		left:1%;
 		width:47%;
 		height:400px;
+		cursor:pointer;
 	}
 	.smallPicBox
 	{
 		position:absolute;
 		top:420px;
+		width:45%;
 		left:2%;
 		cursor:pointer;
 	}
 	.smallPic
 	{
-		border:#EE5F00 solid 2px;
-		width:8%;
+		border:white solid 2px;
+		width:20%;
 		height:60px;
 	}
 	.goodName
@@ -107,7 +256,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		left:51%;
 		width:47%;
 		height:55px;
-		border:#EE5F00 solid 2px;
 		font-size:1.3vw;
 		font-family:Microsoft YaHei;
 	}
@@ -223,7 +371,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		font-family:Microsoft YaHei;
 		border:#CCCCCC solid 1px;
 		background-color:#EEEEEE;
-		cursor:pointer;
 	}
 	#goodsNum
 	{
@@ -234,6 +381,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		height:30px;
 		text-align:center;
 		font-size:17px;
+		z-index:9999;
 		font-family:Microsoft YaHei;
 		border:#CCCCCC solid 1px;
 	}
@@ -241,11 +389,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	{
 		top:5px;
 		left:74px;
+		color:#CCCCCC;
 	}
 	#addOne
 	{
 		top:5px;
 		left:162px;
+		cursor:pointer;
 	}
 	#goodsStock
 	{
@@ -468,6 +618,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		left:0px;
 		width:100%;
 		height:1150px;
+		border:none;
+	}
+	#goodsDetailView
+	{
+		position:absolute;
+		top:55px;
+		left:0px;
+		height:830px;
+		border:none;
+		width:100%;
 	}
 	#foot
 	{
@@ -485,10 +645,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		font-family:Microsoft YaHei;
 	}
 	</style>
-	
-
   </head>
-  
   <body onload="init()">
     <div id="title">
   		<img onclick="toMainPage()" alt="淘宝主页" id="titlepic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
@@ -543,10 +700,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	
   	<div id="view">
   		<div id="goodsBox">
-  			<img class="bigPic" alt="bigPic" src="./Images/TB2LKuZpHxmpuFjSZJiXXXauVXa_!!845001562.jpg">
+  			<div class="zoom" id="bigPicZoom">
+  				<img id="bigPic" class="bigPic" alt="bigPic" src="./Images/TB2LKuZpHxmpuFjSZJiXXXauVXa_!!845001562.jpg">
+  			</div>
   			<span class="smallPicBox">
-  				<img class="smallPic" alt="smallPic" src="./Images/TB2LKuZpHxmpuFjSZJiXXXauVXa_!!845001562.jpg">
-  				<img class="smallPic" alt="smallPic" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
+  				<img id="img1" onmouseover="selectImage(this)" class="smallPic" alt="smallPic" src="./Images/TB2LKuZpHxmpuFjSZJiXXXauVXa_!!845001562.jpg">
+  				<img id="img2" onmouseover="selectImage(this)" class="smallPic" alt="smallPic" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
   			</span>
   			<label class="goodName">韩版夜光防水多功能户外登山运动学生潮流运动电子手表男大表盘酷</label>
   			<div class="price">
@@ -567,13 +726,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			</span>
   			<span id="buy-amount-ctrl">
   				<label class="price-label">数量</label>
-  				<span id="subOne">-</span>
-  				<input id="goodsNum" type="text" value="1"/>
-  				<span id="addOne">+</span>
+  				<span id="subOne" onclick="subGoodsNum(this)">-</span>
+  				<input id="goodsNum" onkeyup="checkInput(this)" type="text" value="1" maxlength="2"/>
+  				<span id="addOne" onclick="addGoodsNum(this)">+</span>
   				<label id="goodsStock">件（库存2件）</label>
   			</span>
-  			<div id="buy-btn">立即购买</div>
-  			<div id="add-toSc-btn">
+  			<div id="buy-btn" onmouseover="inBuyBtn(this)" onmouseout="outBuyBtn(this)">立即购买</div>
+  			<div id="add-toSc-btn" onmouseover="inAddBtn(this)" onmouseout="outAddBtn(this)">
   				<img alt="shopcert" src="./pics/supermarket11.png">加入购物车
   			</div>
   		</div>
@@ -581,14 +740,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			<div id="goodsInfoTitle">
   			<table id="goodsInfoCtrl">
   				<tr>
-	  				<td id="goodsDetail">宝贝详情</td>
-	  				<td>
+	  				<td id="goodsDetail" onclick="onClickBtn(this)">宝贝详情</td>
+	  				<td id="goodsCommentBtn" onclick="onClickBtn(this)">
 	  					<label id="goodsComment">累计评论</label>
 	  					<label id="goodsCommentNum">134</label>
 	  				</td>
   				</tr>
   			</table>
   			</div>
+  			<iframe id="goodsDetailView" src="./jsp/goodsDetailView.jsp">
+  			</iframe>
   		</div>
   		<div id="shopBox">
   			<div id="shopInfo">
@@ -609,8 +770,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   						</div>
   				</div>
   			</div>
-  			<iframe id="shopGoodsView" src="">
-  				
+  			<iframe id="shopGoodsView" src="./jsp/shopGoodsView.jsp">
   			</iframe>
   		</div>
   	</div>
