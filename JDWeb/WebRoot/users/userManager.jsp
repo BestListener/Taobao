@@ -14,12 +14,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="./js/headerJs.js"></script>
 	<script type="text/javascript">
 		var curSelectOption; //  当前选中的选项
+		var options;		 //  选项对应的页面 
+		options = new Object();
+		options['per_info'] = "./users/userInfoView.jsp";
+		options['own_goods'] = "./users/userOrderView.jsp";
+		options['shopping_cert'] = "./users/userShoppingCert.jsp";
 		function init()
 		{
 			curSelectOption = "per_info";//  默认选择为per_info
 			var curSelect = document.getElementById(curSelectOption);
 			curSelect.style.backgroundColor = "#E6E6E6";
 			curSelect.style.color = "black";
+			//skipTo(curSelectOption);
 		}
 		//  指向该选项时
 		function tarOption(obj)
@@ -47,7 +53,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				obj.style.backgroundColor = "#E6E6E6";
 				obj.style.color = "black";
 				curSelectOption = obj.id;
+				skipTo(curSelectOption);
 			}
+		}
+		//  跳向指向页面
+		function skipTo(obj)
+		{
+			var pageSrc = options[obj];
+			document.getElementById("right_info_box").src = pageSrc;
 		}
 	</script>
 	<style type="text/css">
@@ -203,7 +216,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<li id="selling_goods" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;出售中的宝贝</li>
   			</ul>
   		</div>
-  		<iframe id="right_info_box" src="./users/userInfoView.jsp">
+  		<iframe id="right_info_box" src="./users/userShoppingCert.jsp">
   			
   		</iframe>
   	</div>

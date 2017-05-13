@@ -8,10 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-	<meta charset="utf-8">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+	<link rel="stylesheet" type="text/css" href="./css/pageCtrlBox.css">
 	<script type="text/javascript">
 		function selectGood(obj)
 		{
@@ -97,44 +94,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			text-align:left;
 			height:30px;
 			color:#5E5E5E;
-		}
-		.pagesCtrl
-		{
-			position:absolute;
-			top:1740px;
-			left:1px;
-			width:99%;
-			text-align:center;
-		}
-		a
-		{
-			padding-top:5px;
-			padding-bottom:5px;
-			padding-left:10px;
-			padding-right:10px;
-			border:#C4C4C4 solid 1px;
-			background-color:white;
-			color:black;
-			font-size:14px;
-			font-family:Microsoft YaHei;
-			text-decoration:none;
-		}
-		a:hover
-		{
-			color:#EE5F00;
-			border:#EE5F00 solid 1px;
-		}
-		.curPageSty
-		{
-			color:white;
-			background-color:#EE5F00;
-			border:#EE5F00 solid 1px;
-		}
-		.pageCount
-		{
-			color:#777777;
-			font-size:14px;
-			font-family:Microsoft YaHei;
 		}
 	</style>
   </head>
