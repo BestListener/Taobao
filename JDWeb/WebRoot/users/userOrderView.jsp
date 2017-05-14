@@ -83,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	#orderTab tr td
 	{
-		border:gray solid 1px;
+		border:#EEEEEE solid 1px;
 		font-size:15px;
 	}
 	.pic img
@@ -162,6 +162,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		-moz-border-radius: 2px;
     	-webkit-border-radius: 2px;
     	border-radius: 2px;
+	}
+	.Tip
+	{
+		text-align:center;
+		vertical-align:top;
 	}
 	</style>
   </head>
@@ -270,18 +275,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    					</td>
    				</tr>
    				<tr id="1">
-   					<td class="pic">
-   						<img alt="goodsPic" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-   					</td>
-   					<td class="name">宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝宝贝</td>
-   					<td class="price">单价</td>
-   					<td class="num">数量</td>
-   					<td class="allprice">实付款</td>
-   					<td class="state">交易状态</td>
-   					<td class="date">2017-05-12</td>
-   					<td class="operation">
-   						<div class="deleteBtn" onclick="clickDelBtn(this)" onmouseover="indeleteBtn(this)" onmouseout="outdeleteBtn(this)">删除</div>
-   						<div class="confirmBtn" onclick="clickConBtn(this)" onmouseover="inconfirmBtn(this)" onmouseout="outconfirmBtn(this)">确认收货</div>
+   					<td class="Tip" colspan="8">
+						您暂时没有任何订单。
    					</td>
    				</tr>
    			</table>

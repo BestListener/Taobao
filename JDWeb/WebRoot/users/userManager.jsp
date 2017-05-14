@@ -19,6 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		options['per_info'] = "./users/userInfoView.jsp";
 		options['own_goods'] = "./users/userOrderView.jsp";
 		options['shopping_cert'] = "./users/userShoppingCert.jsp";
+		options['open_shop'] = "./users/applyOpenShop.jsp";
+		options['sold_goods'] = "./users/shopOrderView.jsp";
 		function init()
 		{
 			curSelectOption = "per_info";//  默认选择为per_info
@@ -64,6 +66,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 	</script>
 	<style type="text/css">
+	#account
+	{
+		display:block;
+	}
 	#title
 	{
 		position:absolute;
@@ -154,9 +160,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<img alt="myTaobao" src="./users/pics/ZWOM_96CM](E]}BL094P@1P.png">
   	</div>
     <div id="header">
-  		<div id="login" onclick="toLogin()"><label onclick="toLogin()">亲，请登录</label></div>
-  		<div id="register" onclick="toRegister()"><label onclick="toRegister()">免费注册</label></div>
-  		<div id="account"><label id="username"></label></div>
+  		<div id="account">
+  			<label id="username">windq</label>
+  			<a id="exitTop">退出</a>
+  		</div>
+  		<div class="firstPage" onclick="toMainPage()">淘宝网首页</div>
 		<ul id="myaccount" onmouseover="showaccout()" onmouseout="hiddenaccout()">
 			<li>
 				<label id="myaccountText" class="myaccount_sellerCenter_label" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">我的淘宝</label>
@@ -216,7 +224,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<li id="selling_goods" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;出售中的宝贝</li>
   			</ul>
   		</div>
-  		<iframe id="right_info_box" src="./users/userShoppingCert.jsp">
+  		<iframe id="right_info_box" src="./users/shopOrderView.jsp">
   			
   		</iframe>
   	</div>

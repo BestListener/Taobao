@@ -1,4 +1,4 @@
-﻿	#header
+	#header
 	{
 		position:absolute;
 		top:0px;
@@ -29,8 +29,19 @@
 	#account
 	{
 		left:8%;
-		width:8%;
+		width:10%;
+		cursor:default;
 		display:none;
+	}
+	#exitTop
+	{
+		position:absolute;
+		top:6px;
+		right:5px;
+		color:#EE5F00;
+		font-size:1vw;
+		font-family:Microsoft YaHei;
+		cursor:pointer;
 	}
 	#login label,#register label,#account label
 	{
@@ -41,6 +52,11 @@
 		font-size:1vw;
 		font-family:Microsoft YaHei;
 		cursor:pointer;
+	}
+	#account label
+	{
+		max-width:65%;
+		overflow:hidden;
 	}
 	#login label
 	{
