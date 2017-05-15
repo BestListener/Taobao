@@ -73,6 +73,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			}
   			getSum();
   		}
+  		//  检查用户输入的数额
+  		function checkInput(obj)
+  		{
+  			var id = obj.parentNode.id;
+			var subid = "s" + id;
+			var addtid = "a" + id;
+			var subBtn = document.getElementById(subid);
+			var addBtn = document.getElementById(addtid);
+  			//  如果输入的不是数字
+  			if( event.keyCode < 48 || event.keyCode > 57 )
+  			{
+  				obj.value = "1";
+  				goodsBuyNum = obj.value;
+  			}
+  			//  如果输入的是数字
+  			if( obj.value == 99 )
+  			{
+  				addBtn.style.cursor = "default";
+  				addBtn.style.color = "#CCCCCC";
+  			}
+  			if( obj.value == 1 )
+  			{
+  				subBtn.style.cursor = "default";
+  				subBtn.style.color = "#CCCCCC";
+  			}
+  			if( obj.value > 1 )
+  			{
+  				subBtn.style.cursor = "pointer";
+  				subBtn.style.color = "black";
+  			}
+  			if( obj.value < 99 )
+			{
+  				addBtn.style.cursor = "pointer";
+  				addBtn.style.color = "black";
+  			}
+  		}
   		//   删除商品
   		function clickDelete(obj)
   		{
@@ -497,7 +533,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    				<li class="firstLi">
    					<input id="topAllSelect" type="checkbox" name="top_all_sel" onclick="checkAll(this)">
    					<label id="topCountTip">全选</label>
-   					<label id="shopInfoTil">商家信息</label>
+   					<label id="shopInfoTil">宝贝信息</label>
    					<label id="shopNameTil">店铺</label>
    					<label id="unit-price">单价</label>
    					<label id="buyNum">数量</label>
@@ -511,7 +547,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    					<label class="shopName">梵西化妆品旗舰店</label>
    					<label id="un1" class="unit_price_num">￥88.0</label>
    					<div id="s1" class="sub" onclick="subGoodsNum(this)">-</div>
-   					<input id="i1" class="numInput" type="text" value="1" maxlength="2"/>
+   					<input id="i1" class="numInput" onkeyup="checkInput(this)" type="text" value="1" maxlength="2"/>
    					<div id="a1" class="add" onclick="addGoodsNum(this)">+</div>
    					<label id="ma1" class="moneyAmount">￥88.0</label>
    					<label class="delete" onclick="clickDelete(this)">删除</label>

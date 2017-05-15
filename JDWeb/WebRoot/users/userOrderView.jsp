@@ -9,21 +9,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <base href="<%=basePath%>">
     <link rel="stylesheet" type="text/css" href="./css/pageCtrlBox.css">
 	<script type="text/javascript">
+		//  鼠标移入删除按键
 		function indeleteBtn(obj)
   		{
   			obj.style.backgroundColor = "#FF0000";
   		}
-  		//  鼠标移出立即购买按键
+  		//  鼠标移出删除按键
   		function outdeleteBtn(obj)
   		{
   			obj.style.backgroundColor = "#FF4444";
   		}
-  		//  鼠标移入加入购物车按键
+  		//  鼠标移入确认收货按键
   		function inconfirmBtn(obj)
   		{
   			obj.style.backgroundColor = "#DD2C00";
   		}
-  		//  鼠标移出加入购物车按键
+  		//  鼠标移出确认收货按键
   		function outconfirmBtn(obj)
   		{
   			obj.style.backgroundColor = "#FF3300";

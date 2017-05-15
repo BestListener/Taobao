@@ -21,6 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		options['shopping_cert'] = "./users/userShoppingCert.jsp";
 		options['open_shop'] = "./users/applyOpenShop.jsp";
 		options['sold_goods'] = "./users/shopOrderView.jsp";
+		options['selling_goods'] = "./users/shopGoodsView.jsp";
 		function init()
 		{
 			curSelectOption = "per_info";//  默认选择为per_info
@@ -110,7 +111,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		top:0px;
 		left:19%;
 		width:78%;
-		height:700px;
+		height:800px;
 		border:none;
 	}
 	#account_manager_title,#shop_manager_title
@@ -224,7 +225,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<li id="selling_goods" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;出售中的宝贝</li>
   			</ul>
   		</div>
-  		<iframe id="right_info_box" src="./users/shopOrderView.jsp">
+  		<iframe id="right_info_box" src="./users/shopAddGoods.jsp">
   			
   		</iframe>
   	</div>

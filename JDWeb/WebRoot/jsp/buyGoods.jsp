@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		//  点击加1
   		function addGoodsNum(obj)
   		{
-  			if( goodsBuyNum < goodsSaveNum )
+  			if( goodsBuyNum < goodsSaveNum && goodsBuyNum < 99 )
   			{
   				goodsBuyNum = goodsBuyNum + 1;
   				$('#goodsNum').val(goodsBuyNum);
