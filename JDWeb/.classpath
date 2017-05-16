@@ -5,6 +5,12 @@
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.j2eedt.core.MYECLIPSE_JAVAEE_6_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="G:/文件备份/专业安装包备份/java/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="D:/Github_Save/Taobao/JDWeb/WebRoot/WEB-INF/lib/mysql-connector-java-5.1.40-bin.jar"/>
+	<classpathentry kind="lib" path="D:/Github_Save/Taobao/JDWeb/WebRoot/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="D:/Github_Save/Taobao/JDWeb/WebRoot/WEB-INF/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="D:/Github_Save/Taobao/JDWeb/WebRoot/WEB-INF/lib/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="D:/Github_Save/Taobao/JDWeb/WebRoot/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="D:/Github_Save/Taobao/JDWeb/WebRoot/WEB-INF/lib/ezmorph-1.0.3.jar"/>
+	<classpathentry kind="lib" path="D:/Github_Save/Taobao/JDWeb/WebRoot/WEB-INF/lib/json-lib-2.1-jdk15.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

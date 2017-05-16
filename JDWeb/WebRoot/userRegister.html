@@ -98,12 +98,29 @@
 			else
 			{
 				(function($){
-				//  未做异步检查手机号码是否注册
-				$('#phoneTip_error').css({'display':'none'});
-				$('#phoneTip_ok').css({'display':'block'});
-				$('#phoneTip').css({'display':'block'});
-				$('#phoneTip_Text').text('');
-				isLegal = 1;
+				var val = $('#phonenum').val();
+				//  异步检查手机号码是否注册
+				$.ajax({  
+	               type:"get",//请求方式  
+	               url:"GetAjaxInfoServlet?phone="+val,//发送请求地址  
+	               timeout:30000,//超时时间：30秒  
+	               dataType:"text",//设置返回数据的格式  
+	               //请求成功后的回调函数 data为text格式  
+	               success:function(data){
+	               	  if( data == "1" )
+	               	  {
+	               	  	$('#phoneTip_error').css({'display':'none'});
+						$('#phoneTip_ok').css({'display':'block'});
+						$('#phoneTip').css({'display':'block'});
+						$('#phoneTip_Text').text('');
+						isLegal = 1;
+	               	  }
+	              },
+	              //请求出错的处理  
+	              error:function(){  
+	                  alert("服务器出错，请重试！");
+	              }
+	            });	
 				})(jQuery);
 			}
 		}

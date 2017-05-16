@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var curSelect = document.getElementById(curSelectOption);
 			curSelect.style.backgroundColor = "#E6E6E6";
 			curSelect.style.color = "black";
-			//skipTo(curSelectOption);
+			skipTo(curSelectOption);
 		}
 		//  指向该选项时
 		function tarOption(obj)
@@ -111,7 +111,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		top:0px;
 		left:19%;
 		width:78%;
-		height:800px;
+		height:1000px;
 		border:none;
 	}
 	#account_manager_title,#shop_manager_title
@@ -225,7 +225,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<li id="selling_goods" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;出售中的宝贝</li>
   			</ul>
   		</div>
-  		<iframe id="right_info_box" src="./users/shopAddGoods.jsp">
+  		<iframe id="right_info_box" src="">
   			
   		</iframe>
   	</div>

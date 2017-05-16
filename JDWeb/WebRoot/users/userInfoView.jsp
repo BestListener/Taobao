@@ -286,7 +286,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        $("#province").html(pHtmlStr);  
 			        $("#province").change(function(){  
 			            var pname = $("#province option:selected").text();  
-			            var pHtmlStr = '';  
+			            var pHtmlStr = '';
 			            var cityList = pc[pname];  
 			            for(var index in cityList){  
 			                pHtmlStr = pHtmlStr + '<option>'+cityList[index]+'</option>';  
