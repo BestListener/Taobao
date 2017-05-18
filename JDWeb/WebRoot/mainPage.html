@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="./plugs/SudoSlider/css/SudoSlider.css">
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="./plugs/SudoSlider/js/jquery.sudoSlider.min.js"></script>
+	<script type="text/javascript" src="./js/userCookie.js"></script>
 	<script type="text/javascript" src="./js/headerJs.js"></script>
 	<script type="text/javascript">
 		//  初始化图片轮放
@@ -23,6 +24,31 @@
 				auto:true
 			});
 		});
+		//  页面初始化函数
+		function init()
+		{		
+			//   获取cookie值
+			var val = getValue("mycookie");
+			if( val != null )
+			{
+				$('#LoginBox').css({'display':'block'});
+				$('#account').css({'display':'block'});
+				$('#exitTop').css({'display':'block'});
+				$('#username').text(val[1]);
+				document.getElementById("boxUsername").innerText = val[1];
+				var src = "./"+val[2];
+				$('#userPic').attr("src",src);
+				document.getElementById("shoppingNum").innerText = val[3];
+			}
+			else
+			{
+				$('#login').css({'display':'block'});
+				$('#register').css({'display':'block'});
+				$('#unLoginBox').css({'display':'block'});
+				document.getElementById("boxUsername").innerText = "Hi,你好！";
+				document.getElementById("shoppingNum").innerText = "";
+			}
+		}
 		//  显示书子菜单
 		function showbook()
 		{
@@ -256,6 +282,10 @@
 	{
 		display:none;
 	}
+	#unLoginBox
+	{
+		display:none;
+	}
 	#loginBtn,#registerBtn,#openShopBtn
 	{
 		position:absolute;
@@ -413,7 +443,7 @@
 	</style>
   </head>
   
-  <body>
+  <body onload="init()">
   	<div id="title">
   		<img alt="淘宝主页" id="titlepic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
   		<input type="text" id="searchInput" name="searchInput" placeholder="请输入宝贝名/种类" maxlength="25"/>
@@ -422,25 +452,28 @@
   	<div id="header">
   		<div id="login" onclick="toLogin()"><label onclick="toLogin()">亲，请登录</label></div>
   		<div id="register" onclick="toRegister()"><label onclick="toRegister()">免费注册</label></div>
-  		<div id="account"><label id="username"></label></div>
+  		<div id="account">
+  			<label id="username" onclick="touserInfoPage()"></label>
+  			<a id="exitTop" onclick="exitAccount()">退出</a>
+  		</div>
 		<ul id="myaccount" onmouseover="showaccout()" onmouseout="hiddenaccout()">
 			<li>
 				<label id="myaccountText" class="myaccount_sellerCenter_label" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">我的淘宝</label>
 				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
 			</li>
 			<ul id="myaccount_sub">
-				<li id="purchased" onmouseover="select(this)" onmouseout="unselect(this)">已买到的宝贝</li>
+				<li id="purchased" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">已买到的宝贝</li>
 			</ul>
 		</ul>
   		<ul id="shoppingCart" onmouseover="showSpc()" onmouseout="hiddenSpc()">
   			<li>
   				<img id="shoppingCartPic" alt="购物车" src="./pics/supermarket1.png">
   				<label id="scLabel" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">购物车</label>
-  				<label id="shoppingNum">11</label>
+  				<label id="shoppingNum"></label>
   				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
   			</li>
   			<ul id="shoppingCart_sub">
-  				<li id="myshoppingCart" onmouseover="select(this)" onmouseout="unselect(this)">查看我的购物车</li>
+  				<li id="myshoppingCart" onclick="tomyManager(this)"  onmouseover="select(this)" onmouseout="unselect(this)">查看我的购物车</li>
   			</ul>
   		</ul>
   		<ul id="favorite" onmouseover="showFav()" onmouseout="hiddenFav()">
@@ -450,7 +483,7 @@
   				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
   			</li>
   			<ul id="favorite_sub">
-  				<li id="favorite_good" onmouseover="select(this)" onmouseout="unselect(this)">收藏的宝贝</li>
+  				<li id="favorite_good" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">收藏的宝贝</li>
   			</ul>
   		</ul>
   		<ul id="sellerCenter" onmouseover="showSc()" onmouseout="hiddenSc()">
@@ -459,9 +492,9 @@
   				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
   			</li>
   			<ul id="sellerCenter_sub">
-  				<li id="openShop" onmouseover="select(this)" onmouseout="unselect(this)">免费开店</li>
-  				<li id="sold" onmouseover="select(this)" onmouseout="unselect(this)">已卖出的宝贝</li>
-  				<li id="selling" onmouseover="select(this)" onmouseout="unselect(this)">出售中的宝贝</li>
+  				<li id="openShop" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">免费开店</li>
+  				<li id="sold" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">已卖出的宝贝</li>
+  				<li id="selling" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">出售中的宝贝</li>
   			</ul>
   		</ul>
   	</div>
@@ -535,16 +568,16 @@
   		</div>
   		<div id="userWin">
   			<img id="userPic" alt="userPic" src="./Images/profle.png">
-  			<label id="username">Hi!你好</label>
+  			<label id="boxUsername"></label>
   			<div id="unLoginBox" class="userBox">
   				<div id="loginBtn" onclick="toLogin()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">登录</div>
   				<div id="registerBtn" onclick="toRegister()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">注册</div>
-  				<div id="openShopBtn" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">开店</div>
+  				<div id="openShopBtn" onclick="toLogin()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">开店</div>
   			</div>
   			<div id="LoginBox" class="userBox">
-  				<div id="myInfo" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">个人信息</div>
-  				<div id="openMyShopBtn" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">开店</div>
-  				<div id="exit" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">退出</div>
+  				<div id="myInfo" onclick="touserInfoPage()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">个人信息</div>
+  				<div id="openMyShopBtn" onclick="btToOpenShop()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">开店</div>
+  				<div id="exit" onclick="exitAccount()" onmouseover="selectBtn(this)" onmouseout="unselectBtn(this)">退出</div>
   			</div>
   		</div>
   		<div id="newWin">

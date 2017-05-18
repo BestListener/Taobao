@@ -37,7 +37,7 @@ public class CheckedCode {
 		int width = 120;
 		int height = 40;
 		int x = 20;
-		String checkCode = null;
+		String checkCode = "";
 		//创建一个特定样式的BufferedImage  
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);  
         //获取图形上下文  
@@ -53,7 +53,7 @@ public class CheckedCode {
         {
         	Color fc = new Color(rand(100,200),rand(100,200),rand(100,200));
         	g.setColor(fc);
-        	String ch = null;
+        	String ch = "";
         	switch(rand(1,3))
         	{
         		case 1:ch = "" + getChar(rand(65,90));break;

@@ -5,19 +5,19 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.edu.zhku.she.Service.userService;
+@WebServlet("/servlet/exitAccount")
+public class exitAccount extends HttpServlet {
 
-@WebServlet("/servlet/checkUserPhone")
-public class checkUserPhone extends HttpServlet {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private userService service = new userService();
+
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
@@ -30,18 +30,16 @@ public class checkUserPhone extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		//  获取参数，检查手机是否存在
-		String phone = request.getParameter("phone");
-		if( service.checkPhone(phone) )
-		{
-			out.write("true");
-		}
-		else
-			out.write("false");
+		//  删除之前的cookie
+		Cookie mycookie = new Cookie("mycookie", "");
+		mycookie.setPath("/");
+		mycookie.setMaxAge(0);
+		response.addCookie(mycookie);
+		response.sendRedirect("../mainPage.html");
 		out.flush();
 		out.close();
 	}

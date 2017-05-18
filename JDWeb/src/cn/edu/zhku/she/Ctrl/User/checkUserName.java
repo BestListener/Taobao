@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.edu.zhku.she.Service.userService;
 
-@WebServlet("/servlet/checkUserPhone")
-public class checkUserPhone extends HttpServlet {
+@WebServlet("/servlet/checkUserName")
+public class checkUserName extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -34,9 +34,9 @@ public class checkUserPhone extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		//  获取参数，检查手机是否存在
-		String phone = request.getParameter("phone");
-		if( service.checkPhone(phone) )
+		//  获取参数，检查用户名是否存在
+		String username = request.getParameter("username");
+		if( service.checkUserName(username) )
 		{
 			out.write("true");
 		}

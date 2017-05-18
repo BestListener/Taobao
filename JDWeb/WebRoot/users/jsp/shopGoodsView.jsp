@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		function toAddGoods()
 		{
-			window.location.href = "./users/shopAddGoods.jsp";
+			window.location.href = "./users/jsp/shopAddGoods.jsp";
 		}
 	</script>
 	<style type="text/css">
@@ -123,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    				<label>商品列表</label>
    				<input id="addGoodsBtn" onclick="toAddGoods()" type="button" value="上架商品"/>
    			</div>
-   			<iframe id="goodsList" src="./users/goodsListView.jsp">
+   			<iframe id="goodsList" src="./users/jsp/goodsListView.jsp">
    			</iframe>
    		</div>
   </body>

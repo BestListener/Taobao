@@ -15,6 +15,8 @@ public class CookieUtil {
 				val = val + "#" + params[i];
 		}
 		mycookie=new Cookie(name,val);
+		//   注意要设置作用范围，否则js前端获取不到
+		mycookie.setPath("/");
       	mycookie.setMaxAge(1*24*60*60);
 	}
 	public Cookie getCookie()

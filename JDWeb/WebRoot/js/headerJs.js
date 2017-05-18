@@ -4,6 +4,18 @@
 		{
 			window.location.href = "http://localhost:8080/JDWeb/userLogin.html";
 		}
+		//  初始化头部数据
+		function initHeader()
+		{
+			var val = getValue("mycookie");
+			if( val != null )
+			{
+				$('#account').css({'display':'block'});
+				$('#exitTop').css({'display':'block'});
+				$('#username').text(val[1]);
+				document.getElementById("shoppingNum").innerText = val[3];
+			}
+		}
 		//  前往注册
 		function toRegister()
 		{
@@ -13,6 +25,21 @@
 		function toMainPage()
 		{
 			window.location.href = "http://localhost:8080/JDWeb/mainPage.html";
+		}
+		//  前往个人信息页
+		function touserInfoPage()
+		{
+			window.location.href = "./servlet/toMyManage?Mid=per_info";
+		}
+		//  前往开店页面
+		function btToOpenShop()
+		{
+			window.location.href = "./servlet/toMyManage?Mid=openShop";
+		}
+		//  前往个人管理页面
+		function tomyManager(obj)
+		{
+			window.location.href = "./servlet/toMyManage?Mid="+obj.id;
 		}
 		//  改变字体颜色
 		function changeFontColor(obj)
@@ -98,4 +125,7 @@
 		{
 			obj.style.backgroundColor = "white";
 		}
-		//--------------------------------------------------------
+		function exitAccount()
+		{
+			window.location.href = "./servlet/exitAccount";
+		}

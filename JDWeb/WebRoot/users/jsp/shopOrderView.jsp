@@ -14,8 +14,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		var curOption;  //  当前选中的选项
 		var options = new Object();
-		options['undeliver'] = "./users/unDeliverOrder.jsp";
-		options['Shipped'] = "./users/deliverOrder.jsp";
+		options['undeliver'] = "./users/jsp/unDeliverOrder.jsp";
+		options['Shipped'] = "./users//jsp/deliverOrder.jsp";
 		function init()
 		{
 			curOption = "undeliver";

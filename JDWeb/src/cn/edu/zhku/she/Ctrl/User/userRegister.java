@@ -5,14 +5,17 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.edu.zhku.she.Model.User;
 import cn.edu.zhku.she.Service.userService;
+import cn.edu.zhku.she.Util.CookieUtil;
 
-@WebServlet("/servlet/checkUserPhone")
-public class checkUserPhone extends HttpServlet {
+@WebServlet("/servlet/userRegister")
+public class userRegister extends HttpServlet {
 	/**
 	 * 
 	 */
@@ -30,18 +33,40 @@ public class checkUserPhone extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		//  获取参数，检查手机是否存在
+		//  获取参数
 		String phone = request.getParameter("phone");
-		if( service.checkPhone(phone) )
+		String username = request.getParameter("username");
+		String psd = request.getParameter("psd");
+		String[] params = {username,psd,phone};
+		//  保存注册信息
+		User user = service.toRegister(params);
+		if( user != null )
 		{
-			out.write("true");
+			String uid =  user.getUserid()+"";
+			String usname = user.getUsername();
+			String image = user.getImage();
+			String spNum = "0";
+			//  创建用户cookie
+			String[] cookieParams = {uid,usname,image,spNum};
+			//  删除之前的cookie
+			Cookie delcookie = new Cookie("mycookie", "");
+			delcookie.setPath("/");
+			delcookie.setMaxAge(0);
+			response.addCookie(delcookie);
+			//  创建新的cookie
+			CookieUtil ck = new CookieUtil("mycookie",cookieParams);
+			Cookie mycookie = ck.getCookie();
+			//  添加cookie
+			response.addCookie(mycookie);
+			out.print("true");
 		}
 		else
-			out.write("false");
+			out.print("false");
 		out.flush();
 		out.close();
 	}

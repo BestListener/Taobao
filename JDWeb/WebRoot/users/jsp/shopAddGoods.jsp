@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//  点击了取消按钮
 		function comeback()
 		{
-			window.location.href = "./users/shopGoodsView.jsp";
+			window.location.href = "./users/jsp/shopGoodsView.jsp";
 		}
 	</script>
 	<style type="text/css">
