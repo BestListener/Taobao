@@ -8,6 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     <link rel="stylesheet" type="text/css" href="./users/css/shopInfo.css">
+    <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="./users/js/shopInfo.js"></script>
 	<script type="text/javascript">
 		
@@ -20,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <div id="title">免费开店认证</div>
    	<div id="content">
-   		<form action="" method="post" enctype="multipart/form-data">
+   		<form id="shopData" action="./servlet/applyOpenShop" method="get" enctype="multipart/form-data">
    			<table id="shopInfoTab">
    				<tr>
    					<td align="right">店铺名:</td>
@@ -44,12 +45,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    					<td></td>
    					<td>
    				   		<input id="upload" type="button" value="上传图片">
-   						<input id="identifyPicSrc" name="identifyPicSrc" type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" maxlength="80">
+   						<input id="identifyPicSrc" name="identifyPicSrc" onchange="updatePic()" type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" maxlength="80">
+   						<input id="saveSrc" name="saveSrc" type="text" style="display:none"/>
    					</td>
    				</tr>
    				<tr>
    					<td></td>
-   					<td><input id="confirm" type="button" onclick="checkInfo()" value="申请"></td>
+   					<td><input id="confirm" type="button" onclick="toapplyShop()" value="申请"></td>
    				</tr>
    			</table>
    		</form>

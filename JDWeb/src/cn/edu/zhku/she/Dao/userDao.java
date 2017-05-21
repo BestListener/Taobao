@@ -53,4 +53,27 @@ public class userDao {
 		num = db.getMap(sql, params);
 		return num;
 	}
+	public Map selUInfoById(String[] params)
+	{
+		Map user = null;
+		String sql = "select * from user where uid=?";
+		user = db.getMap(sql, params);
+		return user;
+	}
+	public Map saveUInfo(String id,String[] params,int flag)
+	{
+		Map user = null;
+		String sql;
+		if( flag == 0 )
+			sql = "update user set phone=?,name=?,realname=?,sex=?,brithday=?,address=? where uid=?";
+		else
+			sql = "update user set phone=?,image=?,name=?,realname=?,sex=?,brithday=?,address=? where uid=?";
+		if( db.update(sql, params) == 1 )	//  ≤Â»Î≥…π¶
+		{
+			sql = "select * from user where uid=?";
+			String[] selparams = {id};
+			user = db.getMap(sql, selparams);
+		}
+		return user;
+	}
 }

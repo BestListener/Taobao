@@ -79,4 +79,53 @@ public class userService {
 		}
 		return Sum;
 	}
+	//  通过ID获取用户信息
+	public User getUserInfo(String id)
+	{
+		HashMap data = null;
+		User user = null;
+		String params[] = {id};
+		data = (HashMap)dao.selUInfoById(params);
+		if( data != null )
+		{
+			user = new User();
+			user.setImage(data.get("image").toString());
+			if( data.get("name") != null )
+				user.setName(data.get("name").toString());
+			if( data.get("realname") != null )
+				user.setRealname(data.get("realname").toString());
+			user.setSex(Integer.parseInt(data.get("sex").toString()));
+			if( data.get("brithday") != null )
+				user.setBrithday(data.get("brithday").toString());
+			if( data.get("phone") != null )
+				user.setPhone(data.get("phone").toString());
+			if( data.get("address") != null )
+				user.setAddress(data.get("address").toString());
+		}
+		return user;
+	}
+	//  通过ID保存用户信息，并获取保存后的数据
+	public User saveUserInfo(String id,String[] params,int flag)
+	{
+		HashMap data = null;
+		User user = null;
+		data = (HashMap)dao.saveUInfo(id,params,flag);
+		if( data != null )
+		{
+			user = new User();
+			user.setImage(data.get("image").toString());
+			if( data.get("name") != null )
+				user.setName(data.get("name").toString());
+			if( data.get("realname") != null )
+				user.setRealname(data.get("realname").toString());
+			user.setSex(Integer.parseInt(data.get("sex").toString()));
+			if( data.get("brithday") != null )
+				user.setBrithday(data.get("brithday").toString());
+			if( data.get("phone") != null )
+				user.setPhone(data.get("phone").toString());
+			if( data.get("address") != null )
+				user.setAddress(data.get("address").toString());
+		}
+		return user;
+	}
 }

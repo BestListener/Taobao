@@ -7,123 +7,76 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
+    <link rel="stylesheet" type="text/css" href="./users/css/userInfoView.css">
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="./plugs/citySelect/js/cityselect.js"></script>
+     <script type="text/javascript" src="./users/js/userInfoView.js"></script>
 	<script type="text/javascript">
-		//  检查表单数据
-		function checkInfo()
+		function init()
 		{
-				//  验证手机
-			var Expression = /^1[34578]\d{9}$/;
-			var TelExp = new RegExp(Expression);
-			var phoneNum = document.getElementById("phoneNum");
-			if( phoneNum.value == "" || !TelExp.test(phoneNum.value) )
+			var brithday = "${user.getBrithday()}";
+			var sex = "${user.getSex()}";
+			var address = "${user.getAddress()}";
+			var msg = "${msg}";
+			if( brithday != "" )
 			{
-				phoneNum.focus();
-				phoneNum.style.outlineColor = "red";
+				$("#Year").val("${user.getYear()}");
+				$("#Month").val("${user.getMonth()}");
+				$("#Date").val("${user.getDay()}");
 			}
-			else
+			if( sex != "" )
 			{
-				//  验证成功
+				var sexRadio = document.getElementsByName("sex");
+				for(var i=0;i < sexRadio.length; i++)
+				{
+					if(sexRadio[i].value == sex )
+						sexRadio[i].checked = true;
+				}
+			}
+			if( address != "" )
+			{
+				$("#province").val("${user.getProvince()}");
+				$("#city").val("${user.getCity()}");
+			}	
+			if( msg != "" )
+			{
+				alert(msg);
+				parent.location.reload(); 
 			}
 		}
-		//  边框恢复
-		function changeBorderColor(obj)
-		{
-			obj.style.outlineColor = "blue";
-		}
+		
 	</script>
 	<style type="text/css">
-	body,input,select
-	{
-		font-family:Microsoft YaHei;
-	}
-	#title
-	{
-		position:absolute;
-		top:0px;
-		left:0px;
-		width:100%;
-		height:30px;
-		padding-top:8px;
-		font-size:18px;
-		text-indent:20px;
-		background-color:#EEEEEE;
-	}
-	#content
-	{
-		position:absolute;
-		top:40px;
-		left:0px;
-		width:100%;
-	}
-	#userInfoTab
-	{
-		position:absolute;
-		top:20px;
-		left:30px;
-		width:80%;
-		border-collapse:separate; 
-		border-spacing:15px 20px;
-	}
-	#userInfoTab tr td img
-	{
-		width:100px;
-		height:100px;
-	}
-	#upload
-	{
-		position:relative;
-		left:18px;
-		width:70px;
-		z-indent:-1;
-	}
-	#userImageSrc
-	{
-		position:relative;
-		left:-56px;
-		width:70px;
-		opacity:0;
-	}
-	#address
-	{
-		width:200px;
-	}
-	#save
-	{
-		position:relative;
-		left:18px;
-		width:70px;
-		cursor:pointer;
-	}
+	
 	</style>
   </head>
   
-  <body>
+  <body onload="init()">
    		<div id="title">个人资料管理</div>
    		<div id="content">
-   			<form action="" method="post" enctype="multipart/form-data">
+   			<form id="userData" action="./servlet/saveUserInfo" method="get" enctype="multipart/form-data">
    			<table id="userInfoTab">
    				<tr>
    					<td>当前头像:</td>
    					<td>
-   						<img id="userImage" alt="用户头像" src="./Images/profle.png">
+   						<img id="userImage" alt="用户头像" src="./${user.getImage()}">
    					</td>
 				</tr>
    				<tr>
    					<td></td>
    					<td>
    				   		<input id="upload" type="button" value="上传图片">
-   						<input id="userImageSrc" name="userImageSrc" type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" maxlength="80">
+   						<input id="userImageSrc" name="userImageSrc" onchange="updatePic()" type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" maxlength="80">
+   						<input id="saveSrc" name="saveSrc" type="text" style="display:none"/>
    					</td>
-   				</tr>		
+   				</tr>
    				<tr>
    					<td>昵称:</td>
-   					<td><input id="subName" name="subName" type="text" maxlength="10"></td>
+   					<td><input id="subName" name="subName" value="${user.getName() }" type="text" maxlength="10"></td>
    				</tr>
    				<tr>
    					<td>真实姓名:</td>
-   					<td><input id="trueName" name="subName" type="text" maxlength="10"></td>
+   					<td><input id="trueName" name="trueName" value="${user.getRealname() }" type="text" maxlength="10"></td>
    				</tr>
    				<tr>
    					<td>性别:</td>
@@ -133,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    				<tr>
    					<td>生日:</td>
    					<td><select id="Year" name="Year">
-                                <option selected="selected">年</option>
+                                <option value="年" selected="selected">年</option>
                                 <option value="1940">1940</option>
                                 <option value="1941">1941</option>
                                 <option value="1942">1942</option>
@@ -215,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </select>
                         
 						<select id="Month" name="Month">
-                                <option selected="selected">月</option>
+                                <option value="月" selected="selected">月</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -231,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </select>
                         
 						<select id="Date" name="Date">
-                                <option selected="selected">日</option>
+                                <option value="日" selected="selected">日</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -268,20 +221,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    				</tr>
    				<tr>
    					<td>手机号码:</td>
-   					<td><input id="phoneNum" name="phoneNum" onfocus="changeBorderColor(this)" placeholder="手机号码不能为空" type="text" maxlength="11"></td>
+   					<td><input id="phoneNum" name="phoneNum" value="${user.getPhone() }" onfocus="changeBorderColor(this)" placeholder="手机号码不能为空" type="text" maxlength="11"></td>
    				</tr>
    				<tr>
    					<td>收货地址:</td>
    					<td><select id="province" name="province"></select>  
 						<select id="city" name="city"></select>
-						<input id="address" name="address" type="text" placeholder="街道小区门牌" maxlength="20">
+						<input id="address" name="address" value="${user.getArea() }" type="text" placeholder="街道小区门牌" maxlength="20">
 					</td>
    				</tr>
    				<script>
    				$(document).ready(function(){
 			        var pHtmlStr = '';  
 			        for(var name in pc){  
-			            pHtmlStr = pHtmlStr + '<option>'+name+'</option>';  
+			            pHtmlStr = pHtmlStr + '<option value='+name+'>'+name+'</option>';  
 			        }  
 			        $("#province").html(pHtmlStr);  
 			        $("#province").change(function(){  
@@ -289,7 +242,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			            var pHtmlStr = '';
 			            var cityList = pc[pname];  
 			            for(var index in cityList){  
-			                pHtmlStr = pHtmlStr + '<option>'+cityList[index]+'</option>';  
+			                pHtmlStr = pHtmlStr + '<option value='+cityList[index]+'>'+cityList[index]+'</option>';  
 			            }  
 			            $("#city").html(pHtmlStr);  
 			        });  

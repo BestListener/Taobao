@@ -4,14 +4,38 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
 	<script type="text/javascript">
+		function init()
+		{
+			window.parent.scrollTo(0,0); 
+		}
 		function toAddGoods()
 		{
 			window.location.href = "./users/jsp/shopAddGoods.jsp";
+		}
+		//  查找物品，返回查找数据
+		function searchGoods()
+		{
+			var input = document.getElementById("inputText");
+			if( input.value != "" )
+			{
+				var searchVal = input.value;
+				//  清空两侧空格
+				document.getElementById("goodsList").src = "./servlet/getProductInfo?search="+searchVal;
+			}
+		}
+		//  清空查找栏,返回全部数据
+		function clearInput()
+		{
+			var input = document.getElementById("inputText");
+			if( input.value != "" )
+			{
+				input.value = "";
+				document.getElementById("goodsList").src = "./servlet/getProductInfo";
+			}
 		}
 	</script>
 	<style type="text/css">
@@ -111,19 +135,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</style>
   </head>
   
-  <body>
+  <body onload="init()">
     <div id="title">商品管理</div>
    		<div id="content">
    			<div id="searchRegion">
    				<label>请输入:</label>
-   				<input id="inputText" placeholder="请输入宝贝名" type="text" maxlength="20"/>
-   				<input id="searchBtn" type="button" value="搜索"/>
+   				<input id="inputText" placeholder="请输入宝贝名" onfocus="clearInput()" type="text" maxlength="20"/>
+   				<input id="searchBtn" onclick="searchGoods()" type="button" value="搜索"/>
    			</div>
    			<div id="goodsTitle">
    				<label>商品列表</label>
    				<input id="addGoodsBtn" onclick="toAddGoods()" type="button" value="上架商品"/>
    			</div>
-   			<iframe id="goodsList" src="./users/jsp/goodsListView.jsp">
+   			<iframe id="goodsList" src="./servlet/getProductInfo">
    			</iframe>
    		</div>
   </body>

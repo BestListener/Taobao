@@ -1,12 +1,4 @@
-﻿		//  修改数据
-		function changeInfo()
-		{
-			if( checkInfo() )
-			{
-				//  执行修改操作
-			}
-		}
-		//  检查表单数据
+﻿		//  检查表单数据
 		function checkInfo()
 		{
 				//  验证手机
@@ -34,7 +26,7 @@
 				shopowName.style.outlineColor = "red";
 				return false;
 			}
-			else if( identifyPicSrc.value == "" )
+			else if( saveSrc.value == "" )
 			{
 				alert("请上传认证照片！");
 				return false;
@@ -45,8 +37,51 @@
 				return true;
 			}
 		}
+		//  修改数据
+		function changeInfo()
+		{
+			if( checkInfo() )
+			{
+				//  执行修改操作
+				$("#shopData").submit();
+			}
+		}
+		//  商店申请
+		function toapplyShop()
+		{
+			if( checkInfo() )
+			{
+				//  提交表单
+				$("#shopData").submit();
+			}
+		}
 		//  边框恢复
 		function changeBorderColor(obj)
 		{
 			obj.style.outlineColor = "blue";
+		}
+		//  更新图片
+		function updatePic()
+		{
+			var picFileList = $("#identifyPicSrc").get(0).files;
+			//html5新对象 封装文件对象
+			var formData = new FormData();
+			formData.append("file" , picFileList[0]);
+			(function($){
+				$.ajax({  
+	              	type:"POST",
+					url:"./servlet/upLoadShopImage",
+					data:formData,
+					contentType:false,
+					dataType:"text",
+					processData:false,
+					success:function(data){
+						$("#saveSrc").val(data);
+						$("#identifyPic").attr("src","./"+data);
+					},
+					error:function(){  
+	                  alert("服务器出错，请重试！");
+	             	}
+	            });	
+			})(jQuery);
 		}

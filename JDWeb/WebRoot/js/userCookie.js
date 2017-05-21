@@ -23,6 +23,7 @@ function getValue(name){
 		var index = val[0].indexOf("=") + 1;
 		val[0] = val[0].substring( index , val[0].length );
 		val[1] = decodeURI( val[1] );
+		val[2] = unescape(decodeURI( val[2] ));
 	}
 	return val;
 }

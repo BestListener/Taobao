@@ -51,13 +51,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var curSelectOption; //  当前选中的选项
 		var options;		 //  选项对应的页面 
 		options = new Object();
-		options['per_info'] = "./users/jsp/userInfoView.jsp";
+		options['per_info'] = "./servlet/getUserInfo";
 		options['own_goods'] = "./users/jsp/userOrderView.jsp";
 		options['far_goods'] = "./users/jsp/userFaroviteView.jsp";
 		options['shopping_cert'] = "./users/jsp/userShoppingCert.jsp";
-		options['open_shop'] = "./users/jsp/applyOpenShop.jsp";
-		options['sold_goods'] = "./users/jsp/shopOrderView.jsp";
-		options['selling_goods'] = "./users/jsp/shopGoodsView.jsp";
+		options['open_shop'] = "./servlet/getShopInfo";
+		options['sold_goods'] = "./servlet/judgeShopExist?Pid=1";
+		options['selling_goods'] = "./servlet/judgeShopExist?Pid=2";
 		function init()
 		{
 			//  默认选择为per_info

@@ -38,6 +38,12 @@
 			background-color:#EE5F00;
 			border:#EE5F00 solid 1px;
 		}
+		a.curPageSty:hover
+		{
+			color:white;
+			background-color:#EE5F00;
+			border:#EE5F00 solid 1px;
+		}
 		.pageCount
 		{
 			color:#777777;

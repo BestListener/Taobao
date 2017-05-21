@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript">
+		function updatePic()
+		{
+			var picFileList = $("#file").get(0).files;
+			//html5新对象 封装文件对象
+			var formData = new FormData();
+			formData.append("file" , picFileList[0]);
+			(function($){
+			$.ajax({
+				type:"POST",
+				url:"./servlet/test",
+				data:formData,
+				contentType:false,
+				dataType:"text",
+				processData:false,
+				success:function(data){
+					$("#testPic").attr("src","./uploadFile/user/logo_blue.png");
+					alert(data);
+				},
+				error:function(){  
+                  alert("服务器出错，请重试！");
+             	}
+			});
+			})(jQuery);
+		}
+	</script>
+  </head>
+  
+  <body>
+    <form action="./servlet/test" method="post" enctype="multipart/form-data">
+    	<input id="file" type="file" name="file" onchange="updatePic()"><br>
+    	<input type="file" name="file1">
+    	<input type="submit" value="上传">
+    	<img id="testPic" src="./uploadFile/user/123.png">
+    </form>
+  </body>
+</html>

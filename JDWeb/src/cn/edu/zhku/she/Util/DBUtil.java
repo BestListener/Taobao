@@ -11,6 +11,7 @@ public class DBUtil {
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	private int pageSize;
 	public void setDriver(String driver)
 	{
 		this.driver = driver;
@@ -52,7 +53,7 @@ public class DBUtil {
 	private PreparedStatement getPrepareStatement(String sql)
 	{
 		try{
-			pstmt = getConnection().prepareStatement(sql);
+			pstmt = getConnection().prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -109,7 +110,7 @@ public class DBUtil {
 		}
 		return list;
 	}
-	//  执行数据库查询操作时,将返回的结果封装到List对象中
+	//  执行数据库查询操作时,将返回的结果封装到map对象中
 	public Map getMap(String sql,String[] params)
 	{
 		List list = getList(sql,params);
@@ -125,6 +126,109 @@ public class DBUtil {
 		try{
 			setParams(sql,params);
 			recNo = pstmt.executeUpdate();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close();
+		}
+		return recNo;
+	}
+	//  更新数据库时调用的update方法
+	public int updateReturnId(String sql,String[] params)
+	{
+		int recNo = 0;
+		try{
+			setParams(sql,params);
+			recNo = pstmt.executeUpdate();
+			ResultSet rs = pstmt.getGeneratedKeys(); //获取结果   
+			if (rs.next()) {
+				recNo = rs.getInt(1);//取得ID
+			} else {
+				// throw an exception from here
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close();
+		}
+		return recNo;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	//  执行数据库查询操作时，返回结果的记录总数
+	private int getDataSize(String sql,String[] params)
+	{
+		int dataSize = 0;
+		sql = sql.toLowerCase();
+		String countSql = "";
+		if( sql.indexOf("group") >= 0 ){
+			countSql = "select count(*) from (" + sql + ") as 'tempNum'";
+		}
+		else{
+			countSql = "select count(*) as 'tempNum' " + sql.substring(sql.indexOf("from"));
+		}
+		//  count中存放总记录数
+		String count = (String)getMap(countSql,params).get("tempNum");
+		dataSize = Integer.parseInt(count);
+		return dataSize;
+	}
+	//  分页显示查询结果时，将当前页中的所有信息封装到PageBean中
+	public PageBean getPageBean(String sql,String[] params,int curPage)
+	{
+		String newSql = sql + " limit "+(curPage-1)*pageSize+","+pageSize;
+		List data = this.getList(newSql, params);
+		PageBean pb = new PageBean();
+		pb.setCurPage(curPage);
+		pb.setPageSize(pageSize);
+		pb.setDataSize(getDataSize(sql,params));
+		pb.setData(data);
+		return pb;
+	}
+	//  批量执行插入语句
+	public int[] insertByBatch(String sql,String id,int aid,String[] params)
+	{
+		int recNo[] = null ;
+		pstmt = this.getPrepareStatement(sql);
+		try {
+			con.setAutoCommit(false);
+			for(int i=0;i < params.length; i++)
+			{
+				pstmt.setString(1,id);
+				pstmt.setString(2,aid+"");
+				pstmt.setString(3,params[i]);
+				pstmt.addBatch();
+				aid++;
+			}
+			recNo = pstmt.executeBatch();
+			con.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close();
+		}
+		return recNo;
+	}
+	//  批量执行更新语句
+	public int[] updateByBatch(String sql,String pid,int aid,String[] params)
+	{
+		int recNo[] = null ;
+		pstmt = this.getPrepareStatement(sql);
+		try {
+			con.setAutoCommit(false);
+			for(int i=0;i < params.length; i++)
+			{
+				pstmt.setString(1,params[i]);
+				pstmt.setString(2,pid);
+				pstmt.setString(3,aid+"");
+				pstmt.addBatch();
+				aid++;
+			}
+			recNo = pstmt.executeBatch();
+			con.commit();
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{

@@ -10,7 +10,13 @@ public class User {
 	private String realname;
 	private int sex;
 	private String brithday;
+	private String year;
+	private String month;
+	private String day;
 	private String address;
+	private String province;
+	private String city;
+	private String area;
 	public int getUserid() {
 		return userid;
 	}
@@ -64,11 +70,55 @@ public class User {
 	}
 	public void setBrithday(String brithday) {
 		this.brithday = brithday;
+		String val[] = brithday.split("/");
+		this.setYear(val[0]);
+		this.setMonth(val[1]);
+		this.setDay(val[2]);
 	}
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
+		String val[] = address.split("/");
+		this.setProvince(val[0]);
+		this.setCity(val[1]);
+		this.setArea(val[2]);
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
 	}
 }

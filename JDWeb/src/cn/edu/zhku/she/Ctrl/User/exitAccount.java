@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/servlet/exitAccount")
 public class exitAccount extends HttpServlet {
@@ -39,6 +40,9 @@ public class exitAccount extends HttpServlet {
 		mycookie.setPath("/");
 		mycookie.setMaxAge(0);
 		response.addCookie(mycookie);
+		HttpSession session = request.getSession();
+		//  É¾³ýsession±£´æµÄuid
+		session.removeAttribute("uid");
 		response.sendRedirect("../mainPage.html");
 		out.flush();
 		out.close();
