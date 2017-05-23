@@ -2,7 +2,6 @@ package cn.edu.zhku.she.Ctrl.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,13 +9,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import cn.edu.zhku.she.Model.User;
 import cn.edu.zhku.she.Service.userService;
 import cn.edu.zhku.she.Util.CookieUtil;
 
-@WebServlet("/servlet/checkUserPsd")
-public class checkUserPsd extends HttpServlet {
+@WebServlet("/servlet/deleteGoodsFromSC")
+public class deleteGoodsFromSC extends HttpServlet {
 
 	/**
 	 * 
@@ -40,43 +39,47 @@ public class checkUserPsd extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String username = request.getParameter("username");
-		String psd = request.getParameter("psd");
-		//  获取用户数据
-		User user = service.checkUserPad(username,psd);
-		if( user != null )
+		//  获取参数
+		String scid = request.getParameter("scid").toString();
+		String params[] = {scid};
+		//	获取session中的uid值
+		HttpSession session = request.getSession();
+		String uid = session.getAttribute("uid").toString();
+		String sum = null;
+		sum = service.deleteUSCProduct(uid,params);
+		if( sum != null )
 		{
-			String uid = user.getUserid()+"";
-			String usname;
-			if( user.getName() != null )
+			String username = "";
+			String userImg = "";
+			//  获取用户cookie
+			Cookie cookies[] = request.getCookies();
+			for(int i = 0; i < cookies.length; i++ )
 			{
-				usname = user.getName();
-			}else
-			{
-				usname = user.getUsername();
+				if( cookies[i].getName().equals("mycookie") )
+				{
+					String val[] = cookies[i].getValue().split("#");
+					//  已编码的字符串
+					username = val[1];	//  获取cookie的用户名
+					userImg = val[2];	//  获取cookie的图片路径
+				}
 			}
-			//  处理中文名字
-			usname = URLEncoder.encode(usname,"UTF-8");
-			String image = user.getImage();
-			image = URLEncoder.encode(image,"UTF-8");
-			//   获取用户购物车物品数
-			String spNum = service.getUserShoppingCart(uid)+"";
-			//  创建用户cookie
-			String[] cookieParams = {uid,usname,image,spNum};
 			//  删除之前的cookie
 			Cookie delcookie = new Cookie("mycookie", "");
 			delcookie.setPath("/");
 			delcookie.setMaxAge(0);
 			response.addCookie(delcookie);
 			//  创建新的cookie
+			String cookieParams[] = {uid,username,userImg,sum};
 			CookieUtil ck = new CookieUtil("mycookie",cookieParams);
 			Cookie mycookie = ck.getCookie();
-			//  添加cookie
+			//  添加新的cookie
 			response.addCookie(mycookie);
 			out.print("true");
 		}
 		else
+		{
 			out.print("false");
+		}
 		out.flush();
 		out.close();
 	}

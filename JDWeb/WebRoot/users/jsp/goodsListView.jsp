@@ -10,15 +10,18 @@ PageBean pageBean = (PageBean)request.getAttribute("pageBean");
 String pagebtn = "";	
 String url = "./servlet/getProductInfo?";
 String delurl = "./servlet/delProduct?";
+String tip;
 //  如果搜索值不为空
 if( search != null && search.length() > 0 )
 {
 	url = url + "search=" + search + "&page=";
 	delurl = delurl + "search=" + search + "&page=";
+	tip = "没有相关的产品";
 }
 else{
 	url = url + "page=";
 	delurl = delurl + "page=";
+	tip = "您暂时没有上架任何商品。";
 }
 if( pageBean.getDataSize() % pageBean.getPageSize() == 1)
 {
@@ -108,28 +111,10 @@ if( pageBean.getCurPage() != pageBean.getTotalPages() )
   <head>
     <base href="<%=basePath%>">
     <link rel="stylesheet" type="text/css" href="./css/pageCtrlBox.css">
+    <link rel="stylesheet" type="text/css" href="./users/css/GoodsList.css">
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./users/js/GoodsList.js"></script>
 	<script type="text/javascript">
-		//  鼠标移入删除按键
-		function indeleteBtn(obj)
-  		{
-  			obj.style.backgroundColor = "#FF0000";
-  		}
-  		//  鼠标移出删除按键
-  		function outdeleteBtn(obj)
-  		{
-  			obj.style.backgroundColor = "#FF4444";
-  		}
-  		//  鼠标移入修改按键
-  		function inconfirmBtn(obj)
-  		{
-  			obj.style.backgroundColor = "#AAAAAA";
-  		}
-  		//  鼠标移出修改按键
-  		function outconfirmBtn(obj)
-  		{
-  			obj.style.backgroundColor = "#CCCCCC";
-  		}
   		//  点击删除按钮
   		function clickDelBtn(obj)
   		{
@@ -142,118 +127,7 @@ if( pageBean.getCurPage() != pageBean.getTotalPages() )
 	            window.location.href = url;
   			}
   		}
-  		//  点击修改按钮
-  		function clickConBtn(obj)
-  		{
-  			var id = obj.parentNode.parentNode.id;
-  			window.parent.location.href = "./servlet/getProduct?pid="+id;
-  		}
 	</script>
-	<style type="text/css">
-	body,input,select
-	{
-		font-family:Microsoft YaHei;
-	}
-	#orderTab
-	{
-		position:absolute;
-		top:0px;
-		left:0px;
-		width:100%;
-		border-collapse:collapse; 
-	}
-	#firstTr
-	{
-		background-color:#F1F1F1;
-		height:35px;
-	}
-	#orderTab tr th
-	{
-		border-left:#F1F1F1 solid 1px;	
-		border-right:#F1F1F1 solid 1px;	
-	}
-	#orderTab tr td
-	{
-		border:#CCCCCC solid 1px;
-		font-size:15px;
-	}
-	.pic img
-	{
-		width:80px;
-		height:60px;
-	}
-	.name
-	{
-		width:28%;
-		text-align:center;
-		vertical-align:top;
-	}
-	.price
-	{
-		width:10%;
-		text-align:center;
-		vertical-align:center;
-	}
-	.num
-	{
-		width:10%;
-		text-align:center;
-		vertical-align:center;
-	}
-	.className
-	{
-		width:20%;
-		text-align:center;
-		vertical-align:center;
-	}
-	.state
-	{
-		width:10%;
-		text-align:center;
-		vertical-align:center;
-	}
-	.operation
-	{
-		width:20%;
-		text-align:center;
-		vertical-align:top;
-	}
-	.deleteBtn
-	{
-		position:relative;
-		top:15px;
-		left:98px;
-		width:80px;
-		height:25px;
-		color:white;
-		background-color:#FF4444;
-		cursor:pointer;
-		padding-top:4px;
-		-moz-border-radius: 2px;
-    	-webkit-border-radius: 2px;
-    	border-radius: 2px;
-	}
-	.confirmBtn
-	{
-		position:relative;
-		top:-14px;
-		left:8px;
-		width:80px;
-		height:25px;
-		color:white;
-		background-color:#CCCCCC;
-		cursor:pointer;
-		padding-top:4px;
-		-moz-border-radius: 2px;
-    	-webkit-border-radius: 2px;
-    	border-radius: 2px;
-	}
-	.Tip
-	{
-		text-align:center;
-		vertical-align:top;
-	}
-	</style>
   </head>
   
   <body>
@@ -275,9 +149,9 @@ if( pageBean.getCurPage() != pageBean.getTotalPages() )
 		 %>
 		<tr id=<%= product.get("pid") %>>
 			<td class="pic">
-				<img alt="goodsPic" src="./<%= product.get("bigImg") %>">
+				<img alt="goodsPic" onclick="toBrowseProduct(this)" src="./<%= product.get("bigImg") %>">
 			</td>
-			<td class="name"><%= product.get("name") %></td>
+			<td class="name"><label id="nameLabel" onclick="toBrowseProduct(this)"><%= product.get("name") %></label></td>
 			<td class="price"><%= product.get("price") %></td>
 			<td class="num"><%= product.get("saveNum") %></td>
 			<td class="className"><%= product.get("firstClass") %>/<%= product.get("secondClass") %></td>
@@ -294,7 +168,7 @@ if( pageBean.getCurPage() != pageBean.getTotalPages() )
 		 %>
 			<tr>
 	 			<td class="Tip" colspan="7">
-					您暂时没有上架任何商品。
+					<% out.print(tip); %>
 	 			</td>
 	 		</tr>
 		 <%
@@ -308,7 +182,7 @@ if( pageBean.getCurPage() != pageBean.getTotalPages() )
     <div id="pagesCtrl" class="UM_pagesCtrl">
    		<span>
 		<% out.print(pagebtn); %>
-    	<label class="pageCount">共&nbsp;<%=pageBean.getPageSize() %>&nbsp;页</label>
+    	<label class="pageCount">共&nbsp;<%=pageBean.getTotalPages() %>&nbsp;页</label>
     	</span>
     </div>
     <%

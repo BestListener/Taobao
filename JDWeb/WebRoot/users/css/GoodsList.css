@@ -1,0 +1,113 @@
+﻿	body,input,select
+	{
+		font-family:Microsoft YaHei;
+	}
+	#orderTab
+	{
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		border-collapse:collapse; 
+	}
+	#firstTr
+	{
+		background-color:#F1F1F1;
+		height:35px;
+	}
+	#orderTab tr th
+	{
+		border-left:#F1F1F1 solid 1px;	
+		border-right:#F1F1F1 solid 1px;	
+	}
+	#orderTab tr td
+	{
+		border:#CCCCCC solid 1px;
+		font-size:15px;
+	}
+	.pic img
+	{
+		width:80px;
+		height:60px;
+		cursor:pointer;
+	}
+	.name
+	{
+		width:28%;
+		text-align:center;
+		vertical-align:top;
+	}
+	.price
+	{
+		width:10%;
+		text-align:center;
+		vertical-align:center;
+	}
+	.num
+	{
+		width:10%;
+		text-align:center;
+		vertical-align:center;
+	}
+	.className
+	{
+		width:20%;
+		text-align:center;
+		vertical-align:center;
+	}
+	.state
+	{
+		width:10%;
+		text-align:center;
+		vertical-align:center;
+	}
+	.operation
+	{
+		width:20%;
+		text-align:center;
+		vertical-align:top;
+	}
+	.deleteBtn
+	{
+		position:relative;
+		top:15px;
+		left:98px;
+		width:80px;
+		height:25px;
+		color:white;
+		background-color:#FF4444;
+		cursor:pointer;
+		padding-top:4px;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.confirmBtn
+	{
+		position:relative;
+		top:-14px;
+		left:8px;
+		width:80px;
+		height:25px;
+		color:white;
+		background-color:#CCCCCC;
+		cursor:pointer;
+		padding-top:4px;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.Tip
+	{
+		text-align:center;
+		vertical-align:top;
+	}
+	#nameLabel
+	{
+		cursor:pointer;
+	}
+	#nameLabel:hover
+	{
+		color:#EE5F00;
+		text-decoration:underline;
+	}

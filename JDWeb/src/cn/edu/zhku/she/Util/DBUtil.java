@@ -236,4 +236,95 @@ public class DBUtil {
 		}
 		return recNo;
 	}
+	//   批量执行插入语句
+	public int[] insertByBatch(String sql,List datas,String uid,String date)
+	{
+		int recNo[] = null ;
+		pstmt = this.getPrepareStatement(sql);
+		try {
+			con.setAutoCommit(false);
+			for(int i=0;i < datas.size(); i++)
+			{
+				Map data = new HashMap();
+				data = (Map)datas.get(i);
+				String pid = data.get("pid").toString();
+				String sid = data.get("sid").toString();
+				String number = data.get("number").toString();
+				String payAmount = data.get("payAmount").toString();
+				String params[] = {uid,pid,sid,number,payAmount,date};
+				this.setBatchParams(params);
+				pstmt.addBatch();
+			}
+			recNo = pstmt.executeBatch();
+			con.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close();
+		}
+		return recNo;
+	}
+	//  批量执行更新产品数
+	public int[] updateByBatch(String sql,List datas)
+	{
+		int recNo[] = null ;
+		pstmt = this.getPrepareStatement(sql);
+		try {
+			con.setAutoCommit(false);
+			for(int i=0;i < datas.size(); i++)
+			{
+				Map data = new HashMap();
+				data = (Map)datas.get(i);
+				String pid = data.get("pid").toString();
+				String number = data.get("number").toString();
+				String params[] = {number,pid};
+				this.setBatchParams(params);
+				pstmt.addBatch();
+			}
+			recNo = pstmt.executeBatch();
+			con.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close();
+		}
+		return recNo;
+	}
+	//  批量删除产品数
+	public int[] deleteByBatch(String sql,List datas)
+	{
+		int recNo[] = null ;
+		pstmt = this.getPrepareStatement(sql);
+		try {
+			con.setAutoCommit(false);
+			for(int i=0;i < datas.size(); i++)
+			{
+				Map data = new HashMap();
+				data = (Map)datas.get(i);
+				String scid = data.get("scid").toString();
+				String params[] = {scid};
+				this.setBatchParams(params);
+				pstmt.addBatch();
+			}
+			recNo = pstmt.executeBatch();
+			con.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close();
+		}
+		return recNo;
+	}
+	//  给pstmt的SQL语句设置参数(要求参数以数组形式给出)
+	private void setBatchParams(String[] params)
+	{
+		for(int i = 0; i < params.length; i++)
+		{
+			try{
+				pstmt.setString(i + 1, params[i]);
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		}
+	}
 }

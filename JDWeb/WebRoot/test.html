@@ -8,41 +8,55 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
     <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
-	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript">
-		function updatePic()
+		function tosubmit()
 		{
-			var picFileList = $("#file").get(0).files;
-			//html5新对象 封装文件对象
-			var formData = new FormData();
-			formData.append("file" , picFileList[0]);
-			(function($){
+			var datas = {orders:[]};
+			var checkbox = document.getElementsByName("selbox"); 
+			for(var i =0;i<checkbox.length;i++)
+			{
+				if( checkbox[i].checked )
+				{
+					var val = document.getElementById("i"+checkbox[i].value).value;
+					var row = {name:encodeURI(val)};
+					datas.orders.push(row);
+				}
+			}
+			var jsondata = JSON.stringify(datas);
+			alert(jsondata);
 			$.ajax({
-				type:"POST",
-				url:"./servlet/test",
-				data:formData,
-				contentType:false,
-				dataType:"text",
-				processData:false,
-				success:function(data){
-					$("#testPic").attr("src","./uploadFile/user/logo_blue.png");
-					alert(data);
-				},
-				error:function(){  
-                  alert("服务器出错，请重试！");
-             	}
-			});
-			})(jQuery);
+                  type: "post",
+                  url: "./servlet/test",//页面地址和传递的URL参数                     
+                  contentType: "application/json; charset=UTF-8",
+                  dataType: "jsonp",
+                  data: jsondata,
+                  success: function(data){
+                  
+                  }
+            });
 		}
 	</script>
   </head>
   
   <body>
-    <form action="./servlet/test" method="post" enctype="multipart/form-data">
-    	<input id="file" type="file" name="file" onchange="updatePic()"><br>
-    	<input type="file" name="file1">
-    	<input type="submit" value="上传">
-    	<img id="testPic" src="./uploadFile/user/123.png">
-    </form>
+    	<table>
+    		<tr>
+    			<td><input type="checkbox" name="selbox" value="1"></td>
+    			<td><input type="text" id="i1"></td>
+    		</tr>
+    		<tr>
+    			<td><input type="checkbox" name="selbox" value="2"></td>
+    			<td><input type="text" id="i2"></td>
+    		</tr>
+    		<tr>
+    			<td><input type="checkbox" name="selbox" value="3"></td>
+    			<td><input type="text" id="i3"></td>
+    		</tr>
+    		<tr>
+    			<td></td>
+    			<td><input type="button" onclick="tosubmit()" value="提交"/></td>
+    		</tr>
+    	</table>
   </body>
 </html>

@@ -10,12 +10,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link rel="stylesheet" type="text/css" href="./users/css/shopInfo.css">
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="./users/js/shopInfo.js"></script>
-	<script type="text/javascript">
-		
-	</script>
-	<style type="text/css">
-		
-	</style>
   </head>
   
   <body>

@@ -94,50 +94,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<label class="sellingNum">销量：1000</label>
     			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
     		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
     	</tr>
     	<tr>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
+
     	</tr>
     </table>
   </body>

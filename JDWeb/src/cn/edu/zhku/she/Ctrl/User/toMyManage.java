@@ -42,6 +42,7 @@ public class toMyManage extends HttpServlet {
 		HttpSession session = request.getSession();
 		//  保存id值到session
 		session.setAttribute("Mid", mid);
+		session.removeAttribute("uid");
 		//  获取用户cookie
 		Cookie cookies[] = request.getCookies();
 		for(int i = 0; i < cookies.length; i++ )

@@ -44,7 +44,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				parent.location.reload(); 
 			}
 		}
-		
 	</script>
 	<style type="text/css">
 	

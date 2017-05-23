@@ -1,5 +1,6 @@
 package cn.edu.zhku.she.Dao;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.edu.zhku.she.Util.DBUtil;
@@ -75,5 +76,153 @@ public class userDao {
 			user = db.getMap(sql, selparams);
 		}
 		return user;
+	}
+	//  修改用户密码
+	public int updateUserPsd(String[] params)
+	{
+		int result = 0;
+		String sql = "update user set password=? where phone=?";
+		if( db.update(sql, params) == 1 )
+		{
+			result = 1;
+		}
+		return result;
+	}
+	//  获取物品基本信息
+	public Map getGoodsInfo(String[] params)
+	{
+		Map data = null;
+		String sql = "select * from product where pid=?";
+		data = db.getMap(sql, params);
+		return data;
+	}
+	//  获取店铺信息
+	public Map getShopData(String[] params)
+	{
+		Map data = null;
+		String sql = "select * from shop where sid=?";
+		data = db.getMap(sql,params);
+		return data;
+	}
+	//  获取物品详细信息
+	public List selGoodsDetail(String[] params)
+	{
+		List datas = null;
+		String sql = "select * from p_detail_info where pid=?";
+		datas = db.getList(sql, params);
+		return datas;
+	}
+	//  获取商店产品数据
+	public List selShopProducts(String[] params)
+	{
+		List datas = null;
+		String sql = "select * from product where sid=? and pid<>?";
+		datas = db.getList(sql, params);
+		return datas;
+	}
+	//  插入加进购物车的产品数据
+	public int insertGoodsData(String[] params)
+	{
+		int result = 0;
+		String sql = "insert into shoppingcart(uid,pid,sid,wBuyNum,payAmount) value(?,?,?,?,?)";
+		result = db.update(sql, params);
+		return result;
+	}
+	//  查找用户购物车的产品总数
+	public Map selShoppingCartAmount(String[] params)
+	{
+		Map data = null;
+		String sql = "select count(*) as 'Sum' from shoppingcart where uid=?";
+		data = db.getMap(sql, params);
+		return data;
+	}
+	//  查找用户购物车物品
+	public Map selSCProduct(String[] params)
+	{
+		Map data = null;
+		String sql = "select * from shoppingcart where uid=? and pid=?";
+		data = db.getMap(sql, params);
+		return data;
+	}
+	//  更新用户购物车物品
+	public int updateSCProductNum(String sql,String[] params)
+	{
+		int result = 0;
+		result = db.update(sql, params);
+		return result;
+	}
+	//  添加店铺订单信息
+	public int insertShopOrderInfo(String[] params)
+	{
+		int result = 0;
+		String sql = "insert into shop_order(uid,pid,sid,buyNum,payAmount,odate) value(?,?,?,?,?,?)";
+		result = db.update(sql, params);
+		return result;
+	}
+	//  添加用户订单信息
+	public int insertUserOrderInfo(String[] params)
+	{
+		int result = 0;
+		String sql = "insert into user_order(uid,pid,sid,buyNum,payAmount,odate) value(?,?,?,?,?,?)";
+		result = db.update(sql, params);
+		return result;
+	}
+	//  更新产品销售额
+	public int updateProductAmount(String[] params)
+	{
+		int result = 0;
+		String sql = "update product set salesAmount=salesAmount+? where pid=?";
+		result = db.update(sql, params);
+		return result;
+	}
+	//  获取用户订单信息
+	public List selOrderData(String[] params)
+	{
+		List datas = null;
+		String sql = "select scid,shoppingcart.uid,shoppingcart.pid,shoppingcart.sid,bigImg,name,shopname,price,wBuyNum,payAmount" +
+				" from shoppingcart,product,shop where shoppingcart.pid=product.pid and shoppingcart.sid=shop.sid " +
+				"and shoppingcart.uid=?";
+		datas = db.getList(sql, params);
+		return datas;
+	}
+	//  更新用户购物车数量
+	public int updateShoppingCartNum(String[] params)
+	{
+		int result = 0;
+		String sql = "update shoppingcart set wBuyNum=?,payAmount=? where scid=?";
+		result = db.update(sql, params);
+		return result;
+	}
+	//  删除用户购物车中的产品
+	public int deleteShoppingCartProduct(String[] params)
+	{
+		int result = 0;
+		String sql = "delete from shoppingcart where scid=?";
+		result = db.update(sql, params);
+		return result;
+	}
+	//  插入用户/商店订单信息
+	public boolean insertUserShopOrder(String sql,List datas,String uid,String date)
+	{
+		boolean flag = false;
+		if( db.insertByBatch(sql, datas, uid, date) != null )
+			flag = true;
+		return flag;
+	}
+	//  批量更新产品销售额
+	public boolean updateProductAmount(String sql,List datas)
+	{
+		boolean flag = false;
+		if( db.updateByBatch(sql, datas) != null )
+			flag = true;
+		return flag;
+	}
+	//  批量删除购物车产品
+	public boolean deleteUserSCProduct(String sql,List datas)
+	{
+		boolean flag = false;
+		if( db.deleteByBatch(sql, datas) != null )
+			flag = true;
+		return flag;
 	}
 }

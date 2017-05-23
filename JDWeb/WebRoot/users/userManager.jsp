@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		options['per_info'] = "./servlet/getUserInfo";
 		options['own_goods'] = "./users/jsp/userOrderView.jsp";
 		options['far_goods'] = "./users/jsp/userFaroviteView.jsp";
-		options['shopping_cert'] = "./users/jsp/userShoppingCert.jsp";
+		options['shopping_cert'] = "./servlet/toMyShoppingCart";
 		options['open_shop'] = "./servlet/getShopInfo";
 		options['sold_goods'] = "./servlet/judgeShopExist?Pid=1";
 		options['selling_goods'] = "./servlet/judgeShopExist?Pid=2";

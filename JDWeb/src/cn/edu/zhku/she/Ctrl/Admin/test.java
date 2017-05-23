@@ -1,28 +1,29 @@
-package cn.edu.zhku.she.Ctrl.User;
+package cn.edu.zhku.she.Ctrl.Admin;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
+import java.net.URLDecoder;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.edu.zhku.she.Model.User;
-import cn.edu.zhku.she.Service.userService;
-import cn.edu.zhku.she.Util.CookieUtil;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
-@WebServlet("/servlet/checkUserPsd")
-public class checkUserPsd extends HttpServlet {
+@WebServlet("/servlet/test")
+public class test extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private userService service = new userService();
+
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
@@ -40,43 +41,31 @@ public class checkUserPsd extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String username = request.getParameter("username");
-		String psd = request.getParameter("psd");
-		//  获取用户数据
-		User user = service.checkUserPad(username,psd);
-		if( user != null )
-		{
-			String uid = user.getUserid()+"";
-			String usname;
-			if( user.getName() != null )
-			{
-				usname = user.getName();
-			}else
-			{
-				usname = user.getUsername();
-			}
-			//  处理中文名字
-			usname = URLEncoder.encode(usname,"UTF-8");
-			String image = user.getImage();
-			image = URLEncoder.encode(image,"UTF-8");
-			//   获取用户购物车物品数
-			String spNum = service.getUserShoppingCart(uid)+"";
-			//  创建用户cookie
-			String[] cookieParams = {uid,usname,image,spNum};
-			//  删除之前的cookie
-			Cookie delcookie = new Cookie("mycookie", "");
-			delcookie.setPath("/");
-			delcookie.setMaxAge(0);
-			response.addCookie(delcookie);
-			//  创建新的cookie
-			CookieUtil ck = new CookieUtil("mycookie",cookieParams);
-			Cookie mycookie = ck.getCookie();
-			//  添加cookie
-			response.addCookie(mycookie);
-			out.print("true");
-		}
-		else
-			out.print("false");
+		String acceptjson = "";  
+        try {  
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+            		(ServletInputStream) request.getInputStream(), "utf-8"));  
+            StringBuffer sb = new StringBuffer("");  
+            String temp;  
+            while ((temp = br.readLine()) != null) {  
+                sb.append(temp);
+            }  
+            br.close();
+            acceptjson = sb.toString();
+            acceptjson = URLDecoder.decode(acceptjson,"utf-8");
+            System.out.println(acceptjson);
+            if (acceptjson != "") {
+                JSONObject jo = JSONObject.fromObject(acceptjson);  
+                JSONArray orders = jo.getJSONArray("orders");  
+                for (int i = 0; i < orders.size(); i++) {  
+                    JSONObject order = JSONObject.fromObject(orders  
+                            .get(i));  
+                    System.out.println(order.get("name"));  
+                }  
+            }
+        }catch(Exception e) {  
+            e.printStackTrace();  
+        }  
 		out.flush();
 		out.close();
 	}

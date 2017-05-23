@@ -2,21 +2,19 @@ package cn.edu.zhku.she.Ctrl.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import cn.edu.zhku.she.Model.User;
 import cn.edu.zhku.she.Service.userService;
-import cn.edu.zhku.she.Util.CookieUtil;
 
-@WebServlet("/servlet/checkUserPsd")
-public class checkUserPsd extends HttpServlet {
+@WebServlet("/servlet/toMyShoppingCart")
+public class toMyShoppingCart extends HttpServlet {
 
 	/**
 	 * 
@@ -40,43 +38,18 @@ public class checkUserPsd extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String username = request.getParameter("username");
-		String psd = request.getParameter("psd");
-		//  获取用户数据
-		User user = service.checkUserPad(username,psd);
-		if( user != null )
+		//	获取session中的uid值
+		HttpSession session = request.getSession();
+		String uid = session.getAttribute("uid").toString();
+		//  创建参数数组
+		String params[] = {uid};
+		List sc = null;
+		sc = service.getUserShoppingCartInfo(params);
+		if( sc != null )
 		{
-			String uid = user.getUserid()+"";
-			String usname;
-			if( user.getName() != null )
-			{
-				usname = user.getName();
-			}else
-			{
-				usname = user.getUsername();
-			}
-			//  处理中文名字
-			usname = URLEncoder.encode(usname,"UTF-8");
-			String image = user.getImage();
-			image = URLEncoder.encode(image,"UTF-8");
-			//   获取用户购物车物品数
-			String spNum = service.getUserShoppingCart(uid)+"";
-			//  创建用户cookie
-			String[] cookieParams = {uid,usname,image,spNum};
-			//  删除之前的cookie
-			Cookie delcookie = new Cookie("mycookie", "");
-			delcookie.setPath("/");
-			delcookie.setMaxAge(0);
-			response.addCookie(delcookie);
-			//  创建新的cookie
-			CookieUtil ck = new CookieUtil("mycookie",cookieParams);
-			Cookie mycookie = ck.getCookie();
-			//  添加cookie
-			response.addCookie(mycookie);
-			out.print("true");
+			request.setAttribute("sc", sc);
 		}
-		else
-			out.print("false");
+		request.getRequestDispatcher("/users/jsp/userShoppingCert.jsp").forward(request, response);
 		out.flush();
 		out.close();
 	}
