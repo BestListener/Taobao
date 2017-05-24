@@ -2,6 +2,7 @@ package cn.edu.zhku.she.Util;
 
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class PageBean {
 	private int curPage;	//  当前页数
 	private int totalPages; //  总页数

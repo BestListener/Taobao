@@ -6,6 +6,7 @@ import java.util.Map;
 import cn.edu.zhku.she.Util.DBUtil;
 import cn.edu.zhku.she.Util.PageBean;
 
+@SuppressWarnings("rawtypes")
 public class shopDao {
 	private DBUtil db = new DBUtil();
 	//  通过id查询商店信息
@@ -118,5 +119,27 @@ public class shopDao {
 			db.update(sql, params);
 		}
 		return rs;
+	}
+	//  获取店铺订单信息
+	public PageBean selectShopOrder(String sql,String params[],int curPage)
+	{
+		db.setPageSize(7);
+		PageBean pb = db.getPageBean(sql, params,curPage);
+		return pb;
+	}
+	//  更新订单状态
+	public int updateOrderState(String sql,String params[])
+	{
+		int result = 0;
+		result = db.update(sql, params);
+		return result;
+	}
+	//  删除数据库中的商家订单
+	public int deleteShopOrderData(String params[])
+	{
+		int result = 0;
+		String sql = "delete from shop_order where oid=?";
+		result = db.update(sql, params);
+		return result;
 	}
 }

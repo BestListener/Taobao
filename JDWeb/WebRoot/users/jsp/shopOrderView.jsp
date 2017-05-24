@@ -14,8 +14,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		var curOption;  //  当前选中的选项
 		var options = new Object();
-		options['undeliver'] = "./users/jsp/unDeliverOrder.jsp";
-		options['Shipped'] = "./users//jsp/deliverOrder.jsp";
+		options['undeliver'] = "./servlet/getShopOrderInfo?state=未处理";
+		options['Shipped'] = "./servlet/getShopOrderInfo?state=已处理";
 		function init()
 		{
 			curOption = "undeliver";
@@ -117,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    				<span id="undeliver" onclick="clickOption(this)">未处理</span>
    				<span id="Shipped" onclick="clickOption(this)">已处理</span>
    			</div>
-   			<iframe id="OrderData" src="./users/unDeliverOrder.jsp">	
+   			<iframe id="OrderData" src="">
    			</iframe>
    		</div>
   </body>

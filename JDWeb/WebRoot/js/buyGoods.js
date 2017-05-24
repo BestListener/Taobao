@@ -170,6 +170,9 @@
 							{
 								alert("购买失败，可能是余额不足！");
 							}
+							else{
+								alert(data);
+							}
 						},
 						error:function(){
 		                  alert("服务器出错，请重试！");

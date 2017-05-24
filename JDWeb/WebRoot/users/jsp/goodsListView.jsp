@@ -7,7 +7,7 @@ String search = null;
 if( request.getAttribute("search") != null )
 	search = request.getAttribute("search").toString();
 PageBean pageBean = (PageBean)request.getAttribute("pageBean");
-String pagebtn = "";	
+String pagebtn = "";
 String url = "./servlet/getProductInfo?";
 String delurl = "./servlet/delProduct?";
 String tip;
@@ -23,14 +23,16 @@ else{
 	delurl = delurl + "page=";
 	tip = "您暂时没有上架任何商品。";
 }
-if( pageBean.getDataSize() % pageBean.getPageSize() == 1)
+if( pageBean.getDataSize() % pageBean.getPageSize() == 1 && pageBean.getCurPage() == pageBean.getTotalPages())
 {
+	//  处于最后一页
 	int p = pageBean.getCurPage() - 1;
 	if( p < 1 )
 		p = 1;
 	delurl = delurl+p;
 }
-else{
+else
+{
 	int p = pageBean.getCurPage();
 	delurl = delurl+p;
 }
@@ -115,6 +117,12 @@ if( pageBean.getCurPage() != pageBean.getTotalPages() )
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="./users/js/GoodsList.js"></script>
 	<script type="text/javascript">
+		function init()
+		{
+			var msg = "${msg}";
+			if( msg != "" )
+				alert(msg);
+		}
   		//  点击删除按钮
   		function clickDelBtn(obj)
   		{
@@ -130,7 +138,7 @@ if( pageBean.getCurPage() != pageBean.getTotalPages() )
 	</script>
   </head>
   
-  <body>
+  <body onload="init()">
     <table id="orderTab">
 		<tr id="firstTr">
 			<th colspan="2">宝贝</th>

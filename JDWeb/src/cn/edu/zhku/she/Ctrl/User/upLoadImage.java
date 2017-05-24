@@ -3,7 +3,6 @@ package cn.edu.zhku.she.Ctrl.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.Collection;
 
 import javax.servlet.ServletException;
@@ -33,6 +32,7 @@ public class upLoadImage extends HttpServlet {
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
+	@SuppressWarnings("unused")
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 

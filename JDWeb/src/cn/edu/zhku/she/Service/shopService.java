@@ -9,10 +9,10 @@ import cn.edu.zhku.she.Model.Book;
 import cn.edu.zhku.she.Model.Cosmetics;
 import cn.edu.zhku.she.Model.Product;
 import cn.edu.zhku.she.Model.Shop;
-import cn.edu.zhku.she.Model.User;
 import cn.edu.zhku.she.Model.Watch;
 import cn.edu.zhku.she.Util.PageBean;
 
+@SuppressWarnings("rawtypes")
 public class shopService {
 	private shopDao dao = new shopDao();	//  数据库操作
 	//  通过用户id查询商店
@@ -202,5 +202,49 @@ public class shopService {
 		int result = 0;
 		result = dao.delteProduct(params);
 		return result;
+	}
+	//  获取店家订单
+	public PageBean getShopOrderInfo(String sid,int flag,int curpage)
+	{
+		PageBean datas = null;
+		
+		String sql = "";
+		if( flag == 1 )
+			sql = "select * from shop_order,product,user where shop_order.pid=product.pid " +
+					"and shop_order.uid=user.uid and shop_order.sid=? and ostate=?";
+		else if( flag == 0 )
+			sql = "select * from shop_order,product,user where shop_order.pid=product.pid " +
+					"and shop_order.uid=user.uid and shop_order.sid=? and ostate<>?";
+		String ostate = "等待发货";
+		String params[] = {sid,ostate};
+		datas = dao.selectShopOrder(sql,params,curpage);
+		return datas;
+	}
+	//  处理店家发货操作
+	public boolean shopDeliverGoods(String oid)
+	{
+		boolean flag = false;
+		String userSql = "update user_order set ostate=? where oid=?";
+		String shopSql = "update shop_order set ostate=? where oid=?";
+		String ostate = "正在运送";
+		String params[] = {ostate,oid};
+		//  更新用户和店铺订单的状态
+		if( dao.updateOrderState(userSql, params) != 0 && dao.updateOrderState(shopSql, params) != 0 )
+		{
+			flag = true;
+		}
+		return flag;
+	}
+	//  店家删除订单操作
+	public boolean deleteShopOrder(String oid)
+	{
+		boolean flag = false;
+		String params[] = {oid};
+		//  删除数据库中的商家订单
+		if( dao.deleteShopOrderData(params) != 0)
+		{
+			flag = true;
+		}
+		return flag;
 	}
 }

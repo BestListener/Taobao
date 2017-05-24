@@ -5,20 +5,20 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-@WebServlet("/servlet/toMyManage")
-public class toMyManage extends HttpServlet {
+import cn.edu.zhku.she.Service.userService;
+
+@WebServlet("/servlet/userConfirmReceipt")
+public class userConfirmReceipt extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private userService service = new userService();
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
@@ -31,29 +31,25 @@ public class toMyManage extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		//  获取跳转 页面id值
-		String mid = request.getParameter("Mid")+"";
-		HttpSession session = request.getSession();
-		//  保存id值到session
-		session.setAttribute("Mid", mid);
-		session.removeAttribute("uid");
-		//  获取用户cookie
-		Cookie cookies[] = request.getCookies();
-		for(int i = 0; i < cookies.length; i++ )
+		//  获取前台数据
+		String oid = request.getParameter("oid").toString();
+		String pid = request.getParameter("pid").toString();
+		String num = request.getParameter("num").toString();
+		String ostate = "交易成功";
+		String params[] = {ostate,oid};
+		if( service.dealUserConfirmReceipt(params, pid, num) )
 		{
-			if( cookies[i].getName().equals("mycookie") )
-			{
-				String val = cookies[i].getValue();
-				String vals[] = val.split("#");
-				session.setAttribute("uid", vals[0]);
-			}
+			out.print("true");
 		}
-		response.sendRedirect("/JDWeb/users/userManager.jsp");
+		else
+		{
+			out.print("false");
+		}
 		out.flush();
 		out.close();
 	}

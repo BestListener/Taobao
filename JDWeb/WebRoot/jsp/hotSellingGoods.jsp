@@ -2,14 +2,13 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-//  首页热卖商品加载页
+request.setCharacterEncoding("utf-8");
+List products = (List)request.getAttribute("products");
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-	<meta charset="utf-8">
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -22,15 +21,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		{
 			obj.style.border = "white solid 2px";
 		}
+		//  前往产品浏览页面
+  		function toBrowseProduct(pid)
+  		{
+  			window.open("./servlet/browseGoods?pid="+pid);
+  		}
 	</script>
 	<style type="text/css">
+		body
+		{
+			overflow:hidden;
+		}
 		#goodsData
 		{
 			position:absolute;
 			top:5px;
-			left:5px;
+			left:8px;
+			margin:0px;
+			padding:0px;
+			width:98%;
 			border-collapse:separate; 
-			border-spacing:15px 10px;
+			border-spacing:5px 5px;
 			list-style-type:none;
 		}
 		#goodsData tr td
@@ -38,17 +49,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			position:relative;
 			width:264px;
 			height:330px;
+			margin:0px;
+			padding:0px;
 			background-color:white;
 			border:white solid 2px;
 			font-size:13px;
 			font-family:Microsoft YaHei;
+			cursor:pointer;
 		}
 		.goodPic
 		{
 			position:absolute;
 			top:5px;
 			left:5px;
-			width:240px;
+			width:210px;
 			height:200px;
 		}
 		.goodPrice
@@ -78,9 +92,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			top:270px;
 			left:20px;
 			text-align:left;
-			width:220px;
+			width:190px;
 			height:60px;
 			color:#5E5E5E;
+			display:block;
 		}
 	</style>
   </head>
@@ -88,16 +103,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <table id="goodsData">
     	<tr>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
+    	<%
+    		if( products != null )
+    		{
+    			if( products.size() > 0 )
+				{
+					int j;
+					if( products.size() > 5 )
+					{
+						j = 5;
+					}else
+					{
+						j = products.size();
+					}
+					for(int i=0;i < j; i++ )
+					{
+						Map product = (Map)products.get(i);
+    	 %>
+    		<td id="<%=product.get("pid") %>" onclick="toBrowseProduct(<%=product.get("pid") %>)" onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
+    			<img class="goodPic" alt="goodImage" src="./<%=product.get("bigImg") %>">
+    			<label class="goodPrice">￥ <%=product.get("price") %></label>
+    			<label class="sellingNum">销量：<%=product.get("salesAmount") %></label>
+    			<label class="goodName"><%=product.get("name") %></label>
     		</td>
+   		<%
+   					}
+   		 %>
     	</tr>
     	<tr>
-
-    	</tr>
+		<%
+					for(int i=j;i < products.size();i++)
+					{
+						Map product = (Map)products.get(i);
+		 %>
+    		<td id="<%=product.get("pid") %>" onclick="toBrowseProduct(<%=product.get("pid") %>)" onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
+    			<img class="goodPic" alt="goodImage" src="./<%=product.get("bigImg") %>">
+    			<label class="goodPrice">￥ <%=product.get("price") %></label>
+    			<label class="sellingNum">销量：<%=product.get("salesAmount") %></label>
+    			<label class="goodName"><%=product.get("name") %></label>
+    		</td>
+    	<%
+    				}
+    			}
+    		}
+    	 %>
+    	 </tr>
     </table>
   </body>
 </html>

@@ -1,24 +1,24 @@
-package cn.edu.zhku.she.Ctrl.User;
+package cn.edu.zhku.she.Ctrl.Shop;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-@WebServlet("/servlet/toMyManage")
-public class toMyManage extends HttpServlet {
+import cn.edu.zhku.she.Service.shopService;
+
+@WebServlet("/servlet/deleteShopOrder")
+public class deleteShopOrder extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private shopService service = new shopService();
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
@@ -31,29 +31,28 @@ public class toMyManage extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		//  获取跳转 页面id值
-		String mid = request.getParameter("Mid")+"";
-		HttpSession session = request.getSession();
-		//  保存id值到session
-		session.setAttribute("Mid", mid);
-		session.removeAttribute("uid");
-		//  获取用户cookie
-		Cookie cookies[] = request.getCookies();
-		for(int i = 0; i < cookies.length; i++ )
+		//  获取订单id
+		String oid = request.getParameter("oid").toString();
+		String page = request.getParameter("page").toString();
+		String state = request.getParameter("state").toString();
+		//  往请求头添加数据
+		request.setAttribute("page", page);
+		request.setAttribute("state", state);
+		//  删除成功
+		if( service.deleteShopOrder(oid) )
 		{
-			if( cookies[i].getName().equals("mycookie") )
-			{
-				String val = cookies[i].getValue();
-				String vals[] = val.split("#");
-				session.setAttribute("uid", vals[0]);
-			}
+			request.setAttribute("msg", "删除成功");
+			request.getRequestDispatcher("/servlet/getShopOrderInfo").forward(request, response);
 		}
-		response.sendRedirect("/JDWeb/users/userManager.jsp");
+		else{	// 发货失败
+			request.setAttribute("msg", "删除失败");
+			request.getRequestDispatcher("/servlet/getShopOrderInfo").forward(request, response);
+		}
 		out.flush();
 		out.close();
 	}

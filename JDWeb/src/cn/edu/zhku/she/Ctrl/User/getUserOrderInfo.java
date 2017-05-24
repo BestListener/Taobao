@@ -5,20 +5,22 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/servlet/toMyManage")
-public class toMyManage extends HttpServlet {
+import cn.edu.zhku.she.Service.userService;
+import cn.edu.zhku.she.Util.PageBean;
+
+@WebServlet("/servlet/getUserOrderInfo")
+public class getUserOrderInfo extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private userService service = new userService();
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
@@ -33,27 +35,34 @@ public class toMyManage extends HttpServlet {
 			throws ServletException, IOException {
 		
 		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		//  获取跳转 页面id值
-		String mid = request.getParameter("Mid")+"";
-		HttpSession session = request.getSession();
-		//  保存id值到session
-		session.setAttribute("Mid", mid);
-		session.removeAttribute("uid");
-		//  获取用户cookie
-		Cookie cookies[] = request.getCookies();
-		for(int i = 0; i < cookies.length; i++ )
+		 //  获取用户uid
+        HttpSession session = request.getSession();
+		String uid = session.getAttribute("uid").toString();
+		if( request.getAttribute("msg") != null )
+			request.setAttribute("msg", request.getAttribute("msg"));
+		String params[] = {uid};
+		String page = null;
+		if( request.getParameter("page") != null )
 		{
-			if( cookies[i].getName().equals("mycookie") )
-			{
-				String val = cookies[i].getValue();
-				String vals[] = val.split("#");
-				session.setAttribute("uid", vals[0]);
-			}
+			page = request.getParameter("page").toString();
 		}
-		response.sendRedirect("/JDWeb/users/userManager.jsp");
+		else if( request.getAttribute("page") != null )
+		{
+			page = request.getAttribute("page").toString();
+		}
+		int curPage = 1;
+		//  如果传入页数
+		if( page != null && page.length() > 0 )
+		{
+			curPage = Integer.parseInt(page);
+		}
+		PageBean pageBean = new PageBean();
+		pageBean = service.getUserOrderInfo(params,curPage);
+		request.setAttribute("orders", pageBean);
+		request.getRequestDispatcher("/users/jsp/userOrderView.jsp").forward(request, response);
 		out.flush();
 		out.close();
 	}

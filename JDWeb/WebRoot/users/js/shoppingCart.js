@@ -325,6 +325,9 @@
 		                  		{
 		                  			alert("购买失败，请稍后重试。");
 		                  		}
+		                  		else{
+		                  			alert(data.flag);
+		                  		}
 		                  },
 		                 //请求出错的处理  
 			              error:function(){  

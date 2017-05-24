@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import cn.edu.zhku.she.Util.DBUtil;
+import cn.edu.zhku.she.Util.PageBean;
 
+@SuppressWarnings("rawtypes")
 public class userDao {
 	private DBUtil db = new DBUtil();
 	//  查询手机号码是否存在
@@ -224,5 +226,35 @@ public class userDao {
 		if( db.deleteByBatch(sql, datas) != null )
 			flag = true;
 		return flag;
+	}
+	//  获取用户订单信息
+	public PageBean selectUserOrder(String params[],int curPage)
+	{
+		db.setPageSize(7);
+		String sql = "select * from user_order,product where user_order.pid=product.pid and uid=?";
+		PageBean pb = db.getPageBean(sql, params,curPage);
+		return pb;
+	}
+	//  更新订单状态
+	public int updateOrderState(String sql,String params[])
+	{
+		int result = 0;
+		result = db.update(sql, params);
+		return result;
+	}
+	//  删除用户订单信息
+	public int deleteUserOrderInfo(String params[])
+	{
+		int result = 0;
+		String sql = "delete from user_order where oid=?";
+		result = db.update(sql, params);
+		return result;
+	}
+	//  获取网站销售额排名前十的产品
+	public List selectHotSellingData(String sql,String params[])
+	{
+		List datas = null;
+		datas = db.getList(sql, params);
+		return datas;
 	}
 }

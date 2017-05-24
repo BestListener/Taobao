@@ -11,7 +11,7 @@ import cn.edu.zhku.she.Model.Product;
 import cn.edu.zhku.she.Model.Shop;
 import cn.edu.zhku.she.Model.User;
 import cn.edu.zhku.she.Model.Watch;
-import cn.edu.zhku.she.Util.CookieUtil;
+import cn.edu.zhku.she.Util.PageBean;
 
 
 public class userService {
@@ -31,6 +31,7 @@ public class userService {
 		return true;
 	}
 	//  向数据库插入一条数据并返回数据
+	@SuppressWarnings("rawtypes")
 	public User toRegister(String[] params)
 	{
 		HashMap getUser = null;
@@ -46,6 +47,7 @@ public class userService {
 		return user;
 	}
 	//  比较用户名与密码
+	@SuppressWarnings("rawtypes")
 	public User checkUserPad(String name,String psd)
 	{
 		HashMap getUser = null;
@@ -73,6 +75,7 @@ public class userService {
 		return user;
 	}
 	//  通过ID获取用户购物车中的物品数
+	@SuppressWarnings("rawtypes")
 	public int getUserShoppingCart(String id)
 	{
 		HashMap num = null;
@@ -86,6 +89,7 @@ public class userService {
 		return Sum;
 	}
 	//  通过ID获取用户信息
+	@SuppressWarnings("rawtypes")
 	public User getUserInfo(String id)
 	{
 		HashMap data = null;
@@ -111,6 +115,7 @@ public class userService {
 		return user;
 	}
 	//  通过ID保存用户信息，并获取保存后的数据
+	@SuppressWarnings("rawtypes")
 	public User saveUserInfo(String id,String[] params,int flag)
 	{
 		HashMap data = null;
@@ -145,6 +150,7 @@ public class userService {
 		return flag;
 	}
 	//  获取物品基本信息
+	@SuppressWarnings("rawtypes")
 	public Product getProductInfo(String[] params)
 	{
 		HashMap data = null;
@@ -169,6 +175,7 @@ public class userService {
 		return product;
 	}
 	//   获取店家信息
+	@SuppressWarnings("rawtypes")
 	public Shop getShopInfo(String[] params)
 	{
 		HashMap data = null;
@@ -187,6 +194,7 @@ public class userService {
 		return shop;
 	}
 	//  获取物品详细信息
+	@SuppressWarnings("rawtypes")
 	public Product getGoodsDetailData(String firstClass,String[] params)
 	{
 		Product product = null;
@@ -251,6 +259,7 @@ public class userService {
 		return product;
 	}
 	//  获取商店产品
+	@SuppressWarnings("rawtypes")
 	public List getShopProducts(String params[])
 	{
 		List products = null;
@@ -258,6 +267,7 @@ public class userService {
 		return products;
 	}
 	//  添加加入购物车的产品数据
+	@SuppressWarnings("rawtypes")
 	public int addProductToSC(String uid,String params[])
 	{
 		int num = 0;
@@ -272,6 +282,7 @@ public class userService {
 		return num;
 	}
 	//  判断用户购物车中是否存在该物品,并判断购物数是否会超出99
+	@SuppressWarnings("rawtypes")
 	public boolean isProductExist(String amount,String params[])
 	{
 		boolean flag = false;
@@ -300,6 +311,7 @@ public class userService {
 		return result;
 	}
 	//  获取用户购物车中的物品数量
+	@SuppressWarnings("rawtypes")
 	public String getProductNum(String params[])
 	{
 		String num = null;
@@ -311,19 +323,18 @@ public class userService {
 		}
 		return num;
 	}
-	//  添加订单信息，增加产品销售额
-	public boolean addOrderUpdateAmount(String pid,String amount,String params[])
+	//  添加订单信息
+	public boolean addOrderUpdateAmount(String params[])
 	{
 		boolean flag = false;
 		if( dao.insertUserOrderInfo(params) != 0 && dao.insertShopOrderInfo(params) != 0 )
 		{
-			String ppar[] = {amount,pid};
-			if( dao.updateProductAmount(ppar) != 0 )
-				flag = true;
+			flag = true;
 		}
 		return flag;
 	}
 	//  获取用户的购物车信息
+	@SuppressWarnings("rawtypes")
 	public List getUserShoppingCartInfo(String params[])
 	{
 		List datas = null;
@@ -339,6 +350,7 @@ public class userService {
 		return flag;
 	}
 	//  删除用户购物车中的产品
+	@SuppressWarnings("rawtypes")
 	public String deleteUSCProduct(String uid,String params[])
 	{
 		String sum = null;
@@ -352,6 +364,7 @@ public class userService {
 		return sum;
 	}
 	//  处理用户在购物车页面提交的请求
+	@SuppressWarnings("rawtypes")
 	public String settleMentUserOrder(List datas,String uid,String date)
 	{
 		String sum = null;
@@ -360,9 +373,6 @@ public class userService {
 		//  如果用户订单和商店订单插入成功
 		if( dao.insertUserShopOrder(insertUser, datas, uid, date) && dao.insertUserShopOrder(insertShop, datas, uid, date) )
 		{
-			//  更新产品销售额
-			String updateSql = "update product set salesAmount=salesAmount+? where pid=?";
-			dao.updateProductAmount(updateSql,datas);
 			//  删除用户购物车中相应的产品
 			String deleteSql = "delete from shoppingcart where scid=?";
 			dao.deleteUserSCProduct(deleteSql, datas);
@@ -373,5 +383,62 @@ public class userService {
 			sum = data.get("Sum").toString();
 		}
 		return sum;
+	}
+	//  获取用户的订单信息
+	public PageBean getUserOrderInfo(String params[],int curpage)
+	{
+		PageBean datas = null;
+		datas = dao.selectUserOrder(params,curpage);
+		return datas;
+	}
+	//  处理用户确认收获处理
+	public boolean dealUserConfirmReceipt(String params[],String pid,String num)
+	{
+		boolean flag = false;
+		String userSql = "update user_order set ostate=? where oid=?";
+		String shopSql = "update shop_order set ostate=? where oid=?";
+		//  更新用户和店铺的订单状态
+		if( dao.updateOrderState(userSql, params) != 0 && dao.updateOrderState(shopSql, params) != 0 )
+		{
+			//  更新产品的销售额
+			String pparams[] = {num,pid};
+			if( dao.updateProductAmount(pparams) != 0 )
+				flag = true;
+		}
+		return flag;
+	}
+	//  删除用户订单
+	public boolean deleteUserOrder(String params[])
+	{
+		boolean flag = false;
+		if( dao.deleteUserOrderInfo(params) != 0 )
+			flag = true;
+		return flag;
+	}
+	//  判断用户是否完善了信息
+	@SuppressWarnings("rawtypes")
+	public boolean isUserInfoNull(String uid)
+	{
+		boolean flag = false;
+		HashMap data = null;
+		String params[] = {uid};
+		data = (HashMap)dao.selUInfoById(params);
+		if( data != null )
+		{
+			if( data.get("address") != null )
+				flag = true;
+		}
+		return flag;
+	}
+	//  获取主页全网热卖前十件物品
+	@SuppressWarnings("rawtypes")
+	public List getHotSellingProducts()
+	{
+		List datas = null;
+		String state = "正在验证";
+		String params[] = {state};
+		String sql = "select * from product where sid in(select sid from shop where shopstate=?) order by salesAmount desc limit 10";
+		datas = dao.selectHotSellingData(sql,params);
+		return datas;
 	}
 }

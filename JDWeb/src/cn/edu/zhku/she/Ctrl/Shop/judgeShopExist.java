@@ -44,36 +44,33 @@ public class judgeShopExist extends HttpServlet {
 		//  判断用户是否已拥有店铺
 		Shop shop = null;
 		shop = service.isShopExist(uid);
-		//test
-		session.setAttribute("sid", shop.getSid());
-		request.getRequestDispatcher("/users/jsp/shopGoodsView.jsp").forward(request, response);
-		//
-//		if( shop != null )  // 店铺已存在
-//		{
-//			String shopstate = shop.getShopstate();
-//			if( !shopstate.equals("验证通过") )	//  异常状态
-//			{
-//				String msg = "您的店铺正处于 "+shopstate+" 状态";
-//				request.setAttribute("msg", msg);
-//				request.getRequestDispatcher("/users/jsp/showResult.jsp").forward(request, response);
-//			}else{	//  正常状态
-//				//  获取父页id
-//				String pid = request.getParameter("Pid");
-//				request.setAttribute("sid", shop.getSid());
-//				if( pid.equals("1") )
-//				{
-//					request.getRequestDispatcher("/users/jsp/showResult.jsp").forward(request, response);
-//				}else if( pid.equals("2") )
-//				{
-//					request.getRequestDispatcher("/users/jsp/shopGoodsView.jsp").forward(request, response);
-//				}
-//			}
-//			
-//		}else{
-//			String msg = "您尚未拥有店铺，请先申请店铺";
-//			request.setAttribute("msg", msg);
-//			request.getRequestDispatcher("/users/jsp/showResult.jsp").forward(request, response);
-//		}
+		if( shop != null )  // 店铺已存在
+		{
+			String shopstate = shop.getShopstate();
+			if( !shopstate.equals("验证通过") )	//  异常状态
+			{
+				String msg = "您的店铺正处于 "+shopstate+" 状态";
+				request.setAttribute("msg", msg);
+				request.getRequestDispatcher("/users/jsp/showResult.jsp").forward(request, response);
+			}else{	//  正常状态
+				//  获取父页id
+				String pid = request.getParameter("Pid");
+				session.removeAttribute("sid");
+				session.setAttribute("sid", shop.getSid());
+				if( pid.equals("1") )
+				{
+					request.getRequestDispatcher("/users/jsp/shopOrderView.jsp").forward(request, response);
+				}else if( pid.equals("2") )
+				{
+					request.getRequestDispatcher("/users/jsp/shopGoodsView.jsp").forward(request, response);
+				}
+			}
+			
+		}else{
+			String msg = "您尚未拥有店铺，请先申请店铺";
+			request.setAttribute("msg", msg);
+			request.getRequestDispatcher("/users/jsp/showResult.jsp").forward(request, response);
+		}
 		out.flush();
 		out.close();
 	}

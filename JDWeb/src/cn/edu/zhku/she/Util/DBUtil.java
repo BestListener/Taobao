@@ -3,6 +3,7 @@ package cn.edu.zhku.she.Util;
 import java.sql.*;
 import java.util.*;
 
+
 public class DBUtil {
 	private String driver;
 	private String url;
@@ -86,6 +87,7 @@ public class DBUtil {
 		}
 	}
 	//  执行数据库查询操作时，将返回的结果封装到List对象中
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getList(String sql,String[] params)
 	{
 		List list = new ArrayList();
@@ -111,6 +113,7 @@ public class DBUtil {
 		return list;
 	}
 	//  执行数据库查询操作时,将返回的结果封装到map对象中
+	@SuppressWarnings("rawtypes")
 	public Map getMap(String sql,String[] params)
 	{
 		List list = getList(sql,params);
@@ -177,6 +180,7 @@ public class DBUtil {
 		return dataSize;
 	}
 	//  分页显示查询结果时，将当前页中的所有信息封装到PageBean中
+	@SuppressWarnings("rawtypes")
 	public PageBean getPageBean(String sql,String[] params,int curPage)
 	{
 		String newSql = sql + " limit "+(curPage-1)*pageSize+","+pageSize;
@@ -237,6 +241,7 @@ public class DBUtil {
 		return recNo;
 	}
 	//   批量执行插入语句
+	@SuppressWarnings("rawtypes")
 	public int[] insertByBatch(String sql,List datas,String uid,String date)
 	{
 		int recNo[] = null ;
@@ -265,6 +270,7 @@ public class DBUtil {
 		return recNo;
 	}
 	//  批量执行更新产品数
+	@SuppressWarnings("rawtypes")
 	public int[] updateByBatch(String sql,List datas)
 	{
 		int recNo[] = null ;
@@ -291,6 +297,7 @@ public class DBUtil {
 		return recNo;
 	}
 	//  批量删除产品数
+	@SuppressWarnings("rawtypes")
 	public int[] deleteByBatch(String sql,List datas)
 	{
 		int recNo[] = null ;

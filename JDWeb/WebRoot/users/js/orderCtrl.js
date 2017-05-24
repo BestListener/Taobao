@@ -18,17 +18,8 @@
   		{
   			obj.style.backgroundColor = "#FF3300";
   		}
-		function clickConBtn(obj)
+  		//  前往产品浏览页面
+  		function toBrowseProduct(obj)
   		{
-  			//   扩展：弹出评论界面，用户可选择评论或者取消
+  			window.open("./servlet/browseGoods?pid="+obj);
   		}
-  		//  点击删除按钮
-  		function clickDelBtn(obj)
-  		{
-  			var tr = obj.parentNode.parentNode;
-  			if( window.confirm("你确定要删除订单号为：" + tr.id + " 的订单吗？") )
-  			{
-				//  确定删除操作
-  			}
-  		}
-  		//  点击确认按钮

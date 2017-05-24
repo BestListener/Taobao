@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.edu.zhku.she.Model.Product;
-import cn.edu.zhku.she.Model.Shop;
 import cn.edu.zhku.she.Service.userService;
 
 @WebServlet("/servlet/getGoodsDetail")

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +46,7 @@ public class placeOrderFromSC extends HttpServlet {
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -91,47 +93,58 @@ public class placeOrderFromSC extends HttpServlet {
 		String uid = session.getAttribute("uid").toString();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
 		String date = df.format(new Date());// new Date()为获取当前系统时间
-		//  处理订单信息，获取用户购物车中的产品数
-		String sum = null;
-		sum = service.settleMentUserOrder(datas,uid,date);
-		//  如果处理成功
-		if( sum != null )
+		//  如果用户信息已完善
+		if( service.isUserInfoNull(uid) )
 		{
-			String username = "";
-			String userImg = "";
-			//  获取用户cookie
-			Cookie cookies[] = request.getCookies();
-			for(int i = 0; i < cookies.length; i++ )
+			//  处理订单信息，获取用户购物车中的产品数
+			String sum = null;
+			sum = service.settleMentUserOrder(datas,uid,date);
+			//  如果处理成功
+			if( sum != null )
 			{
-				if( cookies[i].getName().equals("mycookie") )
+				String username = "";
+				String userImg = "";
+				//  获取用户cookie
+				Cookie cookies[] = request.getCookies();
+				for(int i = 0; i < cookies.length; i++ )
 				{
-					String val[] = cookies[i].getValue().split("#");
-					//  已编码的字符串
-					username = val[1];	//  获取cookie的用户名
-					userImg = val[2];	//  获取cookie的图片路径
+					if( cookies[i].getName().equals("mycookie") )
+					{
+						String val[] = cookies[i].getValue().split("#");
+						//  已编码的字符串
+						username = val[1];	//  获取cookie的用户名
+						userImg = val[2];	//  获取cookie的图片路径
+					}
 				}
+				//  删除之前的cookie
+				Cookie delcookie = new Cookie("mycookie", "");
+				delcookie.setPath("/");
+				delcookie.setMaxAge(0);
+				response.addCookie(delcookie);
+				//  创建新的cookie
+				String cookieParams[] = {uid,username,userImg,sum};
+				CookieUtil ck = new CookieUtil("mycookie",cookieParams);
+				Cookie mycookie = ck.getCookie();
+				//  添加新的cookie
+				response.addCookie(mycookie);
+				// 创建json数据
+				JSONObject resultJson = new JSONObject();
+		        resultJson.put("flag", "true");
+		        out.println(resultJson);
 			}
-			//  删除之前的cookie
-			Cookie delcookie = new Cookie("mycookie", "");
-			delcookie.setPath("/");
-			delcookie.setMaxAge(0);
-			response.addCookie(delcookie);
-			//  创建新的cookie
-			String cookieParams[] = {uid,username,userImg,sum};
-			CookieUtil ck = new CookieUtil("mycookie",cookieParams);
-			Cookie mycookie = ck.getCookie();
-			//  添加新的cookie
-			response.addCookie(mycookie);
-			// 创建json数据
-			JSONObject resultJson = new JSONObject();
-	        resultJson.put("flag", "true");
-	        out.println(resultJson);
+			else		//  处理失败
+			{
+				// 创建json数据
+				JSONObject resultJson = new JSONObject();
+		        resultJson.put("flag", "false");
+		        out.println(resultJson);
+			}
 		}
-		else		//  处理失败
+		else
 		{
 			// 创建json数据
 			JSONObject resultJson = new JSONObject();
-	        resultJson.put("flag", "false");
+	        resultJson.put("flag", "请先前往个人中心完善您的个人信息。");
 	        out.println(resultJson);
 		}
 		out.flush();

@@ -73,7 +73,7 @@ else
 	    height: 30px;
 	    margin-right: 20px;
 	    overflow: hidden;
-	    text-align: right;
+	    text-indent: 5px;
 	    line-height: 30px;
 	    white-space: nowrap;
 	    text-overflow: ellipsis;
@@ -85,7 +85,7 @@ else
 		top:50px;
 		width:100%;
 		margin:0 aut;
-		max-height:700px;
+		max-height:680px;
 	}
 	</style>
   </head>

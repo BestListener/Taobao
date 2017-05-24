@@ -7,13 +7,11 @@ import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.edu.zhku.she.Service.userService;
-import cn.edu.zhku.she.Util.CookieUtil;
 
 @WebServlet("/servlet/placeOrder")
 public class placeOrder extends HttpServlet {
@@ -50,14 +48,22 @@ public class placeOrder extends HttpServlet {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
 		date = df.format(new Date());// new Date()为获取当前系统时间
 		String params[] = {uid,pid,sid,amount,payAmount,date};
-		//  如果添加订单成功
-		if( service.addOrderUpdateAmount(pid, amount, params) )
+		//  如果用户信息已完善
+		if( service.isUserInfoNull(uid) )
 		{
-			out.print("true");
+			//  如果添加订单成功
+			if( service.addOrderUpdateAmount(params) )
+			{
+				out.print("true");
+			}
+			else
+			{
+				out.print("false");
+			}
 		}
 		else
 		{
-			out.print("false");
+			out.print("请先前往个人中心完善您的个人信息。");
 		}
 		out.flush();
 		out.close();

@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import cn.edu.zhku.she.Service.shopService;
 import cn.edu.zhku.she.Util.PageBean;
 
-@WebServlet("/servlet/getProductInfo")
-public class getProductInfo extends HttpServlet {
+@WebServlet("/servlet/getShopOrderInfo")
+public class getShopOrderInfo extends HttpServlet {
 
 	/**
 	 * 
@@ -35,12 +35,13 @@ public class getProductInfo extends HttpServlet {
 			throws ServletException, IOException {
 
 		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		//  获取店铺id
-		HttpSession session = request.getSession();
-		String sid =session.getAttribute("sid")+"";
+		 //  获取店铺sid
+        HttpSession session = request.getSession();
+		String sid = session.getAttribute("sid").toString();
 		if( request.getAttribute("msg") != null )
 			request.setAttribute("msg", request.getAttribute("msg"));
 		String page = null;
@@ -59,25 +60,23 @@ public class getProductInfo extends HttpServlet {
 			curPage = Integer.parseInt(page);
 		}
 		PageBean pageBean = new PageBean();
-		//  增加查询条件
-		if( request.getParameter("search") != null || request.getAttribute("search") != null )
-		{
-			String search = null;
-			if( request.getParameter("search") != null )
-				search = request.getParameter("search").toString();
-			else
-				search = request.getAttribute("search").toString();
-			request.setAttribute("search", search);
-			search = "%" + search + "%";
-			String params[] = {sid,search,search};
-			pageBean = service.getProductListBySearch(params, 1,curPage);
-		}
-		else{		//  普通查询
-			String params[] = {sid};
-			pageBean = service.getProductListBySearch(params, 0,curPage);
-		}
-		request.setAttribute("pageBean", pageBean);
-		request.getRequestDispatcher("/users/jsp/goodsListView.jsp").forward(request, response);
+		//  获取页面参数
+		String state = null;
+		if( request.getParameter("state") != null )
+			state = request.getParameter("state").toString();
+		else if( request.getAttribute("state") != null )
+			state = request.getParameter("state").toString();
+		int flag;
+		if( state.equals("未处理") )
+			flag = 1;
+		else
+			flag = 0;		//  其他状态
+		pageBean = service.getShopOrderInfo(sid, flag, curPage);
+		request.setAttribute("orders", pageBean);
+		if( flag == 1 )
+			request.getRequestDispatcher("/users/jsp/unDeliverOrder.jsp").forward(request, response);
+		else if( flag == 0 )
+			request.getRequestDispatcher("/users/jsp/deliverOrder.jsp").forward(request, response);
 		out.flush();
 		out.close();
 	}

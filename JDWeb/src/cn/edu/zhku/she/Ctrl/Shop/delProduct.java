@@ -2,7 +2,6 @@ package cn.edu.zhku.she.Ctrl.Shop;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,9 +56,11 @@ public class delProduct extends HttpServlet {
 		//  É¾³ý³É¹¦
 		if( rs != 0 )
 		{
+			request.setAttribute("msg", "É¾³ý³É¹¦");
 			request.getRequestDispatcher("/servlet/getProductInfo").forward(request, response);
 		}
 		else{	// É¾³ýÊ§°Ü
+			request.setAttribute("msg", "É¾³ýÊ§°Ü");
 			request.getRequestDispatcher("/servlet/getProductInfo").forward(request, response);
 		}
 		out.flush();
