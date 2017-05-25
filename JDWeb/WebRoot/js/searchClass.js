@@ -1,19 +1,9 @@
-﻿		var curSelectClass;	//  当前选定的类别
-  		var curSelectSort; //  当前选定的排序
-  		//  初始化页面
-  		function init()
-  		{
-  			//  默认类别为 “全部”
-  			curSelectClass = "allClass";
-  			//  默认排序为“销量”
-  			curSelectSort = "sellNum";
-  			var curClass = document.getElementById(curSelectClass);
-  			var curSort = document.getElementById(curSelectSort);
-  			curClass.style.color = "#EE5F00";
-  			curClass.style.border = "#EE5F00 solid 1px";
-  			curSort.style.color = "#EE5F00";
-  			curSort.style.border = "#EE5F00 solid 1px";
-  		}
+﻿		var classes = new Object();
+  		classes['allClass'] = "全部";
+  		classes['childBooks'] = "儿童文学";
+  		classes['novel'] = "小说";
+  		classes['literature'] = "文学";
+  		classes['hotBooks'] = "畅销书";
   		//  选中类别
   		function selectClass(obj)
   		{
@@ -27,7 +17,7 @@
   			{
   				obj.style.color = "black";
   				obj.style.border = "white solid 1px";
-  			}			
+  			}
   		}
   		//  点击选中类别
   		function classOnClick(obj)
@@ -41,6 +31,8 @@
   				obj.style.color = "#EE5F00";
   				obj.style.border = "#EE5F00 solid 1px";
   				curSelectClass = obj.id;
+  				var url = getIframeUrl();
+  				document.getElementById("goodsView").src = url;
   			}
   		}
   		//  选中排序
@@ -70,5 +62,38 @@
   				obj.style.color = "#EE5F00";
   				obj.style.border = "#EE5F00 solid 1px";
   				curSelectSort = obj.id;
+  				var url = getIframeUrl();
+  				document.getElementById("goodsView").src = url;
+  			}
+  		}
+  		//  点击查找按钮
+  		function tosearch()
+  		{
+  			var url = getIframeUrl();
+  			document.getElementById("goodsView").src = url;
+  		}
+  		//  获取iframe要传入的url
+  		function getIframeUrl()
+  		{
+  			//  设置本页的主题参数
+  			var url = "./servlet/getProductList?firstClass=书";
+  			//  设置本页的细节参数
+  			url = url+"&secondClass="+classes[curSelectClass]+"&sort="+curSelectSort;
+  			var search = document.getElementById("searchValue").value;
+  			search = $.trim(search);
+  			if( search != "" )
+  			{
+  				url = url+"&search="+search;
+  			}
+  			return url;
+  		}
+  		function clearInput()
+  		{
+  			var val = document.getElementById("searchValue").value;
+  			if( val != "" )
+  			{
+  				document.getElementById("searchValue").value = "";
+  				var url = getIframeUrl();
+  				document.getElementById("goodsView").src = url;
   			}
   		}

@@ -14,440 +14,14 @@
 	<script type="text/javascript" src="./plugs/SudoSlider/js/jquery.sudoSlider.min.js"></script>
 	<script type="text/javascript" src="./js/userCookie.js"></script>
 	<script type="text/javascript" src="./js/headerJs.js"></script>
-	<script type="text/javascript">
-		//  初始化图片轮放
-		$(document).ready(function(){
-			var sudoSlider = $("#slider").sudoSlider({
-				numeric:true,
-				continuous:true,
-				resumePause:true,
-				auto:true
-			});
-		});
-		//  页面初始化函数
-		function init()
-		{		
-			//   获取cookie值
-			var val = getValue("mycookie");
-			if( val != null )
-			{
-				$('#LoginBox').css({'display':'block'});
-				$('#account').css({'display':'block'});
-				$('#exitTop').css({'display':'block'});
-				$('#username').text(val[1]);
-				document.getElementById("boxUsername").innerText = val[1];
-				var src = "./"+val[2];
-				$('#userPic').attr("src",src);
-				document.getElementById("shoppingNum").innerText = val[3];
-			}
-			else
-			{
-				$('#login').css({'display':'block'});
-				$('#register').css({'display':'block'});
-				$('#unLoginBox').css({'display':'block'});
-				document.getElementById("boxUsername").innerText = "Hi,你好！";
-				document.getElementById("shoppingNum").innerText = "";
-			}
-		}
-		//  显示书子菜单
-		function showbook()
-		{
-			$('#book').css({'backgroundColor':'#ff3a05'});
-			$('#bk_unsel').css({'display':'none'});
-			$('#bk_sel').css({'display':'block'});
-			$('#book_sub').css({'display':'block'});
-		}
-		//  隐藏书子菜单
-		function hiddenbook()
-		{
-			$('#book').css({'backgroundColor':'#ff6905'});
-			$('#bk_unsel').css({'display':'block'});
-			$('#bk_sel').css({'display':'none'});
-			$('#book_sub').css({'display':'none'});
-		}
-		//  显示美妆子菜单
-		function showCos()
-		{
-			$('#cosmetics').css({'backgroundColor':'#ff3a05'});
-			$('#cos_unsel').css({'display':'none'});
-			$('#cos_sel').css({'display':'block'});
-			$('#cosmetics_sub').css({'display':'block'});
-		}
-		//  隐藏美妆子菜单
-		function hiddenCos()
-		{
-			$('#cosmetics').css({'backgroundColor':'#ff6905'});
-			$('#cos_unsel').css({'display':'block'});
-			$('#cos_sel').css({'display':'none'});
-			$('#cosmetics_sub').css({'display':'none'});
-		}
-		//  显示手表子菜单
-		function showWatch()
-		{
-			$('#watch').css({'backgroundColor':'#ff3a05'});
-			$('#wt_unsel').css({'display':'none'});
-			$('#wt_sel').css({'display':'block'});
-			$('#watch_sub').css({'display':'block'});
-		}
-		//  隐藏手表子菜单
-		function hiddenWatch()
-		{
-			$('#watch').css({'backgroundColor':'#ff6905'});
-			$('#wt_unsel').css({'display':'block'});
-			$('#wt_sel').css({'display':'none'});
-			$('#watch_sub').css({'display':'none'});
-		}
-		//  显示下划线
-		function showline(obj)
-		{
-			obj.style.textDecoration = "underline";
-		}
-		//  隐藏下划线
-		function hiddenline(obj)
-		{
-			obj.style.textDecoration = "none";
-		}
-		//  选中按钮
-		function selectBtn(obj)
-		{
-			obj.style.backgroundColor = "#EE5F00";
-		}
-		//  未选中按钮
-		function  unselectBtn(obj)
-		{
-			obj.style.backgroundColor = "#FF6600";
-		}
-	</script>
-	<style type="text/css">
-	#themeList
-	{
-		position:absolute;
-		left:8%;
-		top:-30px;
-		width:200px;
-		height:315px;
-		color:white;
-		background-color:#ff6905;
-		font-family:Microsoft YaHei;
-	}
-	#ListHead
-	{
-		position:absolute;
-		left:0px;
-		top:0px;
-		width:100%;
-		height:30px;
-		background-color:#ff6905;
-	}
-	#ListHead label
-	{
-		position:absolute;
-		left:40px;
-		top:5px;
-		font-size:15px;
-		font-family:Microsoft YaHei;
-	}
-	#ListHead img
-	{
-		position:absolute;
-		right:5px;
-		top:0px;
-	}
-	#book,#cosmetics,#watch
-	{
-		position:absolute;
-		left:0px;
-		width:160px;
-		list-style-type:none;
-		cursor:pointer;
-	}
-	#book_sub,#cosmetics_sub,#watch_sub
-	{
-		position:absolute;
-		left:200px;
-		width:140px;
-		color:#5E5E5E;
-		border-top:#ff3a05 solid 2px;
-		border-right:#ff3a05 solid 2px;
-		border-bottom:#ff3a05 solid 2px;
-		list-style-type:none;
-		background-color:white;
-	}
-	#book_sub
-	{
-		top:-2px;
-		height:273px;
-		display:none;
-	}
-	#cosmetics_sub
-	{
-		top:-42px;
-		height:273px;
-		display:none;
-	}
-	#watch_sub
-	{
-		top:-82px;
-		height:273px;
-		display:none;
-	}
-	.themeli
-	{
-		position:relative;
-		top:5px;
-		left:0px;
-		height:27px;
-		width:100px;
-		padding-top:5px;
-		text-align:center;
-	}
-	#book
-	{
-		top:25px;
-		height:40px;
-	}
-	#cosmetics
-	{
-		top:65px;
-		height:40px;
-	}
-	#watch
-	{
-		top:105px;
-		height:40px;
-	}
-	.listLabel
-	{
-		position:absolute;
-		top:10px;
-		left:55px;
-		cursor:pointer;
-	}
-	.listPic
-	{
-		position:absolute;
-		top:10px;
-		right:10px;
-		width:6px;
-		height:18px;
-	}
-	.listTipPic
-	{
-		position:absolute;
-		top:10px;
-		left:30px;
-		width:20px;
-		height:20px;
-	}
-	#bk_sel,#cos_sel,#wt_sel
-	{
-		display:none;
-	}
-	#userWin
-	{
-		position:absolute;
-		top:15px;
-		left:985px;
-		width:300px;
-		height:170px;
-		background:url(./Images/userBg1.jpg) no-repeat 0px 0px;
-	}
-	#userWin img
-	{
-		position:absolute;
-		top:20px;
-		left:120px;
-		width:60px;
-		height:60px;
-	}
-	#userWin label
-	{
-		position:absolute;
-		top:85px;
-		left:110px;
-		width:80px;
-		text-align:center;
-		font-size:15px;
-		font-family:Microsoft YaHei;
-	}
-	.userBox
-	{
-		position:absolute;
-		top:115px;
-		left:0px;
-		width:100%;
-		height:40px;
-	}
-	#LoginBox
-	{
-		display:none;
-	}
-	#unLoginBox
-	{
-		display:none;
-	}
-	#loginBtn,#registerBtn,#openShopBtn
-	{
-		position:absolute;
-		left:22px;
-		top:5px;
-		height:22px;
-		width:70px;
-		color:white;
-		background-color:#FF6600;
-		text-align:center;
-		font-size:15px;
-		font-family:Microsoft YaHei;
-		padding-top:3px;
-		cursor:pointer;
-		-moz-border-radius: 2px;
-    	-webkit-border-radius: 2px;
-    	border-radius: 2px;
-	}
-	#registerBtn
-	{
-		left:114px;
-	}
-	#openShopBtn
-	{
-		left:206px;
-	}
-	#myInfo,#openMyShopBtn,#exit
-	{
-		position:absolute;
-		left:22px;
-		top:5px;
-		height:22px;
-		width:70px;
-		color:white;
-		background-color:#FF6600;
-		text-align:center;
-		font-size:15px;
-		font-family:Microsoft YaHei;
-		padding-top:3px;
-		cursor:pointer;
-		-moz-border-radius: 2px;
-    	-webkit-border-radius: 2px;
-    	border-radius: 2px;
-	}
-	#myInfo
-	{
-		width:80px;
-	}
-	#openMyShopBtn
-	{
-		left:119px;
-	}
-	#exit
-	{
-		left:211px;
-	}
-	#newWin
-	{
-		position:absolute;
-		top:200px;
-		left:985px;
-		width:300px;
-		height:84px;
-		background-color:white;
-	}
-	#newTitle
-	{
-		position:absolute;
-		top:5px;
-		left:0px;
-		height:30px;
-		width:100%;
-		color:#5E5E5E;
-		border-bottom:#D5D5D5 solid 1px;
-	}
-	#newTitle table td
-	{
-		width:60px;
-		text-align:center;
-		font-size:15px;
-		font-family:Microsoft YaHei;
-	}
-	#newBox
-	{
-		position:absolute;
-		top:35px;
-		left:0px;
-		width:100%;
-		color:#5E5E5E;
-		font-size:15px;
-		font-family:Microsoft YaHei;
-	}
-	#new1,#new2
-	{
-		position:absolute;
-		top:5px;
-		left:20px;
-	}
-	#new2
-	{
-		position:absolute;
-		top:26px;
-		left:20px;
-	}
-	#goodsTitle
-	{
-		position:absolute;
-		top:295px;
-		left:8%;
-		height:27px;
-		width:100px;
-		background-color:white;
-		border-top:#ff6905 solid 2px;
-		border-left:#ff6905 solid 2px;
-		border-right:#ff6905 solid 2px;
-		-moz-border-radius: 4px;
-    	-webkit-border-radius: 4px;
-    	border-radius: 4px;
-	}
-	#goodsTitle img
-	{
-		position:absolute;
-		top:0px;
-		left:5px;
-		height:25px;
-		width:25px;
-	}
-	#goodsTitle label
-	{
-		position:absolute;
-		top:2px;
-		left:30px;
-		font-size:15px;
-		font-family:Microsoft YaHei;
-	}
-	#goodsBox
-	{
-		position:absolute;
-		top:322px;
-		left:8%;
-		width:87%;
-		height:705px;
-		background-color:white;
-		border:#ff6905 solid 2px;
-	}
-	#goodsData
-	{
-		position:absolute;
-		top:0px;
-		left:0px;
-		width:100%;
-		height:700px;
-		border:none;
-	}
-	</style>
+	<script type="text/javascript" src="./js/mainPage.js"></script>
   </head>
   
   <body onload="init()">
   	<div id="title">
   		<img alt="淘宝主页" id="titlepic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
-  		<input type="text" id="searchInput" name="searchInput" placeholder="请输入宝贝名/种类" maxlength="25"/>
-  		<div id="searchBtn">搜索</div>
+  		<input type="text" id="searchInput" placeholder="请输入宝贝名/种类" maxlength="25"/>
+  		<div id="searchBtn" onclick="tosearchFromMain()">搜索</div>
   	</div>
   	<div id="header">
   		<div id="login" onclick="toLogin()"><label onclick="toLogin()">亲，请登录</label></div>
@@ -527,42 +101,42 @@
   				<li>
   					<img id="bk_unsel" class="listTipPic" alt="bookPic" src="./pics/book115.png">
   					<img id="bk_sel" class="listTipPic" alt="bookPic" src="./pics/book1151.png">
-  					<label id="bkLab" class="listLabel" onmouseover="showline(this)" onmouseout="hiddenline(this)">书</label>
+  					<label id="bkLab" class="listLabel" onclick="toBookPage()" onmouseover="showline(this)" onmouseout="hiddenline(this)">书</label>
   					<img class="listPic" alt="show" src="./pics/f0d92.png">
   				</li>
   				<ul id="book_sub">
-  					<li id="child" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">儿童文学</li>
-  					<li id="novel" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">小说</li>
-  					<li id="literature" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">文学</li>
-  					<li id="hotBook" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">畅销书</li>
+  					<li id="childBooks" onclick="toBookPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">儿童文学</li>
+  					<li id="novel" onclick="toBookPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">小说</li>
+  					<li id="literature" onclick="toBookPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">文学</li>
+  					<li id="hotBooks" onclick="toBookPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">畅销书</li>
   				</ul>
   			</ul>
   			<ul id="cosmetics" onmouseover="showCos()" onmouseout="hiddenCos()">
   				<li>
   					<img id="cos_unsel" class="listTipPic" alt="bookPic" src="./pics/font-104.png">
   					<img id="cos_sel" class="listTipPic" alt="bookPic" src="./pics/font-1041.png">
-  					<label id="cosLab" class="listLabel" onmouseover="showline(this)" onmouseout="hiddenline(this)">美妆</label>
+  					<label id="cosLab" class="listLabel" onclick="toCosmeticsPage()" onmouseover="showline(this)" onmouseout="hiddenline(this)">美妆</label>
   					<img class="listPic" alt="show" src="./pics/f0d92.png">
   				</li>
   				<ul id="cosmetics_sub">
-  					<li id="washFace" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">洁面</li>
-  					<li id="milk" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">乳液</li>
-  					<li id="mask" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">面膜</li>
+  					<li id="washFace" onclick="toCosmeticsPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">洁面</li>
+  					<li id="milk" onclick="toCosmeticsPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">乳液</li>
+  					<li id="mask" onclick="toCosmeticsPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">面膜</li>
   				</ul>
   			</ul>
   			<ul id="watch" onmouseover="showWatch()" onmouseout="hiddenWatch()">
   				<li>
   					<img id="wt_unsel" class="listTipPic" alt="bookPic" src="./pics/wristwatch7.png">
   					<img id="wt_sel" class="listTipPic" alt="bookPic" src="./pics/wristwatch71.png">
-  					<label id="wtLab" class="listLabel" onmouseover="showline(this)" onmouseout="hiddenline(this)">手表</label>
+  					<label id="wtLab" class="listLabel" onclick="toWatchPage()" onmouseover="showline(this)" onmouseout="hiddenline(this)">手表</label>
   					<img class="listPic" alt="show" src="./pics/f0d92.png">
   				</li>
   				<ul id="watch_sub">
-  					<li id="eleWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">电子表</li>
-  					<li id="conWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">机械表</li>
-  					<li id="solarWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">太阳能表</li>
-  					<li id="freeWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">休闲表</li>
-  					<li id="sportWatch" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">运动表</li>
+  					<li id="eleWatch" onclick="toWatchPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">电子表</li>
+  					<li id="machineWatch" onclick="toWatchPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">机械表</li>
+  					<li id="solarWatch" onclick="toWatchPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">太阳能表</li>
+  					<li id="freeWatch" onclick="toWatchPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">休闲表</li>
+  					<li id="sportWatch" onclick="toWatchPageBySub(this)" class="themeli" onmouseover="select(this)" onmouseout="unselect(this)">运动表</li>
   				</ul>
   			</ul>
   		</div>

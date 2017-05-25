@@ -2,9 +2,13 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+request.setCharacterEncoding("utf-8");
+String parentPage = "";
+if( request.getParameter("fromPage") != null )
+	parentPage = request.getParameter("fromPage").toString();
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -14,10 +18,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="./css/headerCss.css">
 	<link rel="stylesheet" type="text/css" href="./css/searchBrankClass.css">
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="./js/userCookie.js"></script>
 	<script type="text/javascript" src="./js/headerJs.js"></script>
 	<script type="text/javascript" src="./js/searchBrankClass.js"></script>
 	<script type="text/javascript">
-
+		var curSelectBrand; //  当前选定的品牌
+		var curSelectClass;	//  当前选定的类别
+  		var curSelectSort; //  当前选定的排序
+  		//  初始化页面
+  		function init()
+  		{
+  			//  默认品牌为“全部”
+  			curSelectBrand = "allBranks";
+  			//  默认类别为 “全部”
+  			curSelectClass = "<%=parentPage%>";
+  			if( curSelectClass == "" )
+  			{
+  				//  默认类别为 “全部”
+  				curSelectClass = "allClass";
+  			}
+  			//  默认排序为“销量”
+  			curSelectSort = "sellNum";
+  			var curBrank = document.getElementById(curSelectBrand);
+  			var curClass = document.getElementById(curSelectClass);
+  			var curSort = document.getElementById(curSelectSort);
+  			curBrank.style.color = "#EE5F00";
+  			curBrank.style.border = "#EE5F00 solid 1px";
+  			curClass.style.color = "#EE5F00";
+  			curClass.style.border = "#EE5F00 solid 1px";
+  			curSort.style.color = "#EE5F00";
+  			curSort.style.border = "#EE5F00 solid 1px";
+  			initHeader();
+  			var url = getIframeUrl();
+  			document.getElementById("goodsView").src = url;
+  		}
+  		//  获取iframe要传入的url
+  		function getIframeUrl()
+  		{
+  			//  设置本页的主题参数
+  			var url = "./servlet/getProductList?firstClass=手表";
+  			//  设置本页的细节参数
+  			url = url+"&secondClass="+classes[curSelectClass]+"&brank="+branks[curSelectBrand]+"&sort="+curSelectSort;
+  			var search = document.getElementById("searchValue").value;
+  			search = $.trim(search);
+  			if( search != "" )
+  			{
+  				url = url+"&search="+search;
+  			}
+  			return url;
+  		}
 	</script>
 	<style type="text/css">
 
@@ -28,13 +77,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="title">
   		<img onclick="toMainPage()" alt="淘宝主页" id="titlepic" src="./pics/G`I4EGLGZJHSOIBN7}Q9`RY.png">
   		<label class="viewTitle">手表</label>
-  		<input type="text" id="searchInput" name="searchInput" placeholder="请输入宝贝名/种类" maxlength="25"/>
-  		<div id="searchBtn">搜索</div>
+  		<input type="text" id="searchValue" onfocus="clearInput()" placeholder="请输入宝贝名" maxlength="25"/>
+  		<div id="searchBtn" onclick="tosearch()">搜索</div>
   	</div>
   	<div id="header">
   		<div id="login" onclick="toLogin()"><label onclick="toLogin()">亲，请登录</label></div>
   		<div id="register" onclick="toRegister()"><label onclick="toRegister()">免费注册</label></div>
-  		<div id="account"><label id="username"></label></div>
+  		<div id="account">
+  			<label id="username" onclick="touserInfoPage()"></label>
+  			<a id="exitTop" onclick="exitAccount()">退出</a>
+  		</div>
   		<div class="firstPage" onclick="toMainPage()">淘宝网首页</div>
 		<ul id="myaccount" onmouseover="showaccout()" onmouseout="hiddenaccout()">
 			<li>
@@ -42,18 +94,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
 			</li>
 			<ul id="myaccount_sub">
-				<li id="purchased" onmouseover="select(this)" onmouseout="unselect(this)">已买到的宝贝</li>
+				<li id="purchased" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">已买到的宝贝</li>
 			</ul>
 		</ul>
   		<ul id="shoppingCart" onmouseover="showSpc()" onmouseout="hiddenSpc()">
   			<li>
   				<img id="shoppingCartPic" alt="购物车" src="./pics/supermarket1.png">
   				<label id="scLabel" onmouseover="changeFontColor(this)" onmouseout="recoverFontColor(this)">购物车</label>
-  				<label id="shoppingNum">11</label>
+  				<label id="shoppingNum"></label>
   				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
   			</li>
   			<ul id="shoppingCart_sub">
-  				<li id="myshoppingCart" onmouseover="select(this)" onmouseout="unselect(this)">查看我的购物车</li>
+  				<li id="myshoppingCart" onclick="tomyManager(this)"  onmouseover="select(this)" onmouseout="unselect(this)">查看我的购物车</li>
   			</ul>
   		</ul>
   		<ul id="favorite" onmouseover="showFav()" onmouseout="hiddenFav()">
@@ -63,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
   			</li>
   			<ul id="favorite_sub">
-  				<li id="favorite_good" onmouseover="select(this)" onmouseout="unselect(this)">收藏的宝贝</li>
+  				<li id="favorite_good" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">收藏的宝贝</li>
   			</ul>
   		</ul>
   		<ul id="sellerCenter" onmouseover="showSc()" onmouseout="hiddenSc()">
@@ -72,9 +124,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<img class="pullDown" alt="下拉" src="./pics/f0d93.png">
   			</li>
   			<ul id="sellerCenter_sub">
-  				<li id="openShop" onmouseover="select(this)" onmouseout="unselect(this)">免费开店</li>
-  				<li id="sold" onmouseover="select(this)" onmouseout="unselect(this)">已卖出的宝贝</li>
-  				<li id="selling" onmouseover="select(this)" onmouseout="unselect(this)">出售中的宝贝</li>
+  				<li id="openShop" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">免费开店</li>
+  				<li id="sold" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">已卖出的宝贝</li>
+  				<li id="selling" onclick="tomyManager(this)" onmouseover="select(this)" onmouseout="unselect(this)">出售中的宝贝</li>
   			</ul>
   		</ul>
   	</div>
@@ -110,8 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			<div id="priceUp" class="priceUpSty" onclick="sortOnClick(this)" onmouseover="selectSort(this)" onmouseout="unselectSort(this)">价格升序</div>
   			<div id="priceDown" class="priceDownSty" onclick="sortOnClick(this)" onmouseover="selectSort(this)" onmouseout="unselectSort(this)">价格降序</div>
   		</div>
-  		<iframe id="cosmeticsView" src="./jsp/booksDataView.jsp">
-  			
+  		<iframe id="goodsView" src="">
   		</iframe>
   	</div>
    	<div id="foot">

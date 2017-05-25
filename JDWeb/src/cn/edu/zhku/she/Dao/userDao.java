@@ -257,4 +257,11 @@ public class userDao {
 		datas = db.getList(sql, params);
 		return datas;
 	}
+	//  获取主题页产品列表
+	public PageBean selectProductListData(String sql,String params[],int curPage)
+	{
+		db.setPageSize(20);	
+		PageBean pb = db.getPageBean(sql, params,curPage);
+		return pb;
+	}
 }

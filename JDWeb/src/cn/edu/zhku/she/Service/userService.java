@@ -441,4 +441,136 @@ public class userService {
 		datas = dao.selectHotSellingData(sql,params);
 		return datas;
 	}
+	//  获取各个主题页面的物品数据
+	@SuppressWarnings("rawtypes")
+	public PageBean getWebProductInfo(Map params,int curpage)
+	{
+		PageBean datas = null;
+		String firstClass = params.get("firstClass").toString();
+		String secondClass = params.get("secondClass").toString();
+		String sortMethod = params.get("sortMethod").toString();
+		String brank = "";
+		String search = "";
+		String sql = "";
+		String sqlparams[];
+		if( params.get("brank") != null )
+		{
+			brank = params.get("brank").toString();
+		}
+		if( params.get("search") != null )
+		{
+			search = params.get("search").toString();
+			search = "%"+search+"%";
+		}
+		if( !firstClass.equals("书") && !brank.equals("全部")){
+			sql = "select * from product,shop,p_detail_info where product.sid=shop.sid and firstClass=?";
+		}
+		else{
+			sql = "select * from product,shop where product.sid=shop.sid and firstClass=?";
+		}
+		if( !secondClass.equals("全部") )
+			sql = sql + " and secondClass=?";
+		// 如果要获得的产品主题不为“书”
+		if(  firstClass.equals("美妆") && !brank.equals("全部") )
+		{
+			sql = sql + " and product.pid=p_detail_info.pid and p_detail_info.aid=6 and val=?";
+		}
+		else if( firstClass.equals("手表") && !brank.equals("全部")  )
+		{
+			sql = sql + " and product.pid=p_detail_info.pid and p_detail_info.aid=13 and val=?";
+		}
+		//  如果需要查找物品
+		if( search != null && search.length() > 0 )
+		{
+			sql = sql + " and name like ?";
+		}
+		//  处理排序方式
+		if( sortMethod.equals("sellNum") )
+		{
+			sql = sql + " order by salesAmount desc";
+		}
+		else if(sortMethod.equals("priceUp") )
+		{
+			sql = sql + " order by price asc";
+		}
+		else if(sortMethod.equals("priceDown") )
+		{
+			sql = sql + " order by price desc";
+		}
+		//  处理传入参数
+		if( ! brank.equals("") && ! search.equals("") && !brank.equals("全部")  )
+		{
+			if( !secondClass.equals("全部") )
+				sqlparams = new String[]{firstClass,secondClass,brank,search};
+			else
+				sqlparams = new String[]{firstClass,brank,search};
+		}
+		else if( ! search.equals("") )
+		{
+			if( !secondClass.equals("全部") )
+				sqlparams = new String[]{firstClass,secondClass,search};
+			else
+				sqlparams = new String[]{firstClass,search};
+		}
+		else if( ! brank.equals("") && !brank.equals("全部") )
+		{
+			if( !secondClass.equals("全部") )
+				sqlparams = new String[]{firstClass,secondClass,brank};
+			else
+				sqlparams = new String[]{firstClass,brank};
+		}
+		else{
+			if( !secondClass.equals("全部") )
+				sqlparams = new String[]{firstClass,secondClass};
+			else
+				sqlparams = new String[]{firstClass};
+		}
+		datas = dao.selectProductListData(sql,sqlparams,curpage);
+		return datas;
+	}
+	//  处理主页与searchAll的查找功能
+	public PageBean getAllOrSearchProduct(String firstClass,String sortMethod,String search,int curpage)
+	{
+		PageBean datas = null;
+		String sql = "";
+		String searchParam = "";
+		String params[];
+		//  如果类别过滤器不为“全部”  和  查找值不为空
+		if( !firstClass.equals("全部") && search != null && search.length() > 0 )
+		{
+			sql = "select * from product,shop where product.sid=shop.sid and firstClass=? and (name like ? or secondClass like ?)";
+			searchParam = "%" + search + "%";
+			params = new String[]{firstClass,searchParam,searchParam};
+		}
+		else if( !firstClass.equals("全部") )  //  只有分类不为全部
+		{
+			sql = "select * from product,shop where product.sid=shop.sid and firstClass=?";
+			params = new String[]{firstClass};
+		}
+		else if( search != null && search.length() > 0 )	//  只有查找值不为空
+		{
+			sql = "select * from product,shop where product.sid=shop.sid and (name like ? or secondClass like ?)";
+			searchParam = "%" + search + "%";
+			params = new String[]{searchParam,searchParam};
+		}
+		else{	//  两者全为空
+			sql = "select * from product,shop where product.sid=shop.sid";
+			params = new String[0];
+		}
+		//  处理排序方式
+		if( sortMethod.equals("sellNum") )
+		{
+			sql = sql + " order by salesAmount desc";
+		}
+		else if(sortMethod.equals("priceUp") )
+		{
+			sql = sql + " order by price asc";
+		}
+		else if(sortMethod.equals("priceDown") )
+		{
+			sql = sql + " order by price desc";
+		}
+		datas = dao.selectProductListData(sql, params, curpage);
+		return datas;
+	}
 }

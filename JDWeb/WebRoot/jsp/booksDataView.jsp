@@ -1,284 +1,173 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page import="cn.edu.zhku.she.Util.PageBean" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String pagebtn = "";
+String tip = "";
+String url = session.getAttribute("pageurl").toString();
+PageBean pageBean = (PageBean)request.getAttribute("pageBean");
+if( request.getAttribute("search") != null )
+	tip = "没有相关的产品。";
+else
+	tip = "暂时没有该类产品。";
+url = url + "&page=";
+//  添加上一页按钮
+if( pageBean.getCurPage() != 1 )
+{
+	int pre =  pageBean.getCurPage()-1;
+	pagebtn = pagebtn + "<a href=\""+url+pre+"\">《&nbsp;上一页</a>&nbsp;";
+}else{
+	pagebtn = pagebtn + "<a>《&nbsp;上一页</a>&nbsp;";
+}
+//  如果页数小于7
+if( pageBean.getTotalPages() < 7 )
+{
+	//  按钮全部显示
+	for(int i=0;i < pageBean.getTotalPages(); i++ )
+	{
+		int t = i + 1;
+		if( t != pageBean.getCurPage() )
+		{
+			pagebtn = pagebtn + "<a href=\""+url+t+"\">"+t+"</a>&nbsp;";
+		}
+		else{
+			pagebtn = pagebtn + "<a class=\"curPageSty\">"+t+"</a>&nbsp;";
+		}
+	}
+}
+else if( pageBean.getCurPage() <= 7 )	//  如果当前页面小于7
+{
+	//  显示1~7...
+	for( int i=0;i<7;i++)
+	{
+		int t = i + 1;
+		if( t != pageBean.getCurPage() )
+		{
+			pagebtn = pagebtn + "<a href=\""+url+t+"\">"+t+"</a>&nbsp;";
+		}
+		else{
+			pagebtn = pagebtn + "<a class=\"curPageSty\">"+t+"</a>&nbsp;";
+		}
+	}
+	pagebtn = pagebtn + "...";
+}
+else if( pageBean.getCurPage() > 7 )	//  如果当前页大于7
+{
+	pagebtn = pagebtn + "<a href=\""+url+"1\">"+1+"</a>&nbsp;";
+	pagebtn = pagebtn + "<a href=\""+url+"2\">"+2+"</a>&nbsp;";
+	pagebtn = pagebtn + "...";
+	//  当前页+2小于总页数
+	//  显示 1 2 ... cur-2 cur-1 cur cur+1 cur+2...
+	if( pageBean.getCurPage() + 2 < pageBean.getTotalPages() )
+	{
+		for(int i = pageBean.getCurPage() -2; i < i+5; i++ )
+		{
+			if( i != pageBean.getCurPage() )
+			{
+				pagebtn = pagebtn + "<a href=\""+url+i+"\">"+i+"</a>&nbsp;";
+			}
+			else{
+				pagebtn = pagebtn + "<a class=\"curPageSty\">"+i+"</a>&nbsp;";
+			}
+		}
+		pagebtn = pagebtn + "...";
+	}
+	else		//  当前页+2小于总页数    显示 1 2 ... tol-4 tol-3 tol-2 tol-1 tol
+	{
+		for(int i = pageBean.getTotalPages() - 4; i <= pageBean.getTotalPages(); i++ )
+		{
+			if( i != pageBean.getCurPage() )
+			{
+				pagebtn = pagebtn + "<a href=\""+url+i+"\">"+i+"</a>&nbsp;";
+			}
+			else{
+				pagebtn = pagebtn + "<a class=\"curPageSty\">"+i+"</a>&nbsp;";
+			}
+		}
+	}
+}
+//  添加下一页按钮
+if( pageBean.getCurPage() != pageBean.getTotalPages() )
+{
+	int next = pageBean.getCurPage()+1;
+	pagebtn = pagebtn + "<a href=\""+url+next+"\">《&nbsp;下一页</a>";
+}else{
+	pagebtn = pagebtn + "<a>《&nbsp;下一页</a>";
+}
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
 	<link rel="stylesheet" type="text/css" href="./css/pageCtrlBox.css">
-	<script type="text/javascript">
-		function selectGood(obj)
-		{
-			obj.style.border = "#0099FF solid 2px";
-		}
-		function unselectGood(obj)
-		{
-			obj.style.border = "white solid 2px";
-		}
-	</script>
-	<style type="text/css">
-		#goodsData
-		{
-			position:absolute;
-			top:5px;
-			left:5px;
-			border-collapse:separate; 
-			border-spacing:15px 10px;
-			list-style-type:none;
-		}
-		#goodsData tr td
-		{
-			position:relative;
-			width:264px;
-			height:330px;
-			background-color:white;
-			border:white solid 2px;
-			font-size:13px;
-			font-family:Microsoft YaHei;
-		}
-		.goodPic
-		{
-			position:absolute;
-			top:5px;
-			left:5px;
-			width:97%;
-			height:200px;
-		}
-		.goodPrice
-		{
-			position:absolute;
-			top:210px;
-			left:20px;
-			text-align:left;
-			width:240px;
-			height:30px;
-			color:#ff6905;
-			font-size:20px;
-		}
-		.sellingNum
-		{
-			position:absolute;
-			top:215px;
-			right:20px;
-			color:#AAAAAA;
-			text-align:left;
-			height:30px;
-		}
-		.goodName
-		{
-			position:absolute;
-			top:270px;
-			left:20px;
-			text-align:left;
-			width:220px;
-			height:60px;
-			color:#5E5E5E;
-		}
-		.shopPic
-		{
-			position:absolute;
-			top:240px;
-			left:20px;
-			width:20px;
-			height:20px;
-		}
-		.shopName
-		{
-			position:absolute;
-			top:240px;
-			left:50px;
-			width:180px;
-			text-align:left;
-			height:30px;
-			color:#5E5E5E;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="./css/bookDetail.css">
+	<script type="text/javascript" src="./js/bookDetail.js"></script>
   </head>
   
   <body>
     <table id="goodsData">
     	<tr>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
+    	<%
+			if( pageBean.getData().size() > 0 )
+			{
+				for(int i=0;i < pageBean.getData().size(); i++ )
+				{
+					Map product = (Map)pageBean.getData().get(i);
+		 %>
+    		<td id="<%= product.get("pid") %>" onclick="toBrowseProduct(<%= product.get("pid") %>)" style="cursor:pointer" onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
+    			<img class="goodPic" alt="goodImage" src="./<%= product.get("bigImg") %>">
+    			<label class="goodPrice">￥ <%= product.get("price") %></label>
+    			<label class="sellingNum">销量：<%= product.get("salesAmount") %></label>
     			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
+    			<label class="shopName" id="shopName"><%= product.get("shopname") %></label>
+    			<label class="goodName"><%= product.get("name") %></label>
     		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-		</tr>
-		<tr>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-		</tr>
-		<tr>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-		</tr>
-		<tr>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-		</tr>
-		<tr>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
-    		<td onmouseover="selectGood(this)" onmouseout="unselectGood(this)">
-    			<img class="goodPic" alt="goodImage" src="./Images/TB2e81JpNxmpuFjSZFNXXXrRXXa_!!749391658.jpg">
-    			<label class="goodPrice">￥ 55.0</label>
-    			<label class="sellingNum">销量：1000</label>
-    			<img class="shopPic" alt="shopPicture" src="./pics/supermarket22.png">
-    			<label class="shopName" id="shopName">天猫旺铺</label>
-    			<label class="goodName">夏季薄款中老年休闲男士弹力牛仔裤加肥长裤宽松直筒大码爸爸男裤</label>
-    		</td>
+    	<%
+    				if( ( i + 1 ) % 4 == 0 )
+    				{
+    	%>
+    		</tr>
+    		<tr>
+    	<%
+					}
+				}
+				if( pageBean.getData().size() % 4 != 0 )
+   				{
+   					int i = pageBean.getData().size();
+   					while( i % 4 != 0)
+   					{
+   						i++;
+   		%>
+   					<td></td>
+   		<% 
+   					}
+   				}
+			}
+			else{
+		 %>
+		 	<tr style="width:90%">
+	 			<td class="Tip" style="font-size:24px">
+					<% out.print(tip); %>
+	 			</td>
+	 		</tr>
+		 <%
+ 			}
+ 		 %>
 		</tr>
     </table>
+    <%
+		if( pageBean.getTotalPages() > 1 )
+		{
+	 %>
     <div id="pagesCtrl" class="pagesCtrl">
     	<span>
-    		<a href="#">《&nbsp;上一页</a>
-    		<a href="#">1</a>
-    		<a href="#">2</a>
-    		<a href="#">下一页&nbsp;》</a>
-    		<label class="pageCount">共&nbsp;100&nbsp;页</label>
+    		<% out.print(pagebtn); %>
+    		<label class="pageCount">共&nbsp;<%=pageBean.getTotalPages() %>&nbsp;页</label>
     	</span>
     </div>
+     <%
+    	}
+     %>
   </body>
 </html>

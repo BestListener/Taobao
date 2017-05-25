@@ -1,4 +1,4 @@
-﻿	#title
+	#title
 	{
 		position:absolute;
 		top:36px;
@@ -64,4 +64,325 @@
 		color:gray;
 		padding-top:20px;
 		font-family:Microsoft YaHei;
+	}
+		#themeList
+	{
+		position:absolute;
+		left:8%;
+		top:-30px;
+		width:200px;
+		height:315px;
+		color:white;
+		background-color:#ff6905;
+		font-family:Microsoft YaHei;
+	}
+	#ListHead
+	{
+		position:absolute;
+		left:0px;
+		top:0px;
+		width:100%;
+		height:30px;
+		background-color:#ff6905;
+	}
+	#ListHead label
+	{
+		position:absolute;
+		left:40px;
+		top:5px;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	#ListHead img
+	{
+		position:absolute;
+		right:5px;
+		top:0px;
+	}
+	#book,#cosmetics,#watch
+	{
+		position:absolute;
+		left:0px;
+		width:160px;
+		list-style-type:none;
+		cursor:pointer;
+	}
+	#book_sub,#cosmetics_sub,#watch_sub
+	{
+		position:absolute;
+		left:200px;
+		width:140px;
+		color:#5E5E5E;
+		border-top:#ff3a05 solid 2px;
+		border-right:#ff3a05 solid 2px;
+		border-bottom:#ff3a05 solid 2px;
+		list-style-type:none;
+		background-color:white;
+	}
+	#book_sub
+	{
+		top:-2px;
+		height:273px;
+		display:none;
+	}
+	#cosmetics_sub
+	{
+		top:-42px;
+		height:273px;
+		display:none;
+	}
+	#watch_sub
+	{
+		top:-82px;
+		height:273px;
+		display:none;
+	}
+	.themeli
+	{
+		position:relative;
+		top:5px;
+		left:0px;
+		height:27px;
+		width:100px;
+		padding-top:5px;
+		text-align:center;
+	}
+	#book
+	{
+		top:25px;
+		height:40px;
+	}
+	#cosmetics
+	{
+		top:65px;
+		height:40px;
+	}
+	#watch
+	{
+		top:105px;
+		height:40px;
+	}
+	.listLabel
+	{
+		position:absolute;
+		top:10px;
+		left:55px;
+		cursor:pointer;
+	}
+	.listPic
+	{
+		position:absolute;
+		top:10px;
+		right:10px;
+		width:6px;
+		height:18px;
+	}
+	.listTipPic
+	{
+		position:absolute;
+		top:10px;
+		left:30px;
+		width:20px;
+		height:20px;
+	}
+	#bk_sel,#cos_sel,#wt_sel
+	{
+		display:none;
+	}
+	#userWin
+	{
+		position:absolute;
+		top:15px;
+		left:985px;
+		width:300px;
+		height:170px;
+		background:url(../Images/userBg1.jpg) no-repeat 0px 0px;
+	}
+	#userWin img
+	{
+		position:absolute;
+		top:20px;
+		left:120px;
+		width:60px;
+		height:60px;
+	}
+	#userWin label
+	{
+		position:absolute;
+		top:85px;
+		left:110px;
+		width:80px;
+		text-align:center;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	.userBox
+	{
+		position:absolute;
+		top:115px;
+		left:0px;
+		width:100%;
+		height:40px;
+	}
+	#LoginBox
+	{
+		display:none;
+	}
+	#unLoginBox
+	{
+		display:none;
+	}
+	#loginBtn,#registerBtn,#openShopBtn
+	{
+		position:absolute;
+		left:22px;
+		top:5px;
+		height:22px;
+		width:70px;
+		color:white;
+		background-color:#FF6600;
+		text-align:center;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+		padding-top:3px;
+		cursor:pointer;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	#registerBtn
+	{
+		left:114px;
+	}
+	#openShopBtn
+	{
+		left:206px;
+	}
+	#myInfo,#openMyShopBtn,#exit
+	{
+		position:absolute;
+		left:22px;
+		top:5px;
+		height:22px;
+		width:70px;
+		color:white;
+		background-color:#FF6600;
+		text-align:center;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+		padding-top:3px;
+		cursor:pointer;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	#myInfo
+	{
+		width:80px;
+	}
+	#openMyShopBtn
+	{
+		left:119px;
+	}
+	#exit
+	{
+		left:211px;
+	}
+	#newWin
+	{
+		position:absolute;
+		top:200px;
+		left:985px;
+		width:300px;
+		height:84px;
+		background-color:white;
+	}
+	#newTitle
+	{
+		position:absolute;
+		top:5px;
+		left:0px;
+		height:30px;
+		width:100%;
+		color:#5E5E5E;
+		border-bottom:#D5D5D5 solid 1px;
+	}
+	#newTitle table td
+	{
+		width:60px;
+		text-align:center;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	#newBox
+	{
+		position:absolute;
+		top:35px;
+		left:0px;
+		width:100%;
+		color:#5E5E5E;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	#new1,#new2
+	{
+		position:absolute;
+		top:5px;
+		left:20px;
+	}
+	#new2
+	{
+		position:absolute;
+		top:26px;
+		left:20px;
+	}
+	#goodsTitle
+	{
+		position:absolute;
+		top:295px;
+		left:8%;
+		height:27px;
+		width:100px;
+		background-color:white;
+		border-top:#ff6905 solid 2px;
+		border-left:#ff6905 solid 2px;
+		border-right:#ff6905 solid 2px;
+		-moz-border-radius: 4px;
+    	-webkit-border-radius: 4px;
+    	border-radius: 4px;
+	}
+	#goodsTitle img
+	{
+		position:absolute;
+		top:0px;
+		left:5px;
+		height:25px;
+		width:25px;
+	}
+	#goodsTitle label
+	{
+		position:absolute;
+		top:2px;
+		left:30px;
+		font-size:15px;
+		font-family:Microsoft YaHei;
+	}
+	#goodsBox
+	{
+		position:absolute;
+		top:322px;
+		left:8%;
+		width:87%;
+		height:705px;
+		background-color:white;
+		border:#ff6905 solid 2px;
+	}
+	#goodsData
+	{
+		position:absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		height:700px;
+		border:none;
 	}

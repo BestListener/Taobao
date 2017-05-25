@@ -71,7 +71,13 @@ else if( pageBean.getCurPage() > 7 )	//  如果当前页大于7
 	{
 		for(int i = pageBean.getCurPage() -2; i < i+5; i++ )
 		{
-			pagebtn = pagebtn + "<a href=\""+url+i+"\">"+i+"</a>&nbsp;";
+			if( i != pageBean.getCurPage() )
+			{
+				pagebtn = pagebtn + "<a href=\""+url+i+"\">"+i+"</a>&nbsp;";
+			}
+			else{
+				pagebtn = pagebtn + "<a class=\"curPageSty\">"+i+"</a>&nbsp;";
+			}
 		}
 		pagebtn = pagebtn + "...";
 	}
@@ -79,7 +85,13 @@ else if( pageBean.getCurPage() > 7 )	//  如果当前页大于7
 	{
 		for(int i = pageBean.getTotalPages() - 4; i <= pageBean.getTotalPages(); i++ )
 		{
-			pagebtn = pagebtn + "<a href=\""+url+i+"\">"+i+"</a>&nbsp;";
+			if( i != pageBean.getCurPage() )
+			{
+				pagebtn = pagebtn + "<a href=\""+url+i+"\">"+i+"</a>&nbsp;";
+			}
+			else{
+				pagebtn = pagebtn + "<a class=\"curPageSty\">"+i+"</a>&nbsp;";
+			}
 		}
 	}
 }

@@ -44,20 +44,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <base href="<%=basePath%>">
     <title>我的淘宝</title>
 	<link rel="stylesheet" type="text/css" href="./css/headerCss.css">
+	<link rel="stylesheet" type="text/css" href="./users/css/userManager.css">
 	<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="./js/userCookie.js"></script>
 	<script type="text/javascript" src="./js/headerJs.js"></script>
+	<script type="text/javascript" src="./users/js/userManager.js"></script>
 	<script type="text/javascript">
-		var curSelectOption; //  当前选中的选项
-		var options;		 //  选项对应的页面 
-		options = new Object();
-		options['per_info'] = "./servlet/getUserInfo";
-		options['own_goods'] = "./servlet/getUserOrderInfo";
-		options['far_goods'] = "./users/jsp/userFaroviteView.jsp";
-		options['shopping_cert'] = "./servlet/toMyShoppingCart";
-		options['open_shop'] = "./servlet/getShopInfo";
-		options['sold_goods'] = "./servlet/judgeShopExist?Pid=1";
-		options['selling_goods'] = "./servlet/judgeShopExist?Pid=2";
+		
 		function init()
 		{
 			//  默认选择为per_info
@@ -69,126 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//  初始化头部数据
 			initHeader();
 		}
-		//  指向该选项时
-		function tarOption(obj)
-		{
-			obj.style.backgroundColor = "#E6E6E6";
-			obj.style.color = "black";
-		}
-		//  当鼠标移出选项时
-		function unTarOption(obj)
-		{
-			if( obj.id != curSelectOption )
-			{
-				obj.style.backgroundColor = "white";
-				obj.style.color = "#666666";
-			}
-		}
-		//  点击选中选项
-		function selectOption(obj)
-		{
-			if( obj.id != curSelectOption )
-			{
-				var curSelect = document.getElementById(curSelectOption);
-				curSelect.style.backgroundColor = "white";
-				curSelect.style.color = "#666666";
-				obj.style.backgroundColor = "#E6E6E6";
-				obj.style.color = "black";
-				curSelectOption = obj.id;
-				skipTo(curSelectOption);
-			}
-		}
-		//  跳向指向页面
-		function skipTo(obj)
-		{
-			var pageSrc = options[obj];
-			document.getElementById("right_info_box").src = pageSrc;
-		}
 	</script>
-	<style type="text/css">
-	#title
-	{
-		position:absolute;
-		top:38px;
-		left:0px;
-		width:100%;
-		min-width:1280px;
-		height:70px;
-		background-color:white;
-	}
-	#title img
-	{
-		position:absolute;
-		left:2%;
-	}
-	#view
-	{
-		position:absolute;
-		top:108px;
-		left:0px;
-		width:100%;
-		min-width:1280px;
-		height:700px;
-		background-color:white;
-		font-family:Microsoft YaHei;
-	}
-	#left_ctrl_box
-	{
-		position:absolute;
-		top:0px;
-		left:3%;
-		width:15%;
-		height:700px;
-	}
-	#right_info_box
-	{
-		position:absolute;
-		top:0px;
-		left:19%;
-		width:78%;
-		height:1000px;
-		border:none;
-	}
-	#account_manager_title,#shop_manager_title
-	{
-		position:absolute;
-		top:0px;
-		left:0px;
-		width:100%;
-		height:30px;
-		padding-top:8px;
-		font-size:18px;
-		text-indent:20px;
-		background-color:#EEEEEE;
-	}
-	#shop_manager_title
-	{
-		top:240px;
-	}
-	#acc_mag_option,#shop_mag_option
-	{
-		position:absolute;
-		top:40px;
-		left:0px;
-		width:79%;
-		margin:0px;
-		list-style-type:none;
-	}
-	#shop_mag_option
-	{
-		top:280px;
-	}
-	#acc_mag_option li,#shop_mag_option li
-	{
-		color:#666666;
-		text-indent:10px;
-		width:80%;
-		height:25px;
-		margin-top:10px;
-		margin-bottom:20px;
-		cursor:pointer;
-	}
-	</style>
   </head>
   	
   <body onload="init()">

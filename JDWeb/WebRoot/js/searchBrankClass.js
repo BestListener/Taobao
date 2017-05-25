@@ -1,25 +1,22 @@
-﻿		var curSelectBrand; //  当前选定的品牌
-		var curSelectClass;	//  当前选定的类别
-  		var curSelectSort; //  当前选定的排序
-  		//  初始化页面
-  		function init()
-  		{
-  			//  默认拼配为“全部”
-  			curSelectBrand = "allBranks";
-  			//  默认类别为 “全部”
-  			curSelectClass = "allClass";
-  			//  默认排序为“销量”
-  			curSelectSort = "sellNum";
-  			var curBrank = document.getElementById(curSelectBrand);
-  			var curClass = document.getElementById(curSelectClass);
-  			var curSort = document.getElementById(curSelectSort);
-  			curBrank.style.color = "#EE5F00";
-  			curBrank.style.border = "#EE5F00 solid 1px";
-  			curClass.style.color = "#EE5F00";
-  			curClass.style.border = "#EE5F00 solid 1px";
-  			curSort.style.color = "#EE5F00";
-  			curSort.style.border = "#EE5F00 solid 1px";
-  		}
+﻿		var classes = new Object();
+  		classes['allClass'] = "全部";
+  		classes['washFace'] = "洁面";
+  		classes['milk'] = "乳液";
+  		classes['mask'] = "面膜";
+  		classes['eleWatch'] = "电子表";
+  		classes['machineWatch'] = "机械表";
+  		classes['solarWatch'] = "太阳能表";
+  		classes['freeWatch'] = "休闲表";
+  		classes['sportWatch'] = "运动表";
+  		var branks = new Object();
+  		branks['allBranks'] = "全部";
+  		branks['Olaiya'] = "欧莱雅";
+  		branks['zishenTang'] = "资生堂";
+  		branks['proya'] = "PROYA/珀莱雅";
+  		branks['IK'] = "IK colouring/阿帕琦";
+  		branks['binger'] = "BINGER/宾格";
+  		branks['beston'] = "Bestdon/邦顿";
+  		branks['caston'] = "卡诗顿";
   		//  选中类别/品牌
   		function selectClass(obj)
   		{
@@ -47,6 +44,8 @@
   				obj.style.color = "#EE5F00";
   				obj.style.border = "#EE5F00 solid 1px";
   				curSelectBrand = obj.id;
+  				var url = getIframeUrl();
+  				document.getElementById("goodsView").src = url;
   			}
   		}
   		//  点击选中类别
@@ -61,6 +60,8 @@
   				obj.style.color = "#EE5F00";
   				obj.style.border = "#EE5F00 solid 1px";
   				curSelectClass = obj.id;
+  				var url = getIframeUrl();
+  				document.getElementById("goodsView").src = url;
   			}
   		}
   		//  选中排序
@@ -90,5 +91,23 @@
   				obj.style.color = "#EE5F00";
   				obj.style.border = "#EE5F00 solid 1px";
   				curSelectSort = obj.id;
+  				var url = getIframeUrl();
+  				document.getElementById("goodsView").src = url;
+  			}
+  		}
+  		//  点击查找按钮
+  		function tosearch()
+  		{
+  			var url = getIframeUrl();
+  			document.getElementById("goodsView").src = url;
+  		}
+  		function clearInput()
+  		{
+  			var val = document.getElementById("searchValue").value;
+  			if( val != "" )
+  			{
+  				document.getElementById("searchValue").value = "";
+  				var url = getIframeUrl();
+  				document.getElementById("goodsView").src = url;
   			}
   		}
