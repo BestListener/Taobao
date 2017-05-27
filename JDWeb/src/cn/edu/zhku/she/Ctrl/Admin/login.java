@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import cn.edu.zhku.she.Service.adminService;
 
 @WebServlet("/servlet/admin/login")
 public class login extends HttpServlet {
@@ -16,7 +19,7 @@ public class login extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private adminService service = new adminService();
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
@@ -34,7 +37,19 @@ public class login extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		
+		String username = request.getParameter("username").toString();
+		String psd = request.getParameter("psd").toString();
+		if( service.checkUserNamePsd(username,psd) )
+		{
+			//  保存用户名到session
+			HttpSession session = request.getSession();
+			session.setAttribute("adminname", username);
+			out.print("true");
+		}
+		else
+		{
+			out.print("false");
+		}
 		out.flush();
 		out.close();
 	}

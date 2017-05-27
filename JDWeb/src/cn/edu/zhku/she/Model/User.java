@@ -6,6 +6,7 @@ public class User {
 	private String psd;
 	private String phone;
 	private String image;
+	private String state;
 	private String name;
 	private String realname;
 	private int sex;
@@ -17,6 +18,12 @@ public class User {
 	private String province;
 	private String city;
 	private String area;
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	public int getUserid() {
 		return userid;
 	}

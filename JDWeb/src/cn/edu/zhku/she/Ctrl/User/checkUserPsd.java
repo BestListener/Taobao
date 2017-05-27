@@ -43,37 +43,45 @@ public class checkUserPsd extends HttpServlet {
 		String username = request.getParameter("username");
 		String psd = request.getParameter("psd");
 		//  获取用户数据
-		User user = service.checkUserPad(username,psd);
+		User user = service.checkUserPsd(username,psd);
 		if( user != null )
 		{
-			String uid = user.getUserid()+"";
-			String usname;
-			if( user.getName() != null )
+			// 用户状态正常
+			if( user.getState().equals("正常") )
 			{
-				usname = user.getName();
-			}else
-			{
-				usname = user.getUsername();
+				String uid = user.getUserid()+"";
+				String usname;
+				if( user.getName() != null )
+				{
+					usname = user.getName();
+				}else
+				{
+					usname = user.getUsername();
+				}
+				//  处理中文名字
+				usname = URLEncoder.encode(usname,"UTF-8");
+				String image = user.getImage();
+				image = URLEncoder.encode(image,"UTF-8");
+				//   获取用户购物车物品数
+				String spNum = service.getUserShoppingCart(uid)+"";
+				//  创建用户cookie
+				String[] cookieParams = {uid,usname,image,spNum};
+				//  删除之前的cookie
+				Cookie delcookie = new Cookie("mycookie", "");
+				delcookie.setPath("/");
+				delcookie.setMaxAge(0);
+				response.addCookie(delcookie);
+				//  创建新的cookie
+				CookieUtil ck = new CookieUtil("mycookie",cookieParams);
+				Cookie mycookie = ck.getCookie();
+				//  添加cookie
+				response.addCookie(mycookie);
+				out.print("true");
 			}
-			//  处理中文名字
-			usname = URLEncoder.encode(usname,"UTF-8");
-			String image = user.getImage();
-			image = URLEncoder.encode(image,"UTF-8");
-			//   获取用户购物车物品数
-			String spNum = service.getUserShoppingCart(uid)+"";
-			//  创建用户cookie
-			String[] cookieParams = {uid,usname,image,spNum};
-			//  删除之前的cookie
-			Cookie delcookie = new Cookie("mycookie", "");
-			delcookie.setPath("/");
-			delcookie.setMaxAge(0);
-			response.addCookie(delcookie);
-			//  创建新的cookie
-			CookieUtil ck = new CookieUtil("mycookie",cookieParams);
-			Cookie mycookie = ck.getCookie();
-			//  添加cookie
-			response.addCookie(mycookie);
-			out.print("true");
+			else
+			{
+				out.print("error");
+			}
 		}
 		else
 			out.print("false");

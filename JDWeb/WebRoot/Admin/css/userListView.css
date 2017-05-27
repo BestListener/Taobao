@@ -1,0 +1,124 @@
+﻿	body,input,select
+	{
+		font-family:Microsoft YaHei;
+	}
+	#orderTab
+	{
+		position:absolute;
+		top:0px;
+		left:100px;
+		width:80%;
+		border-collapse:separate; 
+		border-spacing:0px 10px;
+	}
+	#firstTr
+	{
+		background-color:#F1F1F1;
+		height:35px;
+	}
+	#orderTab tr td
+	{
+		border:#EEEEEE solid 1px;
+		font-size:15px;
+	}
+	.ID
+	{
+		width:8%;
+		text-align:center;
+	}
+	.image
+	{
+		width:1%;
+	}
+	.image img
+	{
+		width:80px;
+		height:70px;
+		cursor:pointer;
+	}
+	.name
+	{
+		width:15%;
+		text-align:center;
+		cursor:pointer;
+	}
+	.name:hover
+	{
+		color:#FF3300;
+		text-decoration:underline;
+	}
+	.phone
+	{
+		width:15%;
+		text-align:center;
+	}
+	.state
+	{
+		width:10%;
+		text-align:center;
+	}
+	.operation
+	{
+		width:20%;
+		text-align:center;
+		vertical-align:top;
+	}
+	.stopBtn
+	{
+		position:relative;
+		top:-10px;
+		left:105px;
+		width:80px;
+		height:26px;
+		color:white;
+		background-color:#FF4444;
+		cursor:pointer;
+		padding-top:4px;
+		text-align:center;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.checkBtn
+	{
+		position:relative;
+		top:20px;
+		left:13px;
+		width:80px;
+		height:26px;
+		color:white;
+		background-color:#4A8DFC;
+		cursor:pointer;
+		padding-top:4px;
+		text-align:center;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.recoverBtn
+	{
+		position:relative;
+		top:-10px;
+		left:105px;
+		width:80px;
+		height:26px;
+		color:white;
+		background-color:#4DDC3B;
+		cursor:pointer;
+		padding-top:4px;
+		text-align:center;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.stoped
+	{
+		width:10%;
+		text-align:center;
+		color:red;
+	}
+	.Tip
+	{
+		text-align:center;
+		vertical-align:top;
+	}

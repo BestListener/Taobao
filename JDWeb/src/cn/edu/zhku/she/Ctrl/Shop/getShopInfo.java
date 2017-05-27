@@ -47,7 +47,7 @@ public class getShopInfo extends HttpServlet {
 		if( shop != null )  // 店铺已存在
 		{
 			String shopstate = shop.getShopstate();
-			if( !shopstate.equals("验证通过") )
+			if( !shopstate.equals("正在运营") )
 			{
 				String msg = "您的店铺正处于 "+shopstate+" 状态";
 				request.setAttribute("msg", msg);

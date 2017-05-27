@@ -47,7 +47,7 @@ public class judgeShopExist extends HttpServlet {
 		if( shop != null )  // 店铺已存在
 		{
 			String shopstate = shop.getShopstate();
-			if( !shopstate.equals("验证通过") )	//  异常状态
+			if( !shopstate.equals("正在运营") )	//  异常状态
 			{
 				String msg = "您的店铺正处于 "+shopstate+" 状态";
 				request.setAttribute("msg", msg);

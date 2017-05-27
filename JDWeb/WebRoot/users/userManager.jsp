@@ -50,7 +50,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="./js/headerJs.js"></script>
 	<script type="text/javascript" src="./users/js/userManager.js"></script>
 	<script type="text/javascript">
-		
 		function init()
 		{
 			//  默认选择为per_info
@@ -127,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				<li id="per_info" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;个人资料</li>
   				<li id="own_goods" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;已买到的宝贝</li>
   				<li id="shopping_cert" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;购物车</li>
-  				<li id="far_goods" onclick="selectOption(this)" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;收藏夹</li>
+  				<li id="far_goods" onmouseover="tarOption(this)" onmouseout="unTarOption(this)">●&nbsp;收藏夹</li>
   			</ul>
   			<div id="shop_manager_title">店铺管理</div>
   			<ul id="shop_mag_option">

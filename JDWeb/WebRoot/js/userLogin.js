@@ -2,6 +2,7 @@
 		var loginErrorUsernameIsnull = "请输入用户名";
 		var loginErrorPsdIsnull = "请输入密码";
 		var loginErrorLoginfail = "你输入的密码和账户名不匹配，是否忘记密码或忘记会员名";
+		var loginErrorStateUnnormal = "您的帐号正处于停用状态，暂时无法登录";
 		//  前往淘宝首页
 		function toMainPage()
 		{
@@ -115,7 +116,6 @@
 				var uval = username.value;
 				var upsd = psd.value;
 				upsd = $.md5(upsd);
-				//  异步检查手机号码是否注册
 				$.ajax({  
 	               type:"get",//请求方式  
 	               url:"./servlet/checkUserPsd?username="+uval+"&psd="+upsd,//发送请求地址  
@@ -131,6 +131,10 @@
 	               	  {
 							tip.innerText = loginErrorLoginfail;
 							showtip();
+	               	  }
+	               	  else{
+	               		tip.innerText = loginErrorStateUnnormal;
+						showtip();
 	               	  }
 	              },
 	              //请求出错的处理  

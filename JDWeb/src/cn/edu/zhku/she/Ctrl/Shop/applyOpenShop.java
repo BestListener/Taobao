@@ -41,17 +41,17 @@ public class applyOpenShop extends HttpServlet {
 		//  获取用户ID
 		HttpSession session = request.getSession();
 		String uid = session.getAttribute("uid")+"";
-		//  判断用户是否已拥有店铺
 		Shop shop = null;
 		String shopName = request.getParameter("shopName").toString();
 		String shopowName = request.getParameter("shopowName").toString();
 		String shopPhone = request.getParameter("shopPhone").toString();
 		String saveSrc = request.getParameter("saveSrc").toString();
-		String state = "正在验证";
+		String state = "等待验证";
 		String[] params = {uid,shopName,shopowName,shopPhone,saveSrc,state};
 		shop = service.addShopInfo(uid, params);
 		request.setAttribute("shop", shop);
-		request.setAttribute("msg", "申请成功，您的店铺"+shop.getShopstate());
+		if( shop.getShopstate().equals("等待验证") )
+			request.setAttribute("msg", "申请成功，您的店铺"+shop.getShopstate());
 		request.getRequestDispatcher("/users/jsp/shopInfoManager.jsp").forward(request, response);
 		out.flush();
 		out.close();

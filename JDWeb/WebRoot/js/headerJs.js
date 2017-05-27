@@ -15,6 +15,11 @@
 				$('#username').text(val[1]);
 				document.getElementById("shoppingNum").innerText = val[3];
 			}
+			else
+			{
+				$('#login').css({'display':'block'});
+				$('#register').css({'display':'block'});
+			}
 		}
 		//  前往注册
 		function toRegister()

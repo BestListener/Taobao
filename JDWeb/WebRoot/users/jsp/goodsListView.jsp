@@ -44,8 +44,8 @@ if( pageBean.getCurPage() != 1 )
 }else{
 	pagebtn = pagebtn + "<a>《&nbsp;上一页</a>&nbsp;";
 }
-//  如果页数小于7
-if( pageBean.getTotalPages() < 7 )
+//  如果页数小于等于7
+if( pageBean.getTotalPages() <= 7 )
 {
 	//  按钮全部显示
 	for(int i=0;i < pageBean.getTotalPages(); i++ )

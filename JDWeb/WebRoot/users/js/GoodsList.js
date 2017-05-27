@@ -1,9 +1,9 @@
-﻿		//  鼠标移入删除按键
+﻿		//  鼠标移入下架按键
 		function indeleteBtn(obj)
   		{
   			obj.style.backgroundColor = "#FF0000";
   		}
-  		//  鼠标移出删除按键
+  		//  鼠标移出下架按键
   		function outdeleteBtn(obj)
   		{
   			obj.style.backgroundColor = "#FF4444";

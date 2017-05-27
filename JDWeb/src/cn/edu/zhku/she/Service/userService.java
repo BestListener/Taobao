@@ -48,7 +48,7 @@ public class userService {
 	}
 	//  比较用户名与密码
 	@SuppressWarnings("rawtypes")
-	public User checkUserPad(String name,String psd)
+	public User checkUserPsd(String name,String psd)
 	{
 		HashMap getUser = null;
 		User user = null;
@@ -69,6 +69,7 @@ public class userService {
 				{
 					user.setUsername( String.valueOf(getUser.get("username")) );
 				}
+				user.setState(getUser.get("state").toString());
 				user.setImage( String.valueOf(getUser.get("image")) );
 			}
 		}
@@ -435,7 +436,7 @@ public class userService {
 	public List getHotSellingProducts()
 	{
 		List datas = null;
-		String state = "正在验证";
+		String state = "正在运营";
 		String params[] = {state};
 		String sql = "select * from product where sid in(select sid from shop where shopstate=?) order by salesAmount desc limit 10";
 		datas = dao.selectHotSellingData(sql,params);
@@ -463,10 +464,10 @@ public class userService {
 			search = "%"+search+"%";
 		}
 		if( !firstClass.equals("书") && !brank.equals("全部")){
-			sql = "select * from product,shop,p_detail_info where product.sid=shop.sid and firstClass=?";
+			sql = "select * from product,shop,p_detail_info where product.sid=shop.sid and shop.shopstate='正在运营' and firstClass=?";
 		}
 		else{
-			sql = "select * from product,shop where product.sid=shop.sid and firstClass=?";
+			sql = "select * from product,shop where product.sid=shop.sid and shop.shopstate='正在运营' and firstClass=?";
 		}
 		if( !secondClass.equals("全部") )
 			sql = sql + " and secondClass=?";
@@ -538,23 +539,23 @@ public class userService {
 		//  如果类别过滤器不为“全部”  和  查找值不为空
 		if( !firstClass.equals("全部") && search != null && search.length() > 0 )
 		{
-			sql = "select * from product,shop where product.sid=shop.sid and firstClass=? and (name like ? or secondClass like ?)";
+			sql = "select * from product,shop where product.sid=shop.sid and shop.shopstate='正在运营' and firstClass=? and (name like ? or secondClass like ?)";
 			searchParam = "%" + search + "%";
 			params = new String[]{firstClass,searchParam,searchParam};
 		}
 		else if( !firstClass.equals("全部") )  //  只有分类不为全部
 		{
-			sql = "select * from product,shop where product.sid=shop.sid and firstClass=?";
+			sql = "select * from product,shop where product.sid=shop.sid and shop.shopstate='正在运营' and firstClass=?";
 			params = new String[]{firstClass};
 		}
 		else if( search != null && search.length() > 0 )	//  只有查找值不为空
 		{
-			sql = "select * from product,shop where product.sid=shop.sid and (name like ? or secondClass like ?)";
+			sql = "select * from product,shop where product.sid=shop.sid and shop.shopstate='正在运营' and (name like ? or secondClass like ?)";
 			searchParam = "%" + search + "%";
 			params = new String[]{searchParam,searchParam};
 		}
 		else{	//  两者全为空
-			sql = "select * from product,shop where product.sid=shop.sid";
+			sql = "select * from product,shop where product.sid=shop.sid and shop.shopstate='正在运营'";
 			params = new String[0];
 		}
 		//  处理排序方式

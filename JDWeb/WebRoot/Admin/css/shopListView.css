@@ -1,0 +1,145 @@
+﻿	body,input,select
+	{
+		font-family:Microsoft YaHei;
+	}
+	#orderTab
+	{
+		position:absolute;
+		top:0px;
+		left:50px;
+		width:90%;
+		border-collapse:separate; 
+		border-spacing:0px 10px;
+	}
+	#firstTr
+	{
+		background-color:#F1F1F1;
+		height:35px;
+	}
+	#orderTab tr td
+	{
+		border:#EEEEEE solid 1px;
+		font-size:15px;
+	}
+	.ID
+	{
+		width:8%;
+		text-align:center;
+	}
+	.shopname
+	{
+		width:15%;
+		text-align:center;
+		cursor:pointer;
+		overflow:hidden;
+	}
+	.shopname:hover
+	{
+		color:#FF3300;
+		text-decoration:underline;
+	}
+	.name
+	{
+		width:15%;
+		text-align:center;
+		overflow:hidden;
+	}
+	.username
+	{
+		width:10%;
+		text-align:center;
+	}
+	.phone
+	{
+		width:15%;
+		text-align:center;
+	}
+	.state
+	{
+		width:10%;
+		text-align:center;
+	}
+	
+	.operation
+	{
+		width:20%;
+		text-align:center;
+		vertical-align:top;
+	}
+	
+	.Tip
+	{
+		text-align:center;
+		vertical-align:top;
+	}
+	
+	
+	.stopBtn
+	{
+		position:relative;
+		top:-10px;
+		left:105px;
+		width:80px;
+		height:26px;
+		color:white;
+		background-color:#FF4444;
+		cursor:pointer;
+		padding-top:4px;
+		text-align:center;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.stoped
+	{
+		width:10%;
+		text-align:center;
+	}
+	.checkBtn
+	{
+		position:relative;
+		top:20px;
+		left:13px;
+		width:80px;
+		height:26px;
+		color:white;
+		background-color:#4A8DFC;
+		cursor:pointer;
+		padding-top:4px;
+		text-align:center;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.recoverBtn
+	{
+		position:relative;
+		top:-10px;
+		left:105px;
+		width:80px;
+		height:26px;
+		color:white;
+		background-color:#4DDC3B;
+		cursor:pointer;
+		padding-top:4px;
+		text-align:center;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
+	.passBtn
+	{
+		position:relative;
+		top:-10px;
+		left:105px;
+		width:80px;
+		height:26px;
+		color:white;
+		background-color:#4DDC3B;
+		cursor:pointer;
+		padding-top:4px;
+		text-align:center;
+		-moz-border-radius: 2px;
+    	-webkit-border-radius: 2px;
+    	border-radius: 2px;
+	}
