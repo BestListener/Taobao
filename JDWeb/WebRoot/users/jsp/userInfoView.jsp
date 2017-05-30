@@ -33,11 +33,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						sexRadio[i].checked = true;
 				}
 			}
-			if( address != "" )
-			{
-				$("#province").val("${user.getProvince()}");
-				$("#city").val("${user.getCity()}");
-			}	
 			if( msg != "" )
 			{
 				alert(msg);
@@ -246,6 +241,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			            $("#city").html(pHtmlStr);  
 			        });  
 			        $("#province").change();  
+			        if( address != "" )
+					{
+						$("#province").val("${user.getProvince()}");
+						$("#province").change();  
+						$("#city").val("${user.getCity()}");
+					}
 			     });
 				</script>
    				<tr>
